@@ -4,24 +4,106 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".menuActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".menuActivity"
+    android:background="#E8EAF6">
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
-        android:id="@+id/menuSettingsButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:enabled="true" />
+        android:id="@+id/menuHeaderLayout"
+        android:layout_marginTop="30dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:id="@+id/menuAddButton"
-        android:layout_marginBottom="65dp"
-        android:layout_above="@+id/menuSettingsButton"
-        android:layout_centerHorizontal="true"
-        android:enabled="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="appXpired"
+            android:id="@+id/menuHeaderText"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:typeface="normal" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="109dp"
+        android:layout_below="@+id/menuHeaderLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:id="@+id/menuAddButton"
+                android:background="#3D5AFE"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show"
+                android:id="@+id/menuShowButton"
+                android:background="#3D5AFE"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scan"
+                android:id="@+id/menuScanButton"
+                android:background="#3D5AFE"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recipe"
+                android:id="@+id/menuRecipeButton"
+                android:background="#3D5AFE"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Settings"
+                android:id="@+id/menuSettingsButton"
+                android:background="#3D5AFE"
+                android:textColor="#ffffff"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:layout_weight="1" />
+        </TableRow>
+
+    </TableLayout>
+
+
 </RelativeLayout>
