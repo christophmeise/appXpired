@@ -6,8 +6,8 @@
  */
 
 $usedHeaders = [];
-$headerPrefix = "AppXpired_";
-$headerNames = ["username", "password", "household", "household-pw", "table"];
+$headerPrefix = "Appxpired-";
+$headerNames = ["Username", "Password", "Household", "Household-Pw", "Table"];
 
 getHeaders();
 
@@ -27,17 +27,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 
 function getHeaders() {
+
+    global $headerNames, $headerPrefix, $usedHeaders;
+
     $headers = apache_request_headers();
-
-    foreach ($this->headerNames as $headerName => $value) {
-        if ($headers[$this->headerPrefix . $value] != 0) {
-            $this->usedHeaders[$value] = $headers[$this->headerPrefix . $value];
-            echo $this->usedHeaders[$value];
-        }
+    foreach ($headerNames as $headerName) {
+        $usedHeaders[$headerName] = $headers[$headerPrefix . $headerName];
     }
-    if ($this->headerPrefix . "username");
-
-    echo "My ECHO HERE: " . $headers["Name"];
 }
 
 
