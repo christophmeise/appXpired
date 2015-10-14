@@ -32,6 +32,7 @@ function getHeaders() {
     foreach ($this->headerNames as $headerName => $value) {
         if ($headers[$this->headerPrefix . $value] != 0) {
             $this->usedHeaders[$value] = $headers[$this->headerPrefix . $value];
+            echo $this->usedHeaders[$value];
         }
     }
     if ($this->headerPrefix . "username");
