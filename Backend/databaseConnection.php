@@ -11,9 +11,9 @@ class databaseConnection {
     private $password;
     private $conn;
 
-    public function init($pw){
-        $this->serverName = "localhost";
-        $this->userName = "username";
+    public function init($pw) {
+        $this->serverName = "db596387337.db.1and1.com";
+        $this->userName = "dbo596387337";
         $this->password = $pw;
 
     }

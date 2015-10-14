@@ -5,11 +5,20 @@
  * Time: 13:42
  */
 
+include "databaseConnection.php";
+
+
 $usedHeaders = [];
 $headerPrefix = "Appxpired-";
-$headerNames = ["Username", "Password", "Household", "Household-Pw", "Table"];
+$headerNames = ["Db-Pw","Username", "Password", "Household", "Household-Pw", "Table"];
 
 getHeaders();
+
+$db = new databaseConnection();
+$db->init($usedHeaders["Db-Pw"]);
+$db->connect();
+
+
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case "GET":
