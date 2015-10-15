@@ -1,5 +1,4 @@
 <?php
-
 /**
  * User: Yannick Winter
  * Date: 14.10.15
@@ -11,25 +10,42 @@ class databaseConnection {
     private $password;
     private $conn;
 
-    public function init($pw){
-        $this->serverName = "localhost";
-        $this->userName = "username";
-        $this->password = $pw;
+    private $connected;
 
-    }
-    public function connect() {
-        // Create connection
-        $this->conn = new mysqli($this->serverName, $this->userName, $this->password);
-
-        // Check connection
-        if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
-        }
-        echo "Connected successfully";
-    }
-
-    public function __toString()
+    /**
+     * @return mixed
+     */
+    public function getConnected()
     {
+        return $this->connected;
+    }
+
+    /**
+     * databaseConnection constructor.
+     */
+    public function __construct() {
+        $this->serverName = "db596387337.db.1and1.com";
+        $this->userName = "dbo596387337";
+        $this->password = "aMy-SeM2";
+
+        $this->connected = false;
+    }
+
+    public function connect() {
+        if (!$this->connected) {
+            $this->connected = true;
+            // Create connection
+            $this->conn = new mysqli($this->serverName, $this->userName, $this->password);
+
+            // Check connection
+            if ($this->conn->connect_error) {
+                $this->connected = false;
+            }
+        }
+        return $this->connected;
+    }
+
+    public function __toString() {
         return "";
     }
 
