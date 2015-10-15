@@ -29,7 +29,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="109dp"
+        android:layout_marginTop="100dp"
         android:layout_below="@+id/menuHeaderLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
@@ -47,7 +47,9 @@
                 android:background="#3D5AFE"
                 android:textColor="#ffffff"
                 android:padding="50dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -57,7 +59,8 @@
                 android:background="#3D5AFE"
                 android:textColor="#ffffff"
                 android:padding="50dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp" />
         </TableRow>
 
         <TableRow
@@ -73,7 +76,10 @@
                 android:background="#3D5AFE"
                 android:textColor="#ffffff"
                 android:padding="50dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -83,7 +89,10 @@
                 android:background="#3D5AFE"
                 android:textColor="#ffffff"
                 android:padding="50dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
         </TableRow>
 
         <TableRow
@@ -100,7 +109,8 @@
                 android:textColor="#ffffff"
                 android:layout_column="0"
                 android:layout_span="2"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="5dp" />
         </TableRow>
 
     </TableLayout>

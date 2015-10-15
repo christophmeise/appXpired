@@ -7,13 +7,165 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
+        <TableLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add"
-            android:id="@+id/addButton"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:layout_gravity="bottom">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                    android:text="Add"
+                    android:id="@+id/addAddButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="54dp"
+                    android:layout_weight="1"
+                    android:background="#3D5AFE"
+                    android:textColor="#ffffff"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="15dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                    android:text="Use Template"
+                    android:id="@+id/addTemplateButton"
+                    android:textColor="#ffffff"
+                    android:background="#3D5AFE"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="5dp" />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="54dp" />
+            android:layout_marginTop="60dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Name"
+                    android:id="@+id/textView"
+                    android:layout_column="0" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText"
+                    android:layout_column="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Expire date"
+                    android:id="@+id/textView2"
+                    android:layout_column="0" />
+
+                <DatePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:id="@+id/datePicker"
+                    android:layout_column="1"
+                    android:spinnersShown="true"
+                    android:calendarViewShown="true" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Position"
+                    android:id="@+id/textView3"
+                    android:layout_column="0" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:layout_column="1"
+                    android:spinnerMode="dropdown" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Amount"
+                    android:id="@+id/textView4"
+                    android:layout_column="0" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner2"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="right" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText2"
+                        android:layout_gravity="left" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Add. Information"
+                    android:id="@+id/textView5"
+                    android:layout_column="0" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText3"
+                    android:layout_column="1" />
+            </TableRow>
+
+        </TableLayout>
     </RelativeLayout>
 </LinearLayout>
