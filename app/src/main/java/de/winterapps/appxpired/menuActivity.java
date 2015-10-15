@@ -24,7 +24,7 @@ public class menuActivity extends Activity {
         });
 
         final Button buttonShow = (Button) findViewById(R.id.menuShowButton);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonShow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(menuActivity.this, showActivity.class);
                 startActivity(intent);
@@ -32,7 +32,7 @@ public class menuActivity extends Activity {
         });
 
         final Button buttonScan = (Button) findViewById(R.id.menuScanButton);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonScan.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(menuActivity.this, scanActivity.class);
                 startActivity(intent);
@@ -40,7 +40,7 @@ public class menuActivity extends Activity {
         });
 
         final Button buttonSettings = (Button) findViewById(R.id.menuSettingsButton);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(menuActivity.this, settingsActivity.class);
                 startActivity(intent);
