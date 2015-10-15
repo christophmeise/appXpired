@@ -16,6 +16,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".addActivity"></activity>
+        <activity android:name=".showActivity"></activity>
+        <activity android:name=".scanActivity"></activity>
+        <activity android:name=".settingsActivity"></activity>
     </application>
 
 </manifest>

@@ -80,15 +80,16 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Expire date"
                     android:id="@+id/textView2"
-                    android:layout_column="0" />
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical" />
 
                 <DatePicker
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:id="@+id/datePicker"
                     android:layout_column="1"
                     android:spinnersShown="true"
@@ -128,22 +129,26 @@
                     android:layout_column="0" />
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Spinner
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner2"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="right" />
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
 
                     <EditText
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:id="@+id/editText2"
-                        android:layout_gravity="left" />
+                        android:layout_gravity="left"
+                        android:inputType="number"
+                        android:layout_weight="0.8" />
+
+                    <Spinner
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/spinner2"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="right"
+                        android:layout_weight="0.2" />
                 </LinearLayout>
             </TableRow>
 
