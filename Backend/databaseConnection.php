@@ -11,25 +11,42 @@ class databaseConnection {
     private $password;
     private $conn;
 
-    public function init($pw) {
+    private $connected;
+
+    /**
+     * @return mixed
+     */
+    public function getConnected()
+    {
+        return $this->connected;
+    }
+
+    /**
+     * databaseConnection constructor.
+     */
+    public function __construct() {
         $this->serverName = "db596387337.db.1and1.com";
         $this->userName = "dbo596387337";
-        $this->password = $pw;
+        $this->password = "aMy-SeM2";
 
+        $this->connected = false;
     }
+
     public function connect() {
-        // Create connection
-        $this->conn = new mysqli($this->serverName, $this->userName, $this->password);
+        if (!$this->connected) {
+            $this->connected = true;
+            // Create connection
+            $this->conn = new mysqli($this->serverName, $this->userName, $this->password);
 
-        // Check connection
-        if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
+            // Check connection
+            if ($this->conn->connect_error) {
+                $this->connected = false;
+            }
         }
-        echo "Connected successfully";
+        return $this->connected;
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return "";
     }
 
