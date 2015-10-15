@@ -1,5 +1,4 @@
 <?php
-
 /**
  * User: Yannick Winter
  * Date: 14.10.15

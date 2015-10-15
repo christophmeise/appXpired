@@ -1,6 +1,6 @@
 <?php
 /**
- * User: yannickwinter
+ * User: Yannick Winter
  * Date: 14.10.15
  * Time: 13:42
  */
@@ -10,11 +10,33 @@ include "databaseConnection.php";
 $api = new api();
 
 
+/**
+ * Class api
+ *
+ * Header forms: "prefix-" [Appxpired-]:
+ * - Username:
+ *      the username of the user sending the request
+ * - Password:
+ *      the password
+ * - Household:
+ *      the household.id of the used household
+ * - Household-Pw:
+ *      the household password
+ * - Table:
+ *      the table where you need the get from
+ * - Values:
+ *      the "where" values from the table please provide this information in the following format:
+ *      "Field1","Value1";"Field2","Value2"
+ *      (use "," to separate the inner array and ";" to separate the outer array.
+ */
+
+
 class api {
 
     private $usedHeaders;
     private $headerPrefix;
     private $headerNames;
+
     private $db;
     /**
      * api constructor.
@@ -23,7 +45,7 @@ class api {
         //setting up variables
         $this->usedHeaders = [];
         $this->headerPrefix = "Appxpired-";
-        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table"];
+        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Values"];
         // get headers
         $this->getHeaders();
         //connect to db;
@@ -31,6 +53,7 @@ class api {
         $this->db->connect();
         // get the used HTTP Method (CRUD)
         $this->getHTTPMethod();
+        $this->readPost();
     }
 
     function getHTTPMethod() {
@@ -54,12 +77,22 @@ class api {
      * get the custom headers and add them to the $usedHeaders array.
      */
     function getHeaders() {
-
-        global $headerNames, $headerPrefix, $usedHeaders;
         $headers = apache_request_headers();
-        foreach ($headerNames as $headerName) {
-            $usedHeaders[$headerName] = $headers[$headerPrefix . $headerName];
+        foreach ($this->headerNames as $headerName) {
+            $this->usedHeaders[$headerName] = $headers[$this->headerPrefix . $headerName];
         }
+        $this->processHeaders();
+    }
+
+    function processHeaders() {
+        //echo $this->usedHeaders["Values"];
+        $this->usedHeaders["Values"] = explode(";",$this->usedHeaders["Values"]);
+
+        for ($i = 0;$i<count($this->usedHeaders["Values"]);$i++) {
+            $this->usedHeaders["Values"][$i] = explode(",",$this->usedHeaders["Values"][$i]);
+        }
+
+        echo print_r($this->usedHeaders["Values"]);
     }
 
     /**
@@ -92,22 +125,18 @@ class api {
     }
     //TODO
     function readPost() {
+        // test code
+        $whatever['1'] = 'cottton';
+        $whatever['2'] ='yoyoyoyo';
 
+        $whatever = json_encode($whatever);
+        $anything = 'bla';
+        $lolz = 13*13*13;
 
-        if(isset($_POST['name'])and $_POST['name'] =='cottton'){
-            // any code ...
-            $whatever = 'cottton';
-            $anything = 'bla';
-            $lolz = 13*13*13;
-
-            // sort data ...
-            $data['whatever'] = $whatever;
-            $data['anything'] = $anything;
-            $data['lolz'] = $lolz;
-        }else{
-            // error message ...
-            $data['Error'] = 'wrong name!';
-        }
+        // sort data ...
+        $data['whatever'] = $whatever;
+        $data['anything'] = $anything;
+        $data['lolz'] = $lolz;
 
 
     // json_encode data and 'echo it out'
