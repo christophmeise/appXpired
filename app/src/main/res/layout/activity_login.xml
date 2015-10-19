@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
-        android:paddingTop="100dp">
+        android:paddingTop="100dp"
+        android:background="#3F51B5">
 
         <TableRow
             android:layout_width="match_parent"
@@ -18,7 +19,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
-                android:id="@+id/textView6" />
+                android:id="@+id/textView6"
+                android:textColor="#ffffff" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -26,7 +28,8 @@
                 android:inputType="textPersonName"
                 android:text="Name"
                 android:ems="10"
-                android:id="@+id/editText4" />
+                android:id="@+id/editText4"
+                android:textColor="#ffffff" />
         </TableRow>
 
         <TableRow
@@ -37,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"
-                android:id="@+id/textView7" />
+                android:id="@+id/textView7"
+                android:textColor="#ffffff" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -45,7 +49,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/editText5"
-                android:password="true" />
+                android:password="true"
+                android:textColor="#ffffff" />
         </TableRow>
 
         <TableRow
@@ -56,13 +61,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Keep Signed in"
-                android:id="@+id/textView8" />
+                android:id="@+id/textView8"
+                android:textColor="#ffffff" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/checkBox" />
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:id="@+id/loginLoginButton"
+                android:layout_column="1"
+                android:background="#C5CAE9" />
         </TableRow>
     </TableLayout>
 
