@@ -53,7 +53,7 @@ class api {
         $this->db->connect();
         // get the used HTTP Method (CRUD)
         $this->getHTTPMethod();
-        $this->readPost();
+        //$this->readPost();
     }
 
     function getHTTPMethod() {
@@ -85,14 +85,11 @@ class api {
     }
 
     function processHeaders() {
-        //echo $this->usedHeaders["Values"];
         $this->usedHeaders["Values"] = explode(";",$this->usedHeaders["Values"]);
 
         for ($i = 0;$i<count($this->usedHeaders["Values"]);$i++) {
             $this->usedHeaders["Values"][$i] = explode(",",$this->usedHeaders["Values"][$i]);
         }
-
-        echo print_r($this->usedHeaders["Values"]);
     }
 
     /**
