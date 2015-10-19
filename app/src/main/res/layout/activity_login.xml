@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Adress"
+                android:text="Username/Email Adress"
                 android:id="@+id/textView6"
                 android:textColor="#ffffff" />
 
@@ -96,7 +96,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:id="@+id/loginLoginButton" />
+            android:id="@+id/loginLoginButton"
+            android:background="#C5CAE9"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -104,7 +106,8 @@
             android:text="OR"
             android:id="@+id/textView9"
             android:textAlignment="center"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:padding="5dp" />
 
         <Button
             android:layout_width="fill_parent"
@@ -113,7 +116,9 @@
             android:id="@+id/button"
             android:layout_span="2"
             android:layout_column="0"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:background="#C5CAE9"
+            android:padding="5dp" />
 
     </LinearLayout>
 
