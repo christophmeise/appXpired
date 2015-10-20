@@ -24,12 +24,15 @@ $api = new api();
  *      the household password
  * - Table:
  *      the table where you need the get from
- * - Values:
+ * - Wherevalues:
+ *
  *      the "where" values from the table please provide this information in the following format:
  *      "Field1","Value1";"Field2","Value2"
  *      (use "," to separate the inner array and ";" to separate the outer array.
+ * - SetValues
+ *      the values you want to set, use just as the
+ *
  */
-
 
 class api {
 
@@ -45,7 +48,7 @@ class api {
         //setting up variables
         $this->usedHeaders = [];
         $this->headerPrefix = "Appxpired-";
-        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Values"];
+        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Wherevalues", "Setvalues"];
         // get headers
         $this->getHeaders();
         //connect to db;
@@ -83,20 +86,21 @@ class api {
     }
 
     function processHeaders() {
-        $this->usedHeaders["Values"] = explode(";",$this->usedHeaders["Values"]);
+        $this->usedHeaders["Wherevalues"] = explode(";",$this->usedHeaders["Wherevalues"]);
 
-        for ($i = 0;$i<count($this->usedHeaders["Values"]);$i++) {
-            $this->usedHeaders["Values"][$i] = explode(",",$this->usedHeaders["Values"][$i]);
+        for ($i = 0;$i<count($this->usedHeaders["Wherevalues"]);$i++) {
+            $this->usedHeaders["Wherevalues"][$i] = explode(",",$this->usedHeaders["Wherevalues"][$i]);
+        }
+
+        $this->usedHeaders["Setvalues"] = explode(";",$this->usedHeaders["Setvalues"]);
+
+        for ($i = 0;$i<count($this->usedHeaders["Setvalues"]);$i++) {
+            $this->usedHeaders["Setvalues"][$i] = explode(",",$this->usedHeaders["Setvalues"][$i]);
         }
     }
     private function login() {
         $user['Username'] = $this->usedHeaders['Username'];
-        if ($this->db->checkAuthorizationWithPassword($this->db->getUserId($user),$this->usedHeaders['Password'])) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return $this->db->checkAuthorizationWithPassword($this->db->getUserId($user),$this->usedHeaders['Password']);
     }
 
     /**
@@ -111,8 +115,22 @@ class api {
      * POST Method was called
      */
     function post() {
-        // body
+        $fields = [];
+        $values = [];
+        $i = 0;
+        foreach ($this->usedHeaders["Setvalues"] as $value => $field) {
+            $values[$i] = $value;
+            $fields[$i] = $field;
+            $i = $i+1;
+        }
 
+        $ret = $this->db->insert($this->usedHeaders["Table"],$fields,$values, $this->db->getUserId(["Username"=>$this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
+        if ($ret[0]) {
+            echo "true;" . $ret[1];
+        }
+        else {
+            echo "false;";
+        }
     }
     /**
      * DELETE Method was called

@@ -36,11 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createUser
     // create the user in the DB (data validation will be done by the databaseConnection)
     $ret = $db->createUser($email,$firstname,$lastname,$password,$username);
     // $ret[1] contains the userid of the new user, so that the client can save it.
-    if (count($ret) == 2) {
-        echo "true;" . $ret[1] . ";";
-    }
-    else {
-        echo "false;";
+    for ($i=0;$i < count($ret);$i++) {
+        if ($i == 0 and $ret[$i] == true) {
+            echo "true;";
+        }
+        else if ($i == 0 and $ret[$i] == false) {
+            echo "false;";
+        }
+        else {
+            echo $ret[$i] . ";";
+        }
     }
 }
 else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
@@ -55,21 +60,36 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
     $token = $headers["Appxpired-". "Token"];
     if (strlen($token) > 4) { //check if a token was sent; if true: log in with token
         //loginWithToken
-        if ($db->checkAuthorizationWithToken($db->getUserId($user),$token)) { //log in with that token
-            echo "true;"; //login was successful
-        }
-        else {
-            echo "false;"; //login failed
+        $ret = $db->checkAuthorizationWithToken($db->getUserId($user),$token);
+        for ($i=0;$i < count($ret);$i++) {
+            if ($i == 0 and $ret[$i] == true) {
+                echo "true;";
+            }
+            else if ($i == 0 and $ret[$i] == false) {
+                echo "false;";
+            }
+            else {
+                echo $ret[$i] . ";";
+            }
         }
     }
     else { //there was no token sent, so login with password
-        $return = $db->checkAuthorizationWithPassword($db->getUserId($user),$password); //try the login with the password
-        if ($return[0] == true) { //login was successful
-            echo "true;";
-            echo $return[1] . ";"; //echo the new token
-        }
-        else {//login was not successful
-            echo "false;";
+        $ret = $db->checkAuthorizationWithPassword($db->getUserId($user),$password); //try the login with the password
+        for ($i=0;$i < count($ret);$i++) {
+            if ($i == 0 and $ret[$i] == true) {
+                echo "true;";
+            }
+            else if ($i == 0 and $ret[$i] == false) {
+                echo "false;";
+            }
+            else {
+                echo $ret[$i] . ";";
+            }
         }
     }
+}
+else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
+
+    //TODO: Delete
+
 }

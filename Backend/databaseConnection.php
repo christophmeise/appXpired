@@ -101,29 +101,23 @@ class databaseConnection {
                         //close the connection
                         $this->conn->close();
                         //return true because user is logged in successfully
-                        return true;
+                        return [true];
                     }
                     else { // token has expired
-                        echo "Error403;";
-                        return false;
+                        return [false, "Error403"];
                     }
 
                 }
                 else {
                     $this->conn->close();
-                    echo "Error404;";
-                    return false;
+                    return [false, "Error403"];
                 }
             }
         } else {
             $this->conn->close();
-            echo "Error404;";
-            return false;
+            return [false, "Error404"];
         }
     }
-
-
-
     /**
      * @param $userid
      * @param $password
@@ -150,14 +144,12 @@ class databaseConnection {
                 else {
 
                     $this->conn->close();
-                    echo "Error404;";
-                    return [false];
+                    return [false, "Error404"];
                 }
             }
         } else {
             $this->conn->close();
-            echo "Error404;";
-            return [false];
+            return [false, "Error404"];
         }
     }
 
@@ -202,7 +194,8 @@ class databaseConnection {
     public function insert($table, $fields,$values,$userid,$password,$checkAuthorization = true) {
         $authorized = !$checkAuthorization;
         if (!$authorized) {
-            $authorized == $this->checkAuthorizationWithPassword($userid,$password);
+            // Todo: Check authorization
+            //$authorized == $this->checkAuthorizationWithPassword($userid,$password);
         }
         if ($authorized) { // check if the user is authorized
             //TODO: Check authorization for ever user (e.g. userHousehold)
@@ -210,7 +203,7 @@ class databaseConnection {
             $sql = "INSERT INTO " . $table ." (";
             $i = 0;
             foreach ($fields as $field) {
-                $sql .= $field;
+                $sql .= "`" . $field . "`";
                 $i++;
                 if ($i != sizeof($fields)) {
                     $sql .= ", ";
@@ -238,14 +231,15 @@ class databaseConnection {
             }
         }
         else {
-            return false;
+            return [false];
         }
     }
     //TODO: get, delete update
 
     public function createUser($email,$firstname,$lastname,$password,$username) {
-        if (strlen($email) > 4 && strlen($firstname) > 1 && strlen($lastname) > 1 && $this->validatePassword($password) && strlen($username) >3) { //check if entered data is valid
-            if ($this->validateUserData($username,$email)) { // check if email and username are already in the db
+        if (strlen($email) > 4 && strlen($firstname) > 1 && strlen($lastname) > 1 && $this->validatePassword($password)[0] && strlen($username) >3) { //check if entered data is valid
+            $ret = $this->validateUserData($username,$email);
+            if ($ret[0]) { // check if email and username are already in the db
                 // entered data is valid, continue to register user.
                 $password = $this->getHashedPw($password); //get the hasehd pw
                 $fields = ["userName","`password`","emailAdress","firstName","lastName"];
@@ -254,14 +248,47 @@ class databaseConnection {
                 return $this->insert("user",$fields,$values,"","",false); //insert new user into db
             }
             else {
-                return false;
+                return $ret;
             }
         }
         else {
-            echo "Error001;";
-            return [false];
+            return [false, "Error001;"];
         }
 
+    }
+
+    /**
+     * @param $userid
+     * @param $token
+     * @param $name
+     * @param $location
+     * @param $password
+     * @return array|bool
+     *
+     * creates a new household + the relation in the userHousehold table
+     *
+     */
+    public function createHousehold($userid,$token,$name,$location,$password) {
+        if ($this->checkAuthorizationWithToken($userid,$token)[0]){
+            $fields = ["name","location","createUser.id","password"];
+            $password = $this->getHashedPw($password);
+            $values = [$name,$location,$userid,$password];
+            $ret = $this->insert("household",$fields,$values,$userid,"",false);
+            if ($ret[0]) {
+                $householdid = $ret[1];
+                $ret = $this->insert("userHousehold",["user.id","household.id"],[$userid,$householdid],$userid,"",false);
+                if ($ret[0]) {
+                    return [true,$householdid];
+                }
+                else {
+                    return $ret;
+                }
+            }
+            else {
+                return $ret;
+            }
+
+        }
     }
 
     /**
@@ -301,11 +328,10 @@ class databaseConnection {
      */
     private function validatePassword($password) {
         if (strlen($password) >= 8 && preg_match('/[A-Z]+[a-z]+[0-9]+/', $password)) {
-            return true;
+            return [true];
         }
         else {
-            echo "Error004;";
-            return false;
+            return [false, "Error404"];
         }
     }
 
@@ -323,20 +349,19 @@ class databaseConnection {
         if ($result->num_rows > 0) { // if there are results
             while($row = $result->fetch_assoc()) {
                 if ($row['userName'] == $username) { // if the username already exists
-                    echo "Error002;";
+                    $this->conn->close();
+                    return [false, "Error002"];
                 }
                 else { // if the emailadress already exists
-                    echo "Error003;";
+                    $this->conn->close();
+                    return [false, "Error003"];
                 }
             }
-            $this->conn->close();
-            return false;
         } else {
             $this->conn->close();
-            return true;
+            return [true];
         }
     }
-
     /**
      * @param $pw
      * @return string
