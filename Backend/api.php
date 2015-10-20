@@ -50,10 +50,8 @@ class api {
         $this->getHeaders();
         //connect to db;
         $this->db = new databaseConnection();
-        $this->db->connect();
         // get the used HTTP Method (CRUD)
         $this->getHTTPMethod();
-        //$this->readPost();
     }
 
     function getHTTPMethod() {
@@ -89,6 +87,15 @@ class api {
 
         for ($i = 0;$i<count($this->usedHeaders["Values"]);$i++) {
             $this->usedHeaders["Values"][$i] = explode(",",$this->usedHeaders["Values"][$i]);
+        }
+    }
+    private function login() {
+        $user['Username'] = $this->usedHeaders['Username'];
+        if ($this->db->checkAuthorizationWithPassword($this->db->getUserId($user),$this->usedHeaders['Password'])) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
