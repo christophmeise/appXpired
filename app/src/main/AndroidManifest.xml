@@ -9,7 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".menuActivity" ></activity>
-        <activity android:name=".addActivity"></activity>
+        <activity android:name=".addActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
         <activity android:name=".showActivity"></activity>
         <activity android:name=".scanActivity"></activity>
         <activity android:name=".settingsActivity"></activity>

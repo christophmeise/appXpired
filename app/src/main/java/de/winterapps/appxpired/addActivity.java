@@ -2,17 +2,26 @@ package de.winterapps.appxpired;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+//import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +42,41 @@ public class addActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_add, menu);
         return super.onCreateOptionsMenu(menu);
     }*/
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+           /* View view_instance = (View)findViewById(R.id.addRelativeLayout);
+            View view_instance1 = (View)findViewById(R.id.addButtonBar);
+
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) view_instance.getLayoutParams();
+            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) view_instance1.getLayoutParams();
+
+            params1.setMargins(0,350,0,0);
+            view_instance1.setLayoutParams(params1);
+
+            params.topMargin = 350;
+            params.setMargins(0,350,0,0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            }
+            params.addRule(RelativeLayout.ALIGN_BASELINE);*/
+            //view_instance.setLayoutParams(params);
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+           /* View view_instance = (View)findViewById(R.id.addButtonBar);
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) view_instance.getLayoutParams();
+            params.topMargin = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            }
+            view_instance.setLayoutParams(params);*/
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
