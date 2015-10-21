@@ -234,7 +234,51 @@ class databaseConnection {
             return [false];
         }
     }
-    //TODO: get, delete update
+    public function get($table, $selectFields, $whereFields, $values) {
+
+        //TODO: Check authorization for ever user (e.g. userHousehold)
+
+
+        if (count($whereFields) == count($values)) {
+            $sql = "SELECT ";
+            if ($selectFields[0] == "*") {
+                $sql .= "*";
+            }
+            else {
+                for ($i=0;$i<count($selectFields);$i++) {
+                    $sql .= "`" . $selectFields[$i] . "`";
+
+                    if ($i != count($selectFields)-1) {
+                        $sql .= ", ";
+                    }
+                }
+            }
+            $sql .= " FROM " . $table ." WHERE ";
+            for ($i=0;$i<count($whereFields);$i++) {
+                $sql .= "`" . $whereFields[$i] . "` = '" . $values[$i] . "'";
+                if ($i != count($whereFields)-1) {
+                    echo "here";
+                    $sql .= ", ";
+                }
+
+            }
+            $this->connect();
+            $result = $this->conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $this->conn->close();
+
+                    return $row;
+                }
+            } else {
+                $this->conn->close();
+                return [];
+            }
+        }
+
+    }
+    //TODO: delete update
 
     public function createUser($email,$firstname,$lastname,$password,$username) {
         if (strlen($email) > 4 && strlen($firstname) > 1 && strlen($lastname) > 1 && $this->validatePassword($password)[0] && strlen($username) >3) { //check if entered data is valid
@@ -242,7 +286,7 @@ class databaseConnection {
             if ($ret[0]) { // check if email and username are already in the db
                 // entered data is valid, continue to register user.
                 $password = $this->getHashedPw($password); //get the hasehd pw
-                $fields = ["userName","`password`","emailAdress","firstName","lastName"];
+                $fields = ["userName","password","emailAdress","firstName","lastName"];
                 $values = [$username,$password,$email,$firstname,$lastname];
 
                 return $this->insert("user",$fields,$values,"","",false); //insert new user into db

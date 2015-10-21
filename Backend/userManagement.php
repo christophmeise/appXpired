@@ -36,18 +36,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createUser
     // create the user in the DB (data validation will be done by the databaseConnection)
     $ret = $db->createUser($email,$firstname,$lastname,$password,$username);
     // $ret[1] contains the userid of the new user, so that the client can save it.
+    $errors = "";
+    $z = 0;
     for ($i=0;$i < count($ret);$i++) {
         if ($i == 0 and $ret[$i] == true) {
-            echo "true;";
+            header("Success: True");
         }
         else if ($i == 0 and $ret[$i] == false) {
-            echo "false;";
+            header("Success: false");
         }
-        else {
-            echo $ret[$i] . ";";
+        else if ($i != 0 and $ret[0] == false){
+            $errors = $ret[$i] . ";";
+            $z += 1;
         }
     }
+    if ($ret[0] ==false) {
+        header("Errors: " . $errors);
+    }
+    else {
+        $retu = $db->get("user",["id","userName","emailAdress","firstName","lastName"],["id"],[$ret[1]]);
+        echo json_encode($retu);
+
+    }
+
 }
+
 else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
     $db = new databaseConnection(); //establish a database connection
     $headers = apache_request_headers(); // get the headers
@@ -63,28 +76,47 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
         $ret = $db->checkAuthorizationWithToken($db->getUserId($user),$token);
         for ($i=0;$i < count($ret);$i++) {
             if ($i == 0 and $ret[$i] == true) {
-                echo "true;";
+                header("Success: True");
             }
             else if ($i == 0 and $ret[$i] == false) {
-                echo "false;";
+                header("Success: false");
             }
-            else {
-                echo $ret[$i] . ";";
+            else if ($i != 0 and $ret[0] == false){
+                $errors = $ret[$i] . ";";
+                $z += 1;
             }
+        }
+        if ($ret[0] ==false) {
+            header("Errors: " . $errors);
+        }
+        else {
+            //$retu = $db->get("user",["*"],["id"],[$db->getUserId(["Username" => $username])]);
+            $retu = $db->get("user",["id","userName","emailAdress","firstName","lastName"],["username"],[$username]);
+            echo json_encode($retu);
         }
     }
     else { //there was no token sent, so login with password
         $ret = $db->checkAuthorizationWithPassword($db->getUserId($user),$password); //try the login with the password
         for ($i=0;$i < count($ret);$i++) {
             if ($i == 0 and $ret[$i] == true) {
-                echo "true;";
+                header("Success: True");
+                header("Token: " . $ret[1]);
+                $i++;
             }
             else if ($i == 0 and $ret[$i] == false) {
-                echo "false;";
+                header("Success: false");
             }
-            else {
-                echo $ret[$i] . ";";
+            else if ($i != 0 and $ret[0] == false){
+                $errors = $ret[$i] . ";";
+                $z += 1;
             }
+        }
+        if ($ret[0] ==false) {
+            header("Errors: " . $errors);
+        }
+        else {
+            $retu = $db->get("user",["id","userName","emailAdress","firstName","lastName"],["username"],[$username]);
+            echo json_encode($retu);
         }
     }
 }
