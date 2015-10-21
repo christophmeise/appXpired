@@ -33,15 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createHousehold
     // create the user in the DB (data validation will be done by the databaseConnection)
     $ret = $db->createHousehold($db->getUserId(["Username"=>$username]),$token,$name,$location,$password);
     // if successful $ret[1] contains the household id of the new household, so that the client can save it.
+    $z = 0;
     for ($i=0;$i < count($ret);$i++) {
         if ($i == 0 and $ret[$i] == true) {
-            echo "true;";
+            header("Success: true");
         }
         else if ($i == 0 and $ret[$i] == false) {
-            echo "false;";
+            header("Success: false");
         }
-        else {
-            echo $ret[$i] . ";";
+        else if ($i != 0 and $ret[0] == false){
+            $errors = $ret[$i] . ";";
+            $z += 1;
         }
+    }
+    if ($ret[0] ==false) {
+        header("Errors: " . $errors);
+    }
+    else {
+        $retu = $db->get("household",["id","name","location","createUser.id"],["id"],[$ret[1]]);
+        echo json_encode($retu);
+
     }
 }

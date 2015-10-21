@@ -17,6 +17,8 @@
  *
  * 100 - mysql connection error
  *
+ * 200 - user is not authorized to access the requested household
+ *
  * 404 - unauthorized
  * 403 - token has expired
  *
@@ -237,8 +239,6 @@ class databaseConnection {
     public function get($table, $selectFields, $whereFields, $values) {
 
         //TODO: Check authorization for ever user (e.g. userHousehold)
-
-
         if (count($whereFields) == count($values)) {
             $sql = "SELECT ";
             if ($selectFields[0] == "*") {
@@ -257,7 +257,6 @@ class databaseConnection {
             for ($i=0;$i<count($whereFields);$i++) {
                 $sql .= "`" . $whereFields[$i] . "` = '" . $values[$i] . "'";
                 if ($i != count($whereFields)-1) {
-                    echo "here";
                     $sql .= ", ";
                 }
 
@@ -430,6 +429,25 @@ class databaseConnection {
     private function generateToken($userid) {
         return $this->getHashedPw($userid .  date('Y-m-d H:i:s')); //just use the getHashedPw method with userid and time
     }
+
+    /**
+     * @param $userid
+     * @param $householdid
+     * @return bool
+     *
+     * check if the user is authorized to access the requested household.
+     *
+     */
+    public function userIdAuthorizedToAccessHousehold($userid,$householdid) {
+        if(count($this->get("userHousehold",["id"],["user.id","household.id"],[$userid,$householdid])) == 1) {
+            return [true];
+        }
+        else {
+            return [false, "Error200"];
+        }
+    }
+
+
     public function __toString() {
         return "";
     }

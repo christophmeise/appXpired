@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createUser
     $z = 0;
     for ($i=0;$i < count($ret);$i++) {
         if ($i == 0 and $ret[$i] == true) {
-            header("Success: True");
+            header("Success: true");
         }
         else if ($i == 0 and $ret[$i] == false) {
             header("Success: false");
@@ -74,9 +74,10 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
     if (strlen($token) > 4) { //check if a token was sent; if true: log in with token
         //loginWithToken
         $ret = $db->checkAuthorizationWithToken($db->getUserId($user),$token);
+        $z=0;
         for ($i=0;$i < count($ret);$i++) {
             if ($i == 0 and $ret[$i] == true) {
-                header("Success: True");
+                header("Success: true");
             }
             else if ($i == 0 and $ret[$i] == false) {
                 header("Success: false");
@@ -97,9 +98,10 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
     }
     else { //there was no token sent, so login with password
         $ret = $db->checkAuthorizationWithPassword($db->getUserId($user),$password); //try the login with the password
+        $z=0;
         for ($i=0;$i < count($ret);$i++) {
             if ($i == 0 and $ret[$i] == true) {
-                header("Success: True");
+                header("Success: true");
                 header("Token: " . $ret[1]);
                 $i++;
             }
