@@ -28,8 +28,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
-                android:id="@+id/editText4"
-                android:textColor="#ffffff" />
+                android:id="@+id/loginUserEdit"
+                android:textColor="#ffffff"
+                android:text="cmeise" />
         </TableRow>
 
         <TableRow
@@ -48,9 +49,10 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/editText5"
+                android:id="@+id/loginPassEdit"
                 android:password="true"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:text="CMeise12345" />
         </TableRow>
 
         <TableRow
@@ -67,7 +69,8 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox" />
+                android:id="@+id/loginCheckbox"
+                android:checked="false" />
 
         </TableRow>
 
@@ -93,7 +96,7 @@
         android:paddingTop="20dp">
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
             android:id="@+id/loginLoginButton"
@@ -101,7 +104,7 @@
             android:padding="5dp" />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="OR"
             android:id="@+id/textView9"
@@ -110,10 +113,10 @@
             android:padding="5dp" />
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create New Account"
-            android:id="@+id/button"
+            android:id="@+id/loginRegisterButton"
             android:layout_span="2"
             android:layout_column="0"
             android:layout_gravity="center_horizontal"

@@ -7,9 +7,11 @@
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="50dp"
-        android:paddingEnd="50dp"
-        android:layout_gravity="left">
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:layout_gravity="left"
+        android:paddingTop="30dp"
+        android:paddingBottom="50dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -25,7 +27,9 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText6" />
+                android:id="@+id/regPrenameEdit"
+                android:text="Christoph"
+                android:textColor="#ffffff" />
         </TableRow>
 
         <TableRow
@@ -42,7 +46,9 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText7" />
+                android:id="@+id/regNameEdit"
+                android:text="Meise"
+                android:textColor="#ffffff" />
 
         </TableRow>
 
@@ -60,7 +66,9 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText8" />
+                android:id="@+id/regUserEdit"
+                android:textColor="#ffffff"
+                android:text="Shark919" />
         </TableRow>
 
         <TableRow
@@ -70,14 +78,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Adress"
+                android:text="Email Address"
                 android:id="@+id/textView13"
                 android:textColor="#ffffff" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText9" />
+                android:id="@+id/regMailEdit"
+                android:inputType="textEmailAddress"
+                android:textColor="#ffffff"
+                android:text="christoph.meise@gmx.de" />
         </TableRow>
 
         <TableRow
@@ -96,7 +107,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/editText10" />
+                android:id="@+id/regPassEdit"
+                android:textColor="#ffffff"
+                android:text="Abcd12345" />
         </TableRow>
 
         <TableRow
@@ -115,7 +128,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/editText11" />
+                android:id="@+id/regConfirmEdit"
+                android:textColor="#ffffff"
+                android:text="Abcd12345" />
         </TableRow>
 
         <TableRow
@@ -127,15 +142,16 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Register"
-            android:id="@+id/button2"
+            android:id="@+id/regRegisterButton"
             android:background="#C5CAE9"
             android:padding="5dp" />
     </LinearLayout>
