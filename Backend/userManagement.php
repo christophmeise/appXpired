@@ -18,6 +18,33 @@
  * Appxpired-Password
  * Appxpired-Token
  *
+ *
+ * login using the GET Method
+ *
+ * Appxpired-Username or Appxpired-Email and
+ * Appxpired-Password or Appxpired-Token
+ *
+ * You get a "Success" flag in the response header which is true or false
+ * If you use a password to login, you will get a "Token" in the response header. With that you can login.
+ * The body will be a JSON with the userdata.
+ *
+ *
+ * update the user data using the PATCH method
+ *
+ * Appxpired-Method
+ *
+ * Appxpired-Username
+ * Appxpired-Email
+ * Appxpired-Firstname
+ * Appxpired-Lastname
+ * Appxpired-Password
+ *
+ * Appxpired-Oldpassword
+ * Appxpired-Newpassword
+ *
+ * with the method "Userdata" you can edit the user data emailadress, firstname, lastname
+ *
+ *
  */
 
 include "databaseConnection.php";
@@ -46,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createUser
             header("Success: false");
         }
         else if ($i != 0 and $ret[0] == false){
-            $errors = $ret[$i] . ";";
+            $errors = strval($ret[$i]) . ";";
             $z += 1;
         }
     }
@@ -83,7 +110,7 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
                 header("Success: false");
             }
             else if ($i != 0 and $ret[0] == false){
-                $errors = $ret[$i] . ";";
+                $errors = strval($ret[$i]) . ";";
                 $z += 1;
             }
         }
@@ -109,7 +136,7 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
                 header("Success: false");
             }
             else if ($i != 0 and $ret[0] == false){
-                $errors = $ret[$i] . ";";
+                $errors = strval($ret[$i]) . ";";
                 $z += 1;
             }
         }
@@ -125,5 +152,119 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET") { //login
 else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
 
     //TODO: Delete
+
+}
+else if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
+    $db = new databaseConnection(); //establish a database connection
+    $headers = apache_request_headers(); // get the headers
+    //parse the headers
+
+    $method = $headers["Appxpired-". "Method"];
+
+    $username = $headers["Appxpired-". "Username"];
+    $email = $headers["Appxpired-". "Email"];
+    $firstname = $headers["Appxpired-". "Firstname"];
+    $lastname = $headers["Appxpired-". "Lastname"];
+    $password = $headers["Appxpired-". "Password"];
+
+    $oldPassword = $headers["Appxpired-". "Oldpassword"];
+    $newPassword = $headers["Appxpired-". "Newpassword"];
+
+
+    if ($method == "Userdata") { //change the userdata (not the password)
+
+        /**
+         *
+         * if you want to change the userdata you have to enter the correct username and password! You can not change the username.
+         *
+         */
+
+        $authorized = false;
+        $ret = null;
+        $errors = [];
+        if (strlen($username) > 2) {
+            $ret = $db->checkAuthorizationWithPassword($db->getUserId(["Username" => $username]),$password);
+            $authorized = $ret[0];
+            if ($ret[0]) {
+                header("Token: " . $ret[1]);
+            }
+            else {
+                array_push($errors,$ret[1]);
+            }
+        }
+        elseif (strlen($email)) {
+            $ret = $db->checkAuthorizationWithPassword($db->getUserId(["Email" => $email]),$password);
+            $authorized = $ret[0];
+            if ($ret[0]) {
+                header("Token: " . $ret[1]);
+
+            }
+            else {
+                array_push($errors,$ret[1]);
+            }
+        }
+        if ($authorized) {
+            // user is authorized
+
+            $setfields = [];
+            $setvalues = [];
+            $i = 0;
+            if (strlen($email) >0) {
+                $em = $db->doesEmailAdressAlreadyExist($email);
+                if(!$em[0]) {
+                    $setfields[$i] = "emailAdress";
+                    $setvalues[$i] = $email;
+                    $i++;
+                }
+                else {
+                    array_push($errors,$em[1]);
+                }
+            }
+            if (strlen($firstname) >0) {
+                $setfields[$i] = "firstName";
+                $setvalues[$i] = $firstname;
+                $i++;
+            }
+            if (strlen($lastname) >0) {
+                $setfields[$i] = "lastName";
+                $setvalues[$i] = $lastname;
+                $i++;
+            }
+
+            $ret = $db->update("user",$setfields,$setvalues,["userName"],[$username]);
+            if ($ret[0]) {
+                header("Success: true");
+                $user = $db->get("user",["id","username","firstName","lastName","emailAdress"],["userName"],[$username]);
+                echo json_encode($user);
+            }
+            else {
+                array_push($errors,$ret[1]);
+                $errorString = "";
+                for ($i=0;$i<count($errors);$i++) {
+                    $errorString .= strval($errors[$i]) . ";";
+                }
+                header("Success: false");
+                header("Errors: " . $errorString);
+            }
+        }
+        else {
+            $errorString = "";
+            for ($i=0;$i<count($errors);$i++) {
+                $errorString .= strval($errors[$i]) . ";";
+            }
+            header("Success: false");
+            header("Errors: " . $errorString);
+        }
+
+
+
+
+    }
+
+
+}
+else {
+
+    //TODO failure message!
 
 }

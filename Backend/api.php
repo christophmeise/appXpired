@@ -53,7 +53,7 @@ class api {
         //setting up variables
         $this->usedHeaders = [];
         $this->headerPrefix = "Appxpired-";
-        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Wherevalues", "Setvalues", "Selectvalues", "Token"];
+        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Wherevalues", "Setvalues", "Selectvalues", "Token","Expand"];
         // get headers
         $this->getHeaders();
         //connect to db;
@@ -105,6 +105,12 @@ class api {
         }
 
         $this->usedHeaders["Selectvalues"] = explode(";",$this->usedHeaders["Selectvalues"]);
+        if ($this->usedHeaders["Expand"] == "True") {
+            $this->usedHeaders["Expand"] = true;
+        }
+        else {
+            $this->usedHeaders["Expand"] = false;
+        }
 
     }
     private function login() {
@@ -121,8 +127,8 @@ class api {
         if ($this->usedHeaders["Table"] == "household") { //if the household table shall be accessed check if the user is authorized
             $authorized = false;
             for ($i=0;$i<count($this->usedHeaders["Wherevalues"]);$i++) {
-                if ($this->usedHeaders["Wherevalues"][$i][0] == "household.id") {
-                    $ret = $this->db->userIdAuthorizedToAccessHousehold($this->usedHeaders["Username"],$this->usedHeaders["Wherevalues"][$i][1]);
+                if ($this->usedHeaders["Wherevalues"][$i][0] == "id") {
+                    $ret = $this->db->userIdAuthorizedToAccessHousehold($this->db->getUserId(["Username"=>$this->usedHeaders["Username"]]),$this->usedHeaders["Wherevalues"][$i][1]);
                     $authorized = $ret[0];
                 }
             }
@@ -133,7 +139,6 @@ class api {
                 $authorized = $ret[0];
             }
             elseif (strlen($this->usedHeaders["Password"]) > 2) {
-
                 $ret = $this->db->checkAuthorizationWithPassword($this->db->getUserId(["Username" =>$this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
                 if ($ret[0]) {
                     header("Token: " . $ret[1]);
@@ -155,7 +160,11 @@ class api {
                 }
 
                 $dbOut = $this->db->get($this->usedHeaders["Table"],$this->usedHeaders["Selectvalues"],$whereFields,$whereValues);
+
+
                 header("Success: true");
+                unset($dbOut["password"]);
+                unset($dbOut["token"]);
                 echo json_encode($dbOut);
 
             }
@@ -180,14 +189,55 @@ class api {
             $fields[$i] = $field;
             $i = $i+1;
         }
-
-        $ret = $this->db->insert($this->usedHeaders["Table"],$fields,$values, $this->db->getUserId(["Username"=>$this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
-        if ($ret[0]) {
-            // TODO update!
-            echo "true;" . $ret[1];
+        $auth = false;
+        if ($this->usedHeaders['Token']) {
+            $ret = $this->db->checkAuthorizationWithToken($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Token"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $this->makeUpHeadersFromDBReturn($ret);
+            }
         }
         else {
-            echo "false;";
+            $ret = $this->db->checkAuthorizationWithPassword($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $auth = false;
+                $this->makeUpHeadersFromDBReturn($ret);
+                header("Success: false");
+            }
+        }
+        if ($auth) {
+            if ($this->usedHeaders["Table"] == "Household") {
+                $id = 0;
+                for ($i=0;$i<$this->usedHeaders["Wherevalues"];$i++) {
+                    if ($this->usedHeaders["Wherevalues"][$i][0] == "id") {
+                        $id = $this->usedHeaders["Wherevalues"][$i][1];
+                    }
+                }
+                $ret = $this->db->userIdAuthorizedToAccessHousehold($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$id);
+                if ($ret[0]) {
+                    $auth = true;
+                }
+                else {
+                    $auth = false;
+                    $this->makeUpHeadersFromDBReturn($ret);
+                    header("Success: false");
+                }
+            }
+        }
+        if ($auth) {
+            $ret = $this->db->insert($this->usedHeaders["Table"],$fields,$values);
+            if ($ret[0]) {
+                header("Success: true");
+                header("LastId: " . $ret[1]);
+            }
+            else {
+                header("Success: false");
+            }
         }
     }
     /**
@@ -199,9 +249,10 @@ class api {
     }
     /**
      * PATCH Method was called
+     * update
      */
     function patch() {
-        // body
+        // TODO
     }
     //TODO
     function readPost() {
@@ -224,8 +275,6 @@ class api {
 
     }
     function makeUpHeadersFromDBReturn($ret) {
-        echo "ret: \n";
-        print_r($ret);
         $z = 0;
         $errors = null;
         for ($i=0;$i < count($ret);$i++) {
@@ -236,7 +285,7 @@ class api {
                 header("Success: false");
             }
             else if ($i != 0 and $ret[0] == false){
-                $errors = $ret[$i] . ";";
+                $errors = strval($ret[$i]) . ";";
                 $z += 1;
             }
         }

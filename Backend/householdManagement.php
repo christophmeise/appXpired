@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") { //createHousehold
             header("Success: false");
         }
         else if ($i != 0 and $ret[0] == false){
-            $errors = $ret[$i] . ";";
+            $errors = strval($ret[$i]) . ";";
             $z += 1;
         }
     }

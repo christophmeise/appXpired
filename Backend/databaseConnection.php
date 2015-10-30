@@ -16,6 +16,7 @@
  * 004 - password not valid
  *
  * 100 - mysql connection error
+ * 101 - update values are incorrect
  *
  * 200 - user is not authorized to access the requested household
  *
@@ -23,7 +24,11 @@
  * 403 - token has expired
  *
  */
+
+include('errorCodes.php');
+
 class databaseConnection {
+
     private $serverName;
     private $userName;
     private $password;
@@ -31,6 +36,9 @@ class databaseConnection {
     private $conn;
 
     private $connected;
+
+
+
 
     /**
      * @return mixed
@@ -73,7 +81,7 @@ class databaseConnection {
 
             // Check connection
             if ($this->conn->connect_error) {
-                echo "Error100;";
+                echo "100;"; //TODO
                 $this->connected = false;
             }
 
@@ -106,18 +114,18 @@ class databaseConnection {
                         return [true];
                     }
                     else { // token has expired
-                        return [false, "Error403"];
+                        return [false, errorCodes::tokenHasExpired];
                     }
 
                 }
                 else {
                     $this->conn->close();
-                    return [false, "Error403"];
+                    return [false, errorCodes::tokenHasExpired];
                 }
             }
         } else {
             $this->conn->close();
-            return [false, "Error404"];
+            return [false, errorCodes::unauthorized];
         }
     }
     /**
@@ -146,12 +154,12 @@ class databaseConnection {
                 else {
 
                     $this->conn->close();
-                    return [false, "Error404"];
+                    return [false, errorCodes::unauthorized];
                 }
             }
         } else {
             $this->conn->close();
-            return [false, "Error404"];
+            return [false, errorCodes::unauthorized];
         }
     }
 
@@ -193,52 +201,59 @@ class databaseConnection {
      *
      * Insert the $values into $fields after checking the user credentials
      */
-    public function insert($table, $fields,$values,$userid,$password,$checkAuthorization = true) {
-        $authorized = !$checkAuthorization;
-        if (!$authorized) {
-            // Todo: Check authorization
-            //$authorized == $this->checkAuthorizationWithPassword($userid,$password);
-        }
-        if ($authorized) { // check if the user is authorized
-            //TODO: Check authorization for ever user (e.g. userHousehold)
+    public function insert($table, $fields,$values) {
 
-            $sql = "INSERT INTO " . $table ." (";
-            $i = 0;
-            foreach ($fields as $field) {
-                $sql .= "`" . $field . "`";
-                $i++;
-                if ($i != sizeof($fields)) {
-                    $sql .= ", ";
-                }
-            }
-            $sql .= ") VALUES (";
-            $i = 0;
-            foreach ($values as $value) {
-                $sql .= "'" . $value . "'";
-                $i++;
-                if ($i != sizeof($values)) {
-                    $sql .= ", ";
-                }
-            }
-            $sql .= ")";
-            $this->connect();
-            if ($this->conn->query($sql) === TRUE) {
-                $last_id = $this->conn->insert_id;
-                $this->conn->close();
-                return [true,$last_id];
-            } else {
-                echo "Error: " . $sql . "<br>" . $this->conn->error;
-                $this->conn->close();
-                return [false];
+        $sql = "INSERT INTO " . $table ." (";
+        $i = 0;
+        foreach ($fields as $field) {
+            $sql .= "`" . $field . "`";
+            $i++;
+            if ($i != sizeof($fields)) {
+                $sql .= ", ";
             }
         }
-        else {
+        $sql .= ") VALUES (";
+        $i = 0;
+        foreach ($values as $value) {
+            $sql .= "'" . $value . "'";
+            $i++;
+            if ($i != sizeof($values)) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= ")";
+        $this->connect();
+        if ($this->conn->query($sql) === TRUE) {
+            $last_id = $this->conn->insert_id;
+            $this->conn->close();
+            return [true,$last_id];
+        } else {
+            echo "Error: " . $sql . "<br>" . $this->conn->error;
+            $this->conn->close();
             return [false];
         }
+
     }
+
+    /**
+     * @param $table
+     * @param $selectFields
+     * @param $whereFields
+     * @param $values
+     * @return array
+     *
+     * !!important!! DO A SECURITY CHECK BEFORE! !!important!!
+     *
+     * This method returns the requested data. Call the method like this:
+     *
+     * get("myTable",["*"],["id"],["42"]) //case sensitive so name it like the database columns
+     *
+     * The array of the selected data will be returned.
+     *
+     */
+
     public function get($table, $selectFields, $whereFields, $values) {
 
-        //TODO: Check authorization for ever user (e.g. userHousehold)
         if (count($whereFields) == count($values)) {
             $sql = "SELECT ";
             if ($selectFields[0] == "*") {
@@ -257,10 +272,11 @@ class databaseConnection {
             for ($i=0;$i<count($whereFields);$i++) {
                 $sql .= "`" . $whereFields[$i] . "` = '" . $values[$i] . "'";
                 if ($i != count($whereFields)-1) {
-                    $sql .= ", ";
+                    $sql .= " AND ";
                 }
 
             }
+            //echo $sql;
             $this->connect();
             $result = $this->conn->query($sql);
 
@@ -277,7 +293,68 @@ class databaseConnection {
         }
 
     }
-    //TODO: delete update
+
+    /**
+     * @param $table
+     * @param $setFields
+     * @param $setValues
+     * @param $whereFields
+     * @param $whereValues
+     * @return array
+     *
+     *
+     * !! do the authorization checks before !!
+     *
+     * update the table for the $table
+     *
+     */
+
+    public function update($table,$setFields,$setValues,$whereFields,$whereValues) {
+
+        if (count($setFields) == count($setValues) and count($whereFields) == count($whereValues) and count($setFields) > 0 and count($whereFields) > 0 and strlen($table) > 1) {
+            $sql = "UPDATE " . $table . " SET ";
+            for ($i=0;$i<count($setFields);$i++) {
+                $sql .= "`" . $setFields[$i] . "`" . " = '" . $setValues[$i] . "'";
+                if (!($i == count($setValues)-1)) {
+                    $sql .= ", ";
+                }
+            }
+            $sql .= " WHERE ";
+            for ($i=0;$i<count($whereFields);$i++) {
+                $sql .= "`" . $whereFields[$i] . "`" . " = '" . $whereValues[$i] . "'";
+                if (!($i == count($whereValues)-1)) {
+                    $sql .= " AND ";
+                }
+            }
+            $this->connect();
+            if ($this->conn->query($sql) === TRUE) { //success
+                $this->conn->close();
+                return [true];
+            }
+            else { //failure
+                $this->conn->close();
+                return [false, $this->conn->error];
+            }
+        }
+        else {
+            return [false,errorCodes::updateValuesIncorrect];
+        }
+    }
+
+
+    //TODO: delete
+
+    /**
+     * @param $email
+     * @param $firstname
+     * @param $lastname
+     * @param $password
+     * @param $username
+     * @return array|bool
+     *
+     * create a user
+     *
+     */
 
     public function createUser($email,$firstname,$lastname,$password,$username) {
         if (strlen($email) > 4 && strlen($firstname) > 1 && strlen($lastname) > 1 && $this->validatePassword($password)[0] && strlen($username) >3) { //check if entered data is valid
@@ -288,14 +365,14 @@ class databaseConnection {
                 $fields = ["userName","password","emailAdress","firstName","lastName"];
                 $values = [$username,$password,$email,$firstname,$lastname];
 
-                return $this->insert("user",$fields,$values,"","",false); //insert new user into db
+                return $this->insert("user",$fields,$values); //insert new user into db
             }
             else {
                 return $ret;
             }
         }
         else {
-            return [false, "Error001;"];
+            return [false, errorCodes::invalidData];
         }
 
     }
@@ -316,10 +393,11 @@ class databaseConnection {
             $fields = ["name","location","createUser.id","password"];
             $password = $this->getHashedPw($password);
             $values = [$name,$location,$userid,$password];
-            $ret = $this->insert("household",$fields,$values,$userid,"",false);
+            // TODO auth
+            $ret = $this->insert("household",$fields,$values,$userid);
             if ($ret[0]) {
                 $householdid = $ret[1];
-                $ret = $this->insert("userHousehold",["user.id","household.id"],[$userid,$householdid],$userid,"",false);
+                $ret = $this->insert("userHousehold",["user.id","household.id"],[$userid,$householdid]);
                 if ($ret[0]) {
                     return [true,$householdid];
                 }
@@ -374,7 +452,7 @@ class databaseConnection {
             return [true];
         }
         else {
-            return [false, "Error404"];
+            return [false, errorCodes::unauthorized];
         }
     }
 
@@ -393,11 +471,11 @@ class databaseConnection {
             while($row = $result->fetch_assoc()) {
                 if ($row['userName'] == $username) { // if the username already exists
                     $this->conn->close();
-                    return [false, "Error002"];
+                    return [false, errorCodes::usernameAlreadyRegistered];
                 }
                 else { // if the emailadress already exists
                     $this->conn->close();
-                    return [false, "Error003"];
+                    return [false, errorCodes::emailadressAlreadyRegistered];
                 }
             }
         } else {
@@ -405,6 +483,31 @@ class databaseConnection {
             return [true];
         }
     }
+
+    /**
+     * @param $emailadress
+     * @return bool
+     *
+     * does the given emailadress already exist?
+     *
+     */
+    public function doesEmailAdressAlreadyExist($emailadress) {
+
+        $this->connect();
+        $sql = "SELECT id FROM user WHERE emailAdress = '" . $emailadress . "'";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) { // if there are results
+            while($row = $result->fetch_assoc()) {
+                $this->conn->close();
+                return [true];
+            }
+        } else {
+            $this->conn->close();
+            return [false,errorCodes::emailadressAlreadyRegistered];
+        }
+
+    }
+
     /**
      * @param $pw
      * @return string
@@ -443,7 +546,7 @@ class databaseConnection {
             return [true];
         }
         else {
-            return [false, "Error200"];
+            return [false, errorCodes::userUnauthorizedForHousehold];
         }
     }
 
