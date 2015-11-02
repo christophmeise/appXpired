@@ -20,6 +20,7 @@ class errorCodes {
     const invalidPassword = 004; //- password not valid
     const mySQLConnectionError = 100; //- mysql connection error
     const updateValuesIncorrect = 101; //- update values are incorrect
+    const deleteValuesIncorrect = 102;
 
     const userUnauthorizedForHousehold = 200; //- user is not authorized to access the requested household
 

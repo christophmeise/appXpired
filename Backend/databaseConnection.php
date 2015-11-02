@@ -341,8 +341,43 @@ class databaseConnection {
         }
     }
 
+    /**
+     * @param $table
+     * @param $whereFields
+     * @param $whereValues
+     * @return array
+     *
+     * !! do the authorization checks before !!
+     *
+     * delete an entry in the $table
+     *
+     */
 
-    //TODO: delete
+    public function delete ($table,$whereFields,$whereValues) {
+        if (count($whereFields) == count($whereValues) and count($whereFields) > 0 and strlen($table) > 1) {
+            $sql = "DELETE FROM " . $table . " WHERE ";
+            for ($i=0;$i<count($whereFields);$i++) {
+                $sql .= "`" . $whereFields[$i] . "`" . " = '" . $whereValues[$i] . "'";
+                if (!($i == count($whereValues)-1)) {
+                    $sql .= " AND ";
+                }
+            }
+            $this->connect();
+            if ($this->conn->query($sql) === TRUE) { //success
+                $this->conn->close();
+                return [true];
+            }
+            else { //failure
+                $this->conn->close();
+                return [false, $this->conn->error];
+            }
+        }
+        else {
+            return [false,errorCodes::deleteValuesIncorrect];
+        }
+
+
+    }
 
     /**
      * @param $email
@@ -393,7 +428,6 @@ class databaseConnection {
             $fields = ["name","location","createUser.id","password"];
             $password = $this->getHashedPw($password);
             $values = [$name,$location,$userid,$password];
-            // TODO auth
             $ret = $this->insert("household",$fields,$values,$userid);
             if ($ret[0]) {
                 $householdid = $ret[1];

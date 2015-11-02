@@ -244,7 +244,66 @@ class api {
      * DELETE Method was called
      */
     function delete() {
-        // body
+
+        $whereFields = [];
+        $whereValues = [];
+        $i = 0;
+        foreach ($this->usedHeaders["Wherevalues"] as $value => $field) {
+            $whereValues[$i] = $value;
+            $whereFields[$i] = $field;
+            $i = $i+1;
+        }
+        $auth = false;
+        if ($this->usedHeaders['Token']) {
+            $ret = $this->db->checkAuthorizationWithToken($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Token"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $this->makeUpHeadersFromDBReturn($ret);
+            }
+        }
+        else {
+            $ret = $this->db->checkAuthorizationWithPassword($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $auth = false;
+                $this->makeUpHeadersFromDBReturn($ret);
+                header("Success: false");
+            }
+        }
+        if ($auth) {
+            if ($this->usedHeaders["Table"] == "Household") {
+                $id = 0;
+                for ($i=0;$i<$this->usedHeaders["Wherevalues"];$i++) {
+                    if ($this->usedHeaders["Wherevalues"][$i][0] == "id") {
+                        $id = $this->usedHeaders["Wherevalues"][$i][1];
+                    }
+                }
+                $ret = $this->db->userIdAuthorizedToAccessHousehold($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$id);
+                if ($ret[0]) {
+                    $auth = true;
+                }
+                else {
+                    $auth = false;
+                    $this->makeUpHeadersFromDBReturn($ret);
+                    header("Success: false");
+                }
+            }
+        }
+        if ($auth) {
+            $ret = $this->db->delete($this->usedHeaders["table"],$whereFields,$whereValues);
+            if ($ret[0]) {
+                header("Success: true");
+                header("LastId: " . $ret[1]);
+            }
+            else {
+                header("Success: false");
+                $this->makeUpHeadersFromDBReturn($ret);
+            }
+        }
 
     }
     /**
@@ -252,9 +311,75 @@ class api {
      * update
      */
     function patch() {
-        // TODO
+        $fields = [];
+        $values = [];
+        $i = 0;
+        foreach ($this->usedHeaders["Setvalues"] as $value => $field) {
+            $values[$i] = $value;
+            $fields[$i] = $field;
+            $i = $i+1;
+        }
+        $whereFields = [];
+        $whereValues = [];
+        $i = 0;
+        foreach ($this->usedHeaders["Wherevalues"] as $value => $field) {
+            $whereValues[$i] = $value;
+            $whereFields[$i] = $field;
+            $i = $i+1;
+        }
+        $auth = false;
+        if ($this->usedHeaders['Token']) {
+            $ret = $this->db->checkAuthorizationWithToken($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Token"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $this->makeUpHeadersFromDBReturn($ret);
+            }
+        }
+        else {
+            $ret = $this->db->checkAuthorizationWithPassword($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$this->usedHeaders["Password"]);
+            if ($ret[0]) {
+                $auth = true;
+            }
+            else {
+                $auth = false;
+                $this->makeUpHeadersFromDBReturn($ret);
+                header("Success: false");
+            }
+        }
+        if ($auth) {
+            if ($this->usedHeaders["Table"] == "Household") {
+                $id = 0;
+                for ($i=0;$i<$this->usedHeaders["Wherevalues"];$i++) {
+                    if ($this->usedHeaders["Wherevalues"][$i][0] == "id") {
+                        $id = $this->usedHeaders["Wherevalues"][$i][1];
+                    }
+                }
+                $ret = $this->db->userIdAuthorizedToAccessHousehold($this->db->getUserId(["Username" => $this->usedHeaders["Username"]]),$id);
+                if ($ret[0]) {
+                    $auth = true;
+                }
+                else {
+                    $auth = false;
+                    $this->makeUpHeadersFromDBReturn($ret);
+                    header("Success: false");
+                }
+            }
+        }
+        if ($auth) {
+            $ret = $this->db->update($this->usedHeaders["table"],$fields,$values,$whereFields,$whereValues);
+            if ($ret[0]) {
+                header("Success: true");
+                header("LastId: " . $ret[1]);
+            }
+            else {
+                header("Success: false");
+                $this->makeUpHeadersFromDBReturn($ret);
+            }
+        }
     }
-    //TODO
+
     function readPost() {
         // test code
         $whatever['1'] = 'cottton';
