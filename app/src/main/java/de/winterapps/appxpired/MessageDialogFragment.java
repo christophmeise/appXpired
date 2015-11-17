@@ -3,7 +3,9 @@ package de.winterapps.appxpired;
         import android.app.AlertDialog;
         import android.app.Dialog;
         import android.content.DialogInterface;
+        import android.content.Intent;
         import android.os.Bundle;
+        import android.os.Message;
         import android.support.v4.app.DialogFragment;
 
 public class MessageDialogFragment extends DialogFragment {
@@ -38,10 +40,16 @@ public class MessageDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int id) {
                 if(mListener != null) {
                     mListener.onDialogPositiveClick(MessageDialogFragment.this);
+                    startIntent();
                 }
             }
         });
 
         return builder.create();
+    }
+
+    public void startIntent(){
+        Intent intent = new Intent(getActivity(), addActivity.class);
+        startActivity(intent);
     }
 }

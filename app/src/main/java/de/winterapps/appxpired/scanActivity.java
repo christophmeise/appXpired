@@ -6,6 +6,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -22,9 +23,9 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 /**
  * Created by D062400 on 15.10.2015.
  */
-public class scanActivity extends Activity {/* implements MessageDialogFragment.MessageDialogListener,
+public class scanActivity extends FragmentActivity implements MessageDialogFragment.MessageDialogListener,
         ZBarScannerView.ResultHandler, FormatSelectorDialogFragment.FormatSelectorDialogListener,
-        CameraSelectorDialogFragment.CameraSelectorDialogListener*/
+        CameraSelectorDialogFragment.CameraSelectorDialogListener  {
 
         private static final String FLASH_STATE = "FLASH_STATE";
 private static final String AUTO_FOCUS_STATE = "AUTO_FOCUS_STATE";
@@ -39,7 +40,7 @@ private int mCameraId = -1;
 @Override
 public void onCreate(Bundle state) {
         super.onCreate(state);
-       /* if(state != null) {
+        if(state != null) {
         mFlash = state.getBoolean(FLASH_STATE, false);
         mAutoFocus = state.getBoolean(AUTO_FOCUS_STATE, true);
         mSelectedIndices = state.getIntegerArrayList(SELECTED_FORMATS);
@@ -52,10 +53,10 @@ public void onCreate(Bundle state) {
         }
 
         mScannerView = new ZBarScannerView(this);
-        setupFormats();*/
+        setupFormats();
         setContentView(mScannerView);
         }
-/*
+
 @Override
 public void onResume() {
         super.onResume();
@@ -215,5 +216,5 @@ public void onPause() {
         mScannerView.stopCamera();
         closeMessageDialog();
         closeFormatsDialog();
-        }*/
+        }
         }
