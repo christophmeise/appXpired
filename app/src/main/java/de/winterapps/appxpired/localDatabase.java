@@ -63,6 +63,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public JSONArray getFood(){
         JSONArray foodArray = new JSONArray();
 
+
         return foodArray;
     }
 }
