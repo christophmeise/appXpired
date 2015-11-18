@@ -12,6 +12,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testApplicationId 'de.winterapps.appxpired.test'
+        testInstrumentationRunner 'de.winterapps.appxpired.test.Instrumentation'
     }
     buildTypes {
         release {
@@ -22,10 +25,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'me.dm7.barcodescanner:zbar:1.8.3'
-
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    androidTestCompile 'info.cukes:cucumber-android:1.2.2'
+    androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.2'
 }
