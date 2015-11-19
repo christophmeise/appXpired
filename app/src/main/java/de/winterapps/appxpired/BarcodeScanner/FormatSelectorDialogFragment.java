@@ -1,4 +1,4 @@
-package de.winterapps.appxpired;
+package de.winterapps.appxpired.BarcodeScanner;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,12 +8,12 @@ import android.support.v4.app.DialogFragment;
 
 import java.util.ArrayList;
 
+import de.winterapps.appxpired.R;
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class FormatSelectorDialogFragment extends DialogFragment {
     public interface FormatSelectorDialogListener {
-        public void onFormatsSaved(ArrayList<Integer> selectedIndices);
+        void onFormatsSaved(ArrayList<Integer> selectedIndices);
     }
 
     private ArrayList<Integer> mSelectedIndices;
@@ -27,9 +27,9 @@ public class FormatSelectorDialogFragment extends DialogFragment {
     public static FormatSelectorDialogFragment newInstance(FormatSelectorDialogListener listener, ArrayList<Integer> selectedIndices) {
         FormatSelectorDialogFragment fragment = new FormatSelectorDialogFragment();
         if(selectedIndices == null) {
-            selectedIndices = new ArrayList<Integer>();
+            selectedIndices = new ArrayList<>();
         }
-        fragment.mSelectedIndices = new ArrayList<Integer>(selectedIndices);
+        fragment.mSelectedIndices = new ArrayList<>(selectedIndices);
         fragment.mListener = listener;
         return fragment;
     }
@@ -46,11 +46,7 @@ public class FormatSelectorDialogFragment extends DialogFragment {
         int i = 0;
         for(BarcodeFormat format : BarcodeFormat.ALL_FORMATS) {
             formats[i] = format.getName();
-            if(mSelectedIndices.contains(i)) {
-                checkedIndices[i] = true;
-            } else {
-                checkedIndices[i] = false;
-            }
+            checkedIndices[i] = mSelectedIndices.contains(i);
             i++;
         }
 

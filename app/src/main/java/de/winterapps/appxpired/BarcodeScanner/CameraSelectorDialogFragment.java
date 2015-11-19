@@ -1,4 +1,4 @@
-package de.winterapps.appxpired;
+package de.winterapps.appxpired.BarcodeScanner;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,9 +7,11 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import de.winterapps.appxpired.R;
+
 public class CameraSelectorDialogFragment extends DialogFragment {
     public interface CameraSelectorDialogListener {
-        public void onCameraSelected(int cameraId);
+        void onCameraSelected(int cameraId);
     }
 
     private int mCameraId;

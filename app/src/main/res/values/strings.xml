@@ -33,4 +33,8 @@
     <string name="select_camera">Select a Camera</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
+
+    <string name="dialog_message">Sorry, the scanned item is not in our database yet. Do you want to add it?</string>
+    <string name="dialog_add">Add</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>
