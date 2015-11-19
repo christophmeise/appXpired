@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.menuActivity"/>
+      <point      
+        x = "3492"      
+        y = "32"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.addActivity"/>
+      <point      
+        x = "2456"      
+        y = "448"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.scanActivity"/>
+      <point      
+        x = "4413"      
+        y = "819"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.settingsActivity"/>
+      <point      
+        x = "1618"      
+        y = "1336"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.loginActivity"/>
+      <point      
+        x = "1453"      
+        y = "899"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.registerActivity"/>
+      <point      
+        x = "58"      
+        y = "1453"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "de.winterapps.appxpired.showActivity"/>
+      <point      
+        x = "798"      
+        y = "393"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

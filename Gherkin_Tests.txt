@@ -1,0 +1,20 @@
+Feature: Adding groceries to the database.
+This is a key feature of the application. There is a local database on the device that is going to add groceries and there is an online database where every synchronized entry is stored. When adding a food the user can declare specifications of the food. It is obligatory to give the name and the expire date.
+
+Scenario: Adding grocery to online and local database without a template
+Given there is an existing Internet connection
+And the user has a valid account for appXpired
+And the user is logged in at appXpired
+And the user has some sort of grocery he wants to add
+And the user is in the main menu
+When he clicks on Add
+And he writes a valid name into the input field "Name"
+And he writes a valid date into the input field "Expire date"
+And he optionally puts in valid data in the other fields of the form
+Then the data will be saved in a local table
+And the application will send the data to the backend
+And PHP code will validate the data
+And a SQL query will put the data into the table of the user who send the data
+And PHP code will initiate a HTTP send to the user
+And the user will receive the HTTP package
+And the frontend will 

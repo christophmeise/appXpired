@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView3"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/uploadTableLayout"
+                android:weightSum="1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="0.1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Name"
+                        android:id="@+id/uploadTextView"
+                        android:layout_column="0"
+                        android:layout_weight="0.3"
+                        android:layout_gravity="center_vertical" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uploadNameEdit"
+                        android:layout_column="1"
+                        android:layout_weight="0.75"
+                        android:layout_gravity="left|center_vertical" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Brand name"
+                        android:id="@+id/uploadTextView5"
+                        android:layout_column="0"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0.28"
+                        android:layout_gravity="center_vertical" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uploadBrandEdit"
+                        android:layout_weight="0.75" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Amount"
+                        android:id="@+id/uploadTextView4"
+                        android:layout_column="0"
+                        android:layout_weight="0.6"
+                        android:layout_gravity="center_vertical" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.4"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/uploadAmountEdit"
+                            android:layout_gravity="left|center_vertical"
+                            android:inputType="number"
+                            android:layout_weight="0.6" />
+
+                        <Spinner
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/uploadUnitSpinner"
+                            android:gravity="right"
+                            android:layout_weight="0.4"
+                            android:spinnerMode="dropdown"
+                            android:layout_gravity="left|center_vertical" />
+                    </LinearLayout>
+                </TableRow>
+
+            </TableLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentTop="false"
+                android:gravity="bottom"
+                android:id="@+id/uploadButtonBar"
+                android:baselineAligned="false"
+                android:layout_alignWithParentIfMissing="false">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                    android:text="Upload"
+                    android:id="@+id/uploadUploadButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1"
+                    android:background="#3D5AFE"
+                    android:textColor="#ffffff"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginLeft="45dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
