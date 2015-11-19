@@ -139,7 +139,7 @@
                         <EditText
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/editText2"
+                            android:id="@+id/addAmountEdit"
                             android:layout_gravity="left|center_vertical"
                             android:inputType="number"
                             android:layout_weight="0.6" />
@@ -147,7 +147,7 @@
                         <Spinner
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spinner2"
+                            android:id="@+id/addUnitSpinner"
                             android:gravity="right"
                             android:layout_weight="0.4"
                             android:spinnerMode="dropdown"

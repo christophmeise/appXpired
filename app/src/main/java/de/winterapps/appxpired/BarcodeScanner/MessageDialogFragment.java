@@ -69,13 +69,13 @@ public class MessageDialogFragment extends DialogFragment {
         startActivity(intent);
     }
 
-    public void requestAPI(String ean){
+    public void requestAPI(String EAN){
         // Instantiate the RequestQueue.
        // RequestQueue queue = Volley.newRequestQueue(((Activity) mListener).getApplication());
         com.android.volley.RequestQueue queue;
         queue = Volley.newRequestQueue(this.getContext());
-        String url ="https://www.datakick.org/api/items/"+ean;
-        //boolean hasResponse = false;
+        String url ="https://www.datakick.org/api/items/"+EAN;
+        ((memberVariables) ((Activity) mListener).getApplication()).setEAN(EAN);
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -84,8 +84,6 @@ public class MessageDialogFragment extends DialogFragment {
 
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("hallooooooooooooo"+response);
-                        final boolean hasResponse = true;
                         JSONObject jsonObj = null;
                         try {
                             jsonObj = new JSONObject(response);
@@ -94,17 +92,12 @@ public class MessageDialogFragment extends DialogFragment {
                         }
 
                         String id = null;
-                        String message = null;
                         try {
                             if (jsonObj != null) {
                                 id = jsonObj.getString("name");
                             }
                             if (id != ""){
-                                /*memberVariables mv = new memberVariables();
-                                mv.setCode(id);*/
                                 ((memberVariables) ((Activity) mListener).getApplication()).setCode(id);
-                                String x = ((memberVariables) ((Activity) mListener).getApplication()).getCode();
-                                System.out.println(x);
                                 startIntent();
                             }
                         } catch (JSONException e1) {
@@ -117,13 +110,7 @@ public class MessageDialogFragment extends DialogFragment {
             @Override
 
             public void onErrorResponse(VolleyError error) {
-                System.out.println("teeeest");
-                Log.v("teeeeeeeeeeeeeeeeeeeeeeeeest","test");
-                System.out.println(error.toString());
                 showPopup();
-/*                if(hasResponse == false ){
-
-                }*/
 
             }
         });
