@@ -8,7 +8,6 @@ package de.winterapps.appxpired.BarcodeScanner;
         import android.os.Bundle;
         import android.support.v4.app.DialogFragment;
         import android.support.v4.app.FragmentTransaction;
-        import android.util.Log;
 
         import com.android.volley.Request;
         import com.android.volley.Response;
@@ -55,7 +54,6 @@ public class MessageDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int id) {
                 if (mListener != null) {
                     mListener.onDialogPositiveClick(MessageDialogFragment.this);
-                    // ((memberVariables) ((Activity) mListener).getApplication()).setCode(mMessage.toString());
                     requestAPI(mMessage.substring(11, 24));
                 }
             }
@@ -71,11 +69,10 @@ public class MessageDialogFragment extends DialogFragment {
 
     public void requestAPI(String ean){
         // Instantiate the RequestQueue.
-       // RequestQueue queue = Volley.newRequestQueue(((Activity) mListener).getApplication());
         com.android.volley.RequestQueue queue;
         queue = Volley.newRequestQueue(this.getContext());
         String url ="https://www.datakick.org/api/items/"+ean;
-        //boolean hasResponse = false;
+        ((memberVariables) ((Activity) mListener).getApplication()).setEAN(ean);
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -84,7 +81,6 @@ public class MessageDialogFragment extends DialogFragment {
 
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("hallooooooooooooo"+response);
                         final boolean hasResponse = true;
                         JSONObject jsonObj = null;
                         try {
@@ -93,23 +89,30 @@ public class MessageDialogFragment extends DialogFragment {
                             e.printStackTrace();
                         }
 
-                        String id = null;
+                        String name = null;
+                        String brand = null;
+                        String size = null;
                         String message = null;
-                        try {
                             if (jsonObj != null) {
-                                id = jsonObj.getString("name");
-                            }
-                            if (id != ""){
-                                /*memberVariables mv = new memberVariables();
-                                mv.setCode(id);*/
-                                ((memberVariables) ((Activity) mListener).getApplication()).setCode(id);
-                                String x = ((memberVariables) ((Activity) mListener).getApplication()).getCode();
-                                System.out.println(x);
+                                   try {
+                                        if (jsonObj.has("name")){
+                                            name = jsonObj.getString("name");
+                                            ((memberVariables) ((Activity) mListener).getApplication()).setName(name);
+                                        }
+                                        if (jsonObj.has("brand_name")) {
+                                            brand = jsonObj.getString("brand_name");
+                                            ((memberVariables) ((Activity) mListener).getApplication()).setBrand(brand);
+                                        }
+                                        if (jsonObj.has("size")){
+                                            size = jsonObj.getString("size");
+                                            ((memberVariables) ((Activity) mListener).getApplication()).setSize(size);
+                                        }
+                                    } catch(JSONException e){
+
+                                    }
+
                                 startIntent();
                             }
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
 
                     }
                 },
@@ -117,25 +120,18 @@ public class MessageDialogFragment extends DialogFragment {
             @Override
 
             public void onErrorResponse(VolleyError error) {
-                System.out.println("teeeest");
-                Log.v("teeeeeeeeeeeeeeeeeeeeeeeeest","test");
-                System.out.println(error.toString());
-                showPopup();
-/*                if(hasResponse == false ){
-
-                }*/
-
+                showPopup();  // confirmation to add food to (api-)database
             }
         });
+
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
     }
 
     public void showPopup() {
-        AddDialogFragment popup = new AddDialogFragment();
+        BarAddDialogFragment popup = new BarAddDialogFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        DialogFragment newFragment = AddDialogFragment.newInstance(1);
+        DialogFragment newFragment = BarAddDialogFragment.newInstance(1);
         newFragment.show(ft, "dialog");
     }
 }

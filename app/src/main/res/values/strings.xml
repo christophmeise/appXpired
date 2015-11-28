@@ -14,6 +14,7 @@
         <item>Kg</item>
         <item>g</item>
         <item>Liter</item>
+        <item>Qty</item>
     </string-array>
     <string name="scanner_activity">ZBar Scanner - Full Activity</string>
     <string name="scanner_fragment_activity">ZBar Scanner - Full Fragment Activity</string>
@@ -37,4 +38,8 @@
     <string name="dialog_message">Sorry, the scanned item is not in our database yet. Do you want to add it?</string>
     <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
+
+    <string name="add_dialog_message">Successfully added to database! Select how you want to continue.</string>
+    <string name="add_dialog_adding">Add manually</string>
+    <string name="add_dialog_scanning">Scan Barcode</string>
 </resources>

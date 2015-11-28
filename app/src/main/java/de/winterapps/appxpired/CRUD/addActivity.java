@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-//import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,14 +30,10 @@ public class addActivity extends AppCompatActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
     EditText dateEdit;
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //return super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
+    Button addButton;
+    EditText editText;
+    Spinner spinner;
+    Spinner spinner2;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -76,13 +74,16 @@ public class addActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+        this.findViewById(R.id.avloadingIndicatorView).setVisibility(View.GONE); //turn off loading indicator
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        Button addButton = (Button) findViewById(R.id.addAddButton);
         EditText editText = (EditText) findViewById(R.id.editText);
-        editText.setText(((memberVariables) ((Activity) this).getApplication()).getCode());
-        String x = editText.getText().toString();
-
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+
+        editText.setText(((memberVariables) ((Activity) this).getApplication()).getName());
+
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.planets_array, android.R.layout.simple_spinner_item);
@@ -91,15 +92,10 @@ public class addActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.units, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);
-
 
         dateEdit = (EditText)findViewById(R.id.addDateEdit);
 
@@ -128,6 +124,22 @@ public class addActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        addButton.setOnClickListener(addListener);
+    }
+
+    View.OnClickListener addListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            showPopup();
+        }
+    };
+
+    private void showPopup(){
+        AddDialogFragment popup = new AddDialogFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        DialogFragment newFragment = AddDialogFragment.newInstance(1);
+        newFragment.show(ft, "dialog");
     }
 
         private void updateLabel() {

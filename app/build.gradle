@@ -29,7 +29,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
-    compile 'me.dm7.barcodescanner:zbar:1.8.3'
+    compile 'me.dm7.barcodescanner:zbar:1.8.3' //barcodescanner
+    compile 'com.wang.avi:library:1.0.1'  // loading indicator
+    compile 'com.nineoldandroids:library:2.4.0' // loading indicator
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'info.cukes:cucumber-android:1.2.2'

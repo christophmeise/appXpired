@@ -7,16 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import de.winterapps.appxpired.CRUD.addActivity;
 import de.winterapps.appxpired.R;
 
 /**
  * Created by D062400 on 19.11.2015.
  */
-public class AddDialogFragment extends DialogFragment {
+public class BarAddDialogFragment extends DialogFragment {
 
-    static AddDialogFragment newInstance(int num) {
-        AddDialogFragment f = new AddDialogFragment();
+    static BarAddDialogFragment newInstance(int num) {
+        BarAddDialogFragment f = new BarAddDialogFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();

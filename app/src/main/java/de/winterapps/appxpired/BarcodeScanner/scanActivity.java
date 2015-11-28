@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.winterapps.appxpired.BarcodeScanner.CameraSelectorDialogFragment;
-import de.winterapps.appxpired.BarcodeScanner.FormatSelectorDialogFragment;
-import de.winterapps.appxpired.BarcodeScanner.MessageDialogFragment;
+import de.winterapps.appxpired.CRUD.AddDialogFragment;
 import de.winterapps.appxpired.R;
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
@@ -56,6 +54,8 @@ public void onCreate(Bundle state) {
 
         mScannerView = new ZBarScannerView(this);
         setupFormats();
+        AddDialogFragment frag = new AddDialogFragment();
+      // fail     frag.dismissLoading();
         setContentView(mScannerView);
         }
 

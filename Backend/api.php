@@ -381,7 +381,7 @@ class api {
     }
 
     function readPost() {
-        // test code
+        // test name
         $whatever['1'] = 'cottton';
         $whatever['2'] ='yoyoyoyo';
 

@@ -13,8 +13,8 @@ And he writes a valid date into the input field "Expire date"
 And he optionally puts in valid data in the other fields of the form
 Then the data will be saved in a local table
 And the application will send the data to the backend
-And PHP code will validate the data
+And PHP name will validate the data
 And a SQL query will put the data into the table of the user who send the data
-And PHP code will initiate a HTTP send to the user
+And PHP name will initiate a HTTP send to the user
 And the user will receive the HTTP package
 And the frontend will 

@@ -3,12 +3,13 @@ package de.winterapps.appxpired.BarcodeScanner;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,13 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import de.winterapps.appxpired.CRUD.addActivity;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.memberVariables;
-import de.winterapps.appxpired.settingsActivity;
 
 /**
  * Created by D062400 on 19.11.2015.
@@ -35,6 +32,7 @@ public class uploadItem extends Activity {
     String Brand;
     String Amount;
     String Unit;
+    Spinner unitSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,15 @@ public class uploadItem extends Activity {
 
         final Button buttonUpload = (Button) findViewById(R.id.uploadUploadButton);
         buttonUpload.setOnClickListener(upload);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(self,
+                R.array.units, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        EAN = ((memberVariables) ((Activity) self).getApplication()).getCode();
+        unitSpinner = (Spinner) findViewById(R.id.uploadUnitSpinner);
+        unitSpinner.setAdapter(adapter);
+
+        EAN = ((memberVariables) ((Activity) self).getApplication()).getEAN();
+        Log.v("afb", "hasfd");
     }
 
     View.OnClickListener upload = new View.OnClickListener() {
@@ -57,7 +62,7 @@ public class uploadItem extends Activity {
                 Brand = brandEdit.getText().toString();
                 final EditText amountEdit = (EditText) findViewById(R.id.uploadAmountEdit);
                 Amount = amountEdit.getText().toString();
-                final Spinner unitSpinner = (Spinner) findViewById(R.id.uploadUnitSpinner);
+
                 Unit = unitSpinner.getSelectedItem().toString();
 
                 putAPI();
