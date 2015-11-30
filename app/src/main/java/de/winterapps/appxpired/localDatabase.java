@@ -2,6 +2,7 @@ package de.winterapps.appxpired;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -16,7 +17,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "localDB.db";
     public static final String CREATE_GROCERIES_TABLE = "create table groceries"+
-            "(id integer primary key, name text, entryDate text, expireDate text, position_id integer, amount integer, "+
+            "(id integer primary key, name text, entryDate integer, expireDate integer, position_id integer, amount integer, "+
             "additionalInformation text, template_id integer, category_id integer, deleted integer, household_id integer, createUser_id integer)";
     public static final String CREATE_TEMPLATE_TABLE = "";
     public static final String CREATE_POSITION_TABLE = "";
@@ -62,7 +63,33 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONArray getFood(){
         JSONArray foodArray = new JSONArray();
-
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from contacts", null );
+        res.moveToFirst();
+        while (res.isAfterLast() == false){
+            JSONObject foodEntry = new JSONObject();
+            try {
+                foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
+                foodEntry.put("name",res.getString(res.getColumnIndex("name")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            foodArray.put(foodEntry);
+        }
         return foodArray;
+    }
+
+    public JSONObject getFood(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from contacts where id="+id, null );
+        JSONObject foodEntry = new JSONObject();
+        try {
+            foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
+            foodEntry.put("name",res.getString(res.getColumnIndex("name")));
+            foodEntry.put("expireDate",res.getInt(res.getColumnIndex("expireDate")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return foodEntry;
     }
 }
