@@ -17,7 +17,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "localDB.db";
     public static final String CREATE_GROCERIES_TABLE = "create table groceries"+
-            "(id integer primary key, name text, entryDate integer, expireDate integer, position_id integer, amount integer, "+
+            "(id integer primary key autoincrement, name text, entryDate integer, expireDate integer, position_id integer, amount integer, "+
             "additionalInformation text, template_id integer, category_id integer, deleted integer, household_id integer, createUser_id integer)";
     public static final String CREATE_TEMPLATE_TABLE = "";
     public static final String CREATE_POSITION_TABLE = "";
@@ -43,28 +43,62 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         try {
-            values.put("name", foodEntry.getString("name"));
-            values.put("entryDate", foodEntry.getString("entryDate"));
-            values.put("expireDate", foodEntry.getString("expireDate"));
-            values.put("position_id", foodEntry.getInt("position_id"));
-            values.put("amount", foodEntry.getInt("amount"));
-            values.put("additionalInformation", foodEntry.getString("additionalInformation"));
-            values.put("template_id", foodEntry.getInt("template_id"));
-            values.put("category_id", foodEntry.getInt("categoryId"));
-            values.put("deleted", foodEntry.getInt("deleted"));
-            values.put("household_id", foodEntry.getInt("household_id"));
-            values.put("createUser_id", foodEntry.getInt("createUser_id"));
+            values = cleanseValuesAddFood(foodEntry);
         } catch (JSONException e) {
-            return false;
+            e.printStackTrace();
+            return  false;
         }
         db.insert("groceries", null, values);
+        db.close();
         return true;
+    }
+
+    public ContentValues cleanseValuesAddFood(JSONObject foodEntry) throws JSONException {
+        ContentValues values = new ContentValues();
+        long entryDate = System.currentTimeMillis();
+            if(foodEntry.getString("name") != null){
+                values.put("name", foodEntry.getString("name"));
+            }else {
+                values.put("name", "");
+            }
+            values.put("entryDate", entryDate);
+            if (foodEntry.getString("expireDate") != null){
+                values.put("expireDate", foodEntry.getString("expireDate"));
+            }else{
+                values.put("expireDate", 0);
+            }
+            if (foodEntry.getString("position_id") != null){
+                values.put("position_id", foodEntry.getString("position_id"));
+            }else{
+                values.put("position_id", 0);
+            }
+            if (foodEntry.getString("amount") != null){
+                values.put("amount", foodEntry.getString("amount"));
+            }else{
+                values.put("amount", 0);
+            }
+            if (foodEntry.getString("additionalInformation") != null){
+                values.put("additionalInformation", foodEntry.getString("additionalInformation"));
+            }else{
+                values.put("additionalInformation", 0);
+            }
+            if (foodEntry.getString("template_id") != null){
+                values.put("template_id", foodEntry.getString("template_id"));
+            }else{
+                values.put("template_id", 0);
+            }
+            values.put("category_id", 0);//dummy entry
+            values.put("deleted", 0);
+            values.put("household_id", 0);//dummy entry
+            values.put("createUser_id", 0);//dummy entry
+
+        return values;
     }
 
     public JSONArray getFood(){
         JSONArray foodArray = new JSONArray();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
+        Cursor res =  db.rawQuery( "select * from groceries", null );
         res.moveToFirst();
         while (res.isAfterLast() == false){
             JSONObject foodEntry = new JSONObject();
@@ -81,7 +115,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONObject getFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id, null );
+        Cursor res =  db.rawQuery( "select * from groceries where id="+id, null );
         JSONObject foodEntry = new JSONObject();
         try {
             foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
