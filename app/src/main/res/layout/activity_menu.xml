@@ -12,12 +12,14 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView2"
         android:layout_alignParentBottom="true"
+        android:fillViewport="true"
        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/menuRelativeLayout">
+            android:id="@+id/menuRelativeLayout"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -37,15 +39,15 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="false"
                 android:baselineAligned="false"
                 android:longClickable="false"
                 android:layout_alignParentStart="false"
                 android:layout_alignParentEnd="false"
-                android:layout_below="@+id/menuHeaderLayout"
                 android:layout_marginTop="40dp"
-                android:id="@+id/menuTableLayout">
+                android:id="@+id/menuTableLayout"
+                android:layout_alignParentLeft="false">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -57,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:text="Add"
                         android:id="@+id/menuAddButton"
-                        android:background="#3F51B5"
+                        android:background="@drawable/buttonshape"
                         android:textColor="#ffffff"
                         android:padding="50dp"
                         android:layout_weight="1"
@@ -69,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:text="Show"
                         android:id="@+id/menuShowButton"
-                        android:background="#3F51B5"
+                        android:background="@drawable/buttonshape"
                         android:textColor="#ffffff"
                         android:padding="50dp"
                         android:layout_weight="1"
@@ -86,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:text="Scan"
                         android:id="@+id/menuScanButton"
-                        android:background="#3F51B5"
+                        android:background="@drawable/buttonshape"
                         android:textColor="#ffffff"
                         android:padding="50dp"
                         android:layout_weight="1"
@@ -99,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:text="Recipe"
                         android:id="@+id/menuRecipeButton"
-                        android:background="#3F51B5"
+                        android:background="@drawable/buttonshape"
                         android:textColor="#ffffff"
                         android:padding="50dp"
                         android:layout_weight="1"
@@ -118,7 +120,7 @@
                         android:layout_height="match_parent"
                         android:text="Settings"
                         android:id="@+id/menuSettingsButton"
-                        android:background="#3F51B5"
+                        android:background="@drawable/buttonshape"
                         android:textColor="#ffffff"
                         android:layout_column="0"
                         android:layout_span="2"
