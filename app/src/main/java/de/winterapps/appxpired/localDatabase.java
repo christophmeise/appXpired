@@ -17,9 +17,31 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "localDB.db";
     public static final String CREATE_GROCERIES_TABLE = "create table groceries"+
-            "(id integer primary key, name text, entryDate integer, expireDate integer, position_id integer, amount integer, "+
-            "additionalInformation text, template_id integer, category_id integer, deleted integer, household_id integer, createUser_id integer)";
-    public static final String CREATE_TEMPLATE_TABLE = "";
+            "(id integer primary key autoincrement, " +
+            "name text, " +
+            "entryDate integer, " +
+            "expireDate integer, " +
+            "position_id integer, " +
+            "amount integer, "+
+            "additionalInformation text, " +
+            "template_id integer, " +
+            "category_id integer, " +
+            "deleted integer, " +
+            "household_id integer, " +
+            "createUser_id integer)";
+
+    public static final String CREATE_TEMPLATE_TABLE = "CREATE TABLE templates"+
+            "("+
+            "id integer primary key AUTOINCREMENT, " +
+            "name text, " +
+            "amount integer, " +
+            "additionalInformation text, " +
+            "deleted integer, " +
+            "household_id integer, " +
+            "createUser_id` integer, " +
+            "expireDuration` integer, " +
+            "category_id integer)";
+
     public static final String CREATE_POSITION_TABLE = "";
     public static final String CREATE_CATEGORY_TABLE = "";
     public static final String CREATE_MEASURING_TABLE = "";
@@ -27,11 +49,13 @@ public class localDatabase extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_GROCERIES_TABLE);
+        db.execSQL(CREATE_TEMPLATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS groceries");
+        db.execSQL("DROP TABLE IF EXISTS templates");
         onCreate(db);
     }
 
@@ -42,23 +66,61 @@ public class localDatabase extends SQLiteOpenHelper{
     public boolean addFood(JSONObject foodEntry){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values = cleanseValuesAddFood(foodEntry);
+        long e = db.insert("groceries", null, values);
+        db.close();
+        if(e == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public ContentValues cleanseValuesAddFood(JSONObject foodEntry){
+        ContentValues values = new ContentValues();
+        long entryDate = System.currentTimeMillis();
         try {
             values.put("name", foodEntry.getString("name"));
-           // values.put("entryDate", foodEntry.getString("entryDate"));
-/*          values.put("expireDate", foodEntry.getString("expireDate"));
-            values.put("position_id", foodEntry.getInt("position_id"));
-            values.put("amount", foodEntry.getInt("amount"));
-            values.put("additionalInformation", foodEntry.getString("additionalInformation"));
-            values.put("template_id", foodEntry.getInt("template_id"));
-            values.put("category_id", foodEntry.getInt("categoryId"));
-            values.put("deleted", foodEntry.getInt("deleted"));
-            values.put("household_id", foodEntry.getInt("household_id"));
-            values.put("createUser_id", foodEntry.getInt("createUser_id"));*/
         } catch (JSONException e) {
-           // return false;
+            e.printStackTrace();
+            values.put("name", "");
         }
-        db.insert("groceries", null, values);
-        return true;
+        values.put("entryDate", entryDate);
+        try {
+            values.put("expireDate", foodEntry.getString("expireDate"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("expireDate", 0);
+        }
+        try {
+            values.put("position_id", foodEntry.getString("position_id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("position_id", 0);
+        }
+        try {
+            values.put("amount", foodEntry.getString("amount"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("amount", 0);
+        }
+        try {
+            values.put("additionalInformation", foodEntry.getString("additionalInformation"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("additionalInformation", 0);
+        }
+        try {
+            values.put("template_id", foodEntry.getString("template_id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("template_id", 0);
+        }
+        values.put("category_id", 0);//dummy entry
+        values.put("deleted", 0);
+        values.put("household_id", 0);//dummy entry
+        values.put("createUser_id", 0);//dummy entry
+
+        return values;
     }
 
     public JSONArray getFood(){
@@ -92,5 +154,67 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return foodEntry;
+    }
+
+    public boolean addTemplate(JSONObject templateEntry){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values = cleanseValuesAddTemplate(templateEntry);
+        long e = db.insert("template", null, values);
+        db.close();
+        if (e == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public ContentValues cleanseValuesAddTemplate(JSONObject templateEntry){
+        ContentValues values = new ContentValues();
+        try {
+            values.put("name", templateEntry.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("name", "");
+        }
+        try {
+            values.put("amount", templateEntry.getString("amount"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("amount", 0);
+        }
+        try {
+            values.put("additionalInformation", templateEntry.getString("additionalInformation"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("additionalInformation", 0);
+        }
+        values.put("deleted", 0);
+        values.put("household_id", 0);//dummy entry
+        values.put("createUser_id", 0);//dummy entry
+        try {
+            values.put("expireDuration", templateEntry.getString("expireDuration"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("expireDuration", 0);
+        }
+        values.put("category_id", 0);//dummy entry
+        return values;
+    }
+
+    public JSONObject getTemplate(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from templates where id=" + id+" and deleted=0", null);
+        JSONObject templateEntry = new JSONObject();
+        try {
+            templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
+            templateEntry.put("name", res.getString(res.getColumnIndex("name")));
+            templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
+            templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
+            templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
+            templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return templateEntry;
     }
 }
