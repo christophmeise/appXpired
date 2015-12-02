@@ -85,6 +85,7 @@ public class addActivity extends AppCompatActivity {
         editName = (EditText) findViewById(R.id.editName);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        Spinner spinner5 = (Spinner) findViewById(R.id.spinner5);
 
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
 
@@ -100,6 +101,11 @@ public class addActivity extends AppCompatActivity {
                 R.array.units, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
+
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
+                R.array.categroy_array, android.R.layout.simple_spinner_item);
+        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner5.setAdapter(adapter5);
 
         dateEdit = (EditText)findViewById(R.id.addDateEdit);
 
