@@ -3,6 +3,7 @@ package de.winterapps.appxpired;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -67,12 +68,16 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values = cleanseValuesAddFood(foodEntry);
+        if(values.get("name") == "" ){
+            return false;
+        }
         long e = db.insert("groceries", null, values);
         db.close();
         if(e == -1){
             return false;
         }
         return true;
+
     }
 
     public ContentValues cleanseValuesAddFood(JSONObject foodEntry){
@@ -126,7 +131,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public JSONArray getFood(){
         JSONArray foodArray = new JSONArray();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from groceries where deleted=0", null );
+        Cursor res =  db.rawQuery( "select * from groceries", null );
         res.moveToFirst();
         while (res.isAfterLast() == false){
             JSONObject foodEntry = new JSONObject();
@@ -137,13 +142,14 @@ public class localDatabase extends SQLiteOpenHelper{
                 e.printStackTrace();
             }
             foodArray.put(foodEntry);
+            res.moveToNext();
         }
         return foodArray;
     }
 
     public JSONObject getFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from groceries where id=" + id+"and deleeted=0", null);
+        Cursor res =  db.rawQuery("select * from groceries where id=" + id, null);
         JSONObject foodEntry = new JSONObject();
         try {
             foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
@@ -153,6 +159,16 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return foodEntry;
+    }
+
+    public boolean deleteFood(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.execSQL("delete from groceries where id="+id);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public boolean addTemplate(JSONObject templateEntry){
@@ -202,7 +218,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONObject getTemplate(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from templates where id=" + id+" and deleted=0", null);
+        Cursor res =  db.rawQuery("select * from templates where id=" + id, null);
         JSONObject templateEntry = new JSONObject();
         try {
             templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
