@@ -44,8 +44,8 @@ public class localDatabase extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         try {
             values.put("name", foodEntry.getString("name"));
-            values.put("entryDate", foodEntry.getString("entryDate"));
-            values.put("expireDate", foodEntry.getString("expireDate"));
+           // values.put("entryDate", foodEntry.getString("entryDate"));
+/*          values.put("expireDate", foodEntry.getString("expireDate"));
             values.put("position_id", foodEntry.getInt("position_id"));
             values.put("amount", foodEntry.getInt("amount"));
             values.put("additionalInformation", foodEntry.getString("additionalInformation"));
@@ -53,9 +53,9 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("category_id", foodEntry.getInt("categoryId"));
             values.put("deleted", foodEntry.getInt("deleted"));
             values.put("household_id", foodEntry.getInt("household_id"));
-            values.put("createUser_id", foodEntry.getInt("createUser_id"));
+            values.put("createUser_id", foodEntry.getInt("createUser_id"));*/
         } catch (JSONException e) {
-            return false;
+           // return false;
         }
         db.insert("groceries", null, values);
         return true;
@@ -64,7 +64,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public JSONArray getFood(){
         JSONArray foodArray = new JSONArray();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
+        Cursor res =  db.rawQuery( "select * from groceries", null );
         res.moveToFirst();
         while (res.isAfterLast() == false){
             JSONObject foodEntry = new JSONObject();
@@ -75,13 +75,14 @@ public class localDatabase extends SQLiteOpenHelper{
                 e.printStackTrace();
             }
             foodArray.put(foodEntry);
+            res.moveToNext();
         }
         return foodArray;
     }
 
     public JSONObject getFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id, null );
+        Cursor res =  db.rawQuery( "select * from groceries where id="+id, null );
         JSONObject foodEntry = new JSONObject();
         try {
             foodEntry.put("id",res.getInt(res.getColumnIndex("id")));

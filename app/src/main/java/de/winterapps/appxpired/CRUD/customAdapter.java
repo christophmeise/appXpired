@@ -2,6 +2,7 @@ package de.winterapps.appxpired.CRUD;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -18,25 +23,31 @@ import de.winterapps.appxpired.R;
  * Created by D062400 on 30.11.2015.
  */
     public class customAdapter extends BaseAdapter implements ListAdapter {
-        private ArrayList<String> list = new ArrayList<String>();
+        private JSONArray list = new JSONArray();
         private Context context;
         BaseAdapter self = this;
 
 
 
-        public customAdapter(ArrayList<String> list, Context context) {
+        public customAdapter(JSONArray list, Context context) {
             this.list = list;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            return list.size();
+            return list.length();
         }
 
         @Override
         public Object getItem(int pos) {
-            return list.get(pos);
+            Object result = new JSONObject();
+            try {
+                result = list.get(pos);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return result;
         }
 
         @Override
@@ -55,17 +66,26 @@ import de.winterapps.appxpired.R;
 
             //Handle TextView and display string from your list
             TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
-            listItemText.setText(list.get(position));
+
+            try {
+                JSONObject json_obj = list.getJSONObject(position);   //get the 3rd item
+                String name = json_obj.getString("name");
+                listItemText.setText(name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             //Handle buttons and add onClickListeners
-            Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
+            final Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
             //Button addBtn = (Button)view.findViewById(R.id.add_btn);
 
             deleteBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     //do something
-                    list.remove(position); //or some other task
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        list.remove(position); //or some other task
+                    }
                     notifyDataSetChanged();
                 }
             });
@@ -74,18 +94,12 @@ import de.winterapps.appxpired.R;
 
                 @Override
                 public boolean onLongClick(View view) {
-                    Intent intent = new Intent(context, addActivity.class);
+                    Intent intent = new Intent(context, showDetailedActivity.class);
+                    intent.putExtra("index", position);
                     context.startActivity(intent);
-                    return false;
+                    return false; //false
                 }
             });
-           /* addBtn.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //do something
-                    notifyDataSetChanged();
-                }
-            });*/
 
             return view;
         }

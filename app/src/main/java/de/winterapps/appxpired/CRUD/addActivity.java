@@ -16,11 +16,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import de.winterapps.appxpired.R;
+import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;
 
 /**
@@ -31,7 +35,7 @@ public class addActivity extends AppCompatActivity {
     final Calendar myCalendar = Calendar.getInstance();
     EditText dateEdit;
     Button addButton;
-    EditText editText;
+    EditText editName;
     Spinner spinner;
     Spinner spinner2;
 
@@ -78,11 +82,11 @@ public class addActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         Button addButton = (Button) findViewById(R.id.addAddButton);
-        EditText editText = (EditText) findViewById(R.id.editText);
+        editName = (EditText) findViewById(R.id.editName);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
 
-        editText.setText(((memberVariables) ((Activity) this).getApplication()).getName());
+        editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
 
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -132,6 +136,7 @@ public class addActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             showPopup();
+            addToDatabase();
         }
     };
 
@@ -142,13 +147,27 @@ public class addActivity extends AppCompatActivity {
         newFragment.show(ft, "dialog");
     }
 
-        private void updateLabel() {
+    private void updateLabel() {
 
-            dateEdit = (EditText)findViewById(R.id.addDateEdit);
+        dateEdit = (EditText)findViewById(R.id.addDateEdit);
 
-            String myFormat = "dd/MM/yy"; //In which you need put here
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMAN);
+        String myFormat = "dd/MM/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMAN);
 
-            dateEdit.setText(sdf.format(myCalendar.getTime()));
+        dateEdit.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public void addToDatabase(){
+        String name = editName.getText().toString();
+        localDatabase database = new localDatabase(this);
+        JSONObject food = new JSONObject();
+        try {
+            food.put("name", name);
+            //food.put("entry_date", )
+            // add more values
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        database.addFood(food);
+    }
 }
