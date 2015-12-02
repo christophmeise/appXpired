@@ -164,7 +164,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public boolean deleteFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         try {
-            db.execSQL("delete from groceries where id="+id);
+            db.execSQL("delete from groceries where id=" + id);
         }catch (SQLException e){
             return false;
         }
@@ -175,6 +175,9 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values = cleanseValuesAddTemplate(templateEntry);
+        if(values.get("name") == ""){
+            return false;
+        }
         long e = db.insert("template", null, values);
         db.close();
         if (e == -1){
@@ -231,5 +234,15 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return templateEntry;
+    }
+
+    public boolean deleteTemplate(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.execSQL("delete from templates where id="+id);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 }
