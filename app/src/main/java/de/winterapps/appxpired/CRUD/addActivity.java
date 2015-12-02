@@ -19,8 +19,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.winterapps.appxpired.R;
@@ -166,9 +169,18 @@ public class addActivity extends AppCompatActivity {
     public void addToDatabase(){
         String name = editName.getText().toString();
         localDatabase database = new localDatabase(this);
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        long expireDateMillis = 0;
+        try {
+            Date expireDate = format.parse(String.valueOf(dateEdit.getText()));
+            expireDateMillis = expireDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         JSONObject food = new JSONObject();
         try {
             food.put("name", name);
+            food.put("expire_date", expireDateMillis);
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {
