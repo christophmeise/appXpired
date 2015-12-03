@@ -19,8 +19,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.winterapps.appxpired.R;
@@ -85,6 +88,7 @@ public class addActivity extends AppCompatActivity {
         editName = (EditText) findViewById(R.id.editName);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        Spinner spinner5 = (Spinner) findViewById(R.id.spinner5);
 
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
 
@@ -100,6 +104,11 @@ public class addActivity extends AppCompatActivity {
                 R.array.units, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
+
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
+                R.array.categroy_array, android.R.layout.simple_spinner_item);
+        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner5.setAdapter(adapter5);
 
         dateEdit = (EditText)findViewById(R.id.addDateEdit);
 
@@ -160,9 +169,18 @@ public class addActivity extends AppCompatActivity {
     public void addToDatabase(){
         String name = editName.getText().toString();
         localDatabase database = new localDatabase(this);
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        long expireDateMillis = 0;
+        try {
+            Date expireDate = format.parse(String.valueOf(dateEdit.getText()));
+            expireDateMillis = expireDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         JSONObject food = new JSONObject();
         try {
             food.put("name", name);
+            food.put("expire_date", expireDateMillis);
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {

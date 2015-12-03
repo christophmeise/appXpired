@@ -10,6 +10,17 @@
             <item>Uranus</item>
             <item>Neptune</item>
         </string-array>
+    <string-array name="categroy_array">
+        <item>Meat</item>
+        <item>Cheese</item>
+        <item>Bread</item>
+        <item>Noodles</item>
+        <item>Dairy Products</item>
+        <item>Vegetables</item>
+        <item>Fruits</item>
+        <item>Sauces</item>
+        <item>Sweets</item>
+    </string-array>
     <string-array name="units">
         <item>Kg</item>
         <item>g</item>
