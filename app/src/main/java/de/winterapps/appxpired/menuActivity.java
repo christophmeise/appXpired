@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import de.winterapps.appxpired.BarcodeScanner.scanActivity;
 import de.winterapps.appxpired.CRUD.addActivity;
+import de.winterapps.appxpired.CRUD.detailedActivity;
 import de.winterapps.appxpired.CRUD.showActivity;
+import de.winterapps.appxpired.CRUD.testActivity;
 
 public class menuActivity extends Activity {
 
@@ -49,7 +51,7 @@ public class menuActivity extends Activity {
         final Button buttonSettings = (Button) findViewById(R.id.menuSettingsButton);
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, settingsActivity.class);
+                Intent intent = new Intent(menuActivity.this, testActivity.class);
                 startActivity(intent);
             }
         });

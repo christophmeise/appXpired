@@ -4,27 +4,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 
 /**
- * Created by D062400 on 01.12.2015.
+ * Created by D062400 on 03.12.2015.
  */
-public class showDetailedActivity extends Activity{
+public class detailedActivity extends Activity {
 
-    TextView name;
     int index;
+    TextView name;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        android.os.Debug.waitForDebugger();
         super.onCreate(savedInstanceState, persistentState);
-        this.setContentView(R.layout.activity_detaileditem);
+        Log.d("hahah", "hahah");
+        this.setContentView(R.layout.activity_add); //activity_detaileditem
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
 
@@ -41,3 +41,4 @@ public class showDetailedActivity extends Activity{
 
     }
 }
+

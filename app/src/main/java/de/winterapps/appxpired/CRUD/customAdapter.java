@@ -94,7 +94,7 @@ import de.winterapps.appxpired.R;
 
                 @Override
                 public boolean onLongClick(View view) {
-                    Intent intent = new Intent(context, showDetailedActivity.class);
+                    Intent intent = new Intent(context, testActivity.class);
                     intent.putExtra("index", position);
                     context.startActivity(intent);
                     return false; //false
