@@ -16,8 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.winterapps.appxpired.R;
+import de.winterapps.appxpired.localDatabase;
 
 /**
  * Created by D062400 on 30.11.2015.
@@ -83,6 +85,25 @@ import de.winterapps.appxpired.R;
                 @Override
                 public void onClick(View v) {
                     //do something
+                    localDatabase database = new localDatabase(context);
+                    JSONArray foodList = database.getFood();
+                    int id;
+                    String name;
+                    for (int i = 0; i < foodList.length(); i++) {
+                        JSONObject row = null;
+                        try {
+                            row = foodList.getJSONObject(i);
+                            id = row.getInt("id");
+                            name = row.getString("name");
+                            JSONObject food = (JSONObject) list.get(position);
+                            String tester = food.get("name").toString();
+                            if (name.equals(tester)){
+                                database.deleteFood(id);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         list.remove(position); //or some other task
                     }

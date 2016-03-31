@@ -124,7 +124,7 @@ public class registerActivity extends AppCompatActivity{
                             params.put("Appxpired-Password", password);
                             params.put("Appxpired-Firstname", prename);
                             params.put("Appxpired-Lastname", lastname);
-                            params.put("Appxpired-Token", "");
+                            //params.put("Appxpired-Token", "");
                             params.put("Appxpired-Email", email);
                             return params;
                         }
