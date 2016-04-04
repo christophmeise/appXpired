@@ -85,6 +85,9 @@ public class uploadItem extends Activity {
 
                     @Override
                     public void onResponse(String response) {
+                        ((memberVariables) ((Activity) self).getApplication()).setName(Name);
+                        ((memberVariables) ((Activity) self).getApplication()).setBrand(Brand);
+                        ((memberVariables) ((Activity) self).getApplication()).setSize(Amount);
                         Intent intent = new Intent(self, addActivity.class);
                         startActivity(intent);
                     }

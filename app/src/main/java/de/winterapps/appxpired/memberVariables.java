@@ -7,6 +7,15 @@ public class memberVariables extends Application{
     public String name;
     public String brand;
     public String size;
+    public localDatabase database;
+
+    public localDatabase getDatabase() {
+        return database;
+    }
+
+    public void initDatabase() {
+        this.database = new localDatabase(this);
+    }
 
     public String getEAN() {
         return EAN;

@@ -33,8 +33,7 @@ public class testActivity extends Activity{
 
     private void loadInitial(){
         localDatabase database = new localDatabase(this);
-        JSONObject food = database.getFood(index);
-
+        //JSONObject food = database.getFood(1);
 
     }
 }
