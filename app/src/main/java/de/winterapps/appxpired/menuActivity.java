@@ -51,7 +51,7 @@ public class menuActivity extends Activity {
         final Button buttonSettings = (Button) findViewById(R.id.menuSettingsButton);
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, testActivity.class);
+                Intent intent = new Intent(menuActivity.this, settingsActivity.class);
                 startActivity(intent);
             }
         });

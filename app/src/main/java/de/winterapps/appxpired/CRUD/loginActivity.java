@@ -56,6 +56,8 @@ public class loginActivity extends Activity{
 
         String prefToken = prefs.getString("Token", "");
         String prefUser = prefs.getString("Username", "");
+        memberVariables members = memberVariables.sharedInstance;
+        members.setUsername(prefUser);
         //send request and check whether token is still usable
         if (prefToken != "" && prefUser != "") {
             Boolean isSuccessful = backendRequest(prefUser, "", true);
@@ -95,9 +97,11 @@ public class loginActivity extends Activity{
             keepLoggedIn = checkKeepLog.isChecked();
             final String generatedToken;
 
+            memberVariables members = new memberVariables();
+            members.setUsername(userInput);
+
             backendRequest(userInput, passInput, false);
-            Log.d("vor dem", "request");
-            backendRequestFetchData(userInput, passInput, false);
+            //backendRequestFetchData(userInput, passInput, false);
 
         }
 
