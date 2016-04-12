@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +31,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
@@ -41,6 +50,8 @@ public class addActivity extends AppCompatActivity {
     EditText editName;
     Spinner spinner;
     Spinner spinner2;
+    responseClass stringRequest;
+    Activity self = this;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -187,5 +198,80 @@ public class addActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         database.addFood(food);
+    }
+
+    private boolean backendRequestAdd(final String user, final String pass, final String token, final String Wherevalues){
+
+        // Instantiate the RequestQueue.
+        com.android.volley.RequestQueue queue;
+        queue = Volley.newRequestQueue(self);
+        String url ="http://www.appxpired.winterapps.de/api/userManagement.php";
+        final Boolean[] RequestResponse = {false};
+
+        // Request a string response from the provided URL.
+        stringRequest = new responseClass(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Map<String,String> headers = null;
+                        try {
+                            Log.d("loginAc", addActivity.this.stringRequest.toString());
+                            headers = addActivity.this.stringRequest.headers;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                  /*      String[] credentials = new String[3];
+                        credentials[0] = headers.get("Success");
+                        credentials[1] = headers.get("Token");
+                        JSONArray jsonResponse = null;
+                        try {
+                            jsonResponse = new JSONArray(response);
+                            credentials[2] = jsonResponse.getJSONObject(0).getString("id");
+                            Log.d("Meine Id",credentials[2]);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                       /* if(credentials[0].equals("true")){
+                            RequestResponse[0] = true;
+                            intent = new Intent(loginActivity.this, menuActivity.class);
+                            startActivity(intent);
+                        }else{
+                            RequestResponse[0] = false;
+                            Toast.makeText(loginActivity.this, "Bad credentials!", Toast.LENGTH_SHORT).show();
+                        }*/
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Toast.makeText(context.getClass(), "Server error", Toast.LENGTH_SHORT).show();
+                    }
+
+                }) {
+
+            @Override
+            public HashMap<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String>  params = new HashMap<String, String>();
+
+               /* prefs = self.getSharedPreferences(
+                        "de.winterapps.appxpired", Context.MODE_PRIVATE);*/
+
+                params.put("Appxpired-Username", user);
+                if(pass != null) {
+                    params.put("Appxpired-Password", pass);
+                }
+                else{
+                    params.put("Appxpired-Token", token);
+                }
+
+                params.put("Appxpired-Wherevalues", "id,"+Wherevalues);
+
+                return params;
+            }
+        };
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        return RequestResponse[0];
     }
 }

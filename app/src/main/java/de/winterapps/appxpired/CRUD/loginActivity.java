@@ -58,13 +58,18 @@ public class loginActivity extends Activity{
         String prefUser = prefs.getString("Username", "");
         memberVariables members = memberVariables.sharedInstance;
         members.setUsername(prefUser);
+        members.setToken(prefToken);
         //send request and check whether token is still usable
         if (prefToken != "" && prefUser != "") {
             Boolean isSuccessful = backendRequest(prefUser, "", true);
             if (isSuccessful){
                 this.setContentView(R.layout.activity_menu);
                 Toast.makeText(loginActivity.this, "Hello "+userInput, Toast.LENGTH_SHORT).show();
+                //get data
+               //backendRequestFetchData(userInput, passInput, false);
             } else{
+                //get data
+                //backendRequestFetchData(userInput, passInput, false);
                 this.setContentView(R.layout.activity_login);
                 Toast.makeText(loginActivity.this, "Welcome back! "+prefUser, Toast.LENGTH_SHORT).show();
                 buttonLogin  = (Button) findViewById(R.id.loginLoginButton);
@@ -100,8 +105,11 @@ public class loginActivity extends Activity{
             memberVariables members = new memberVariables();
             members.setUsername(userInput);
 
+            // Backend Ajax request
+            //login
             backendRequest(userInput, passInput, false);
-            //backendRequestFetchData(userInput, passInput, false);
+            //get data
+
 
         }
 
@@ -135,7 +143,13 @@ public class loginActivity extends Activity{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Map<String,String> headers = stringRequest.headers;
+                        Map<String,String> headers = null;
+                        try {
+                            Log.d("loginAc", loginActivity.this.stringRequest.toString());
+                            headers = loginActivity.this.stringRequest.headers;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         String[] credentials = new String[3];
                         credentials[0] = headers.get("Success");
                         credentials[1] = headers.get("Token");
@@ -164,6 +178,7 @@ public class loginActivity extends Activity{
                             RequestResponse[0] = false;
                             Toast.makeText(loginActivity.this, "Bad credentials!", Toast.LENGTH_SHORT).show();
                         }
+                        backendRequestFetchData(userInput, passInput, false);
                     }
                 },
                 new Response.ErrorListener() {
@@ -208,20 +223,21 @@ public class loginActivity extends Activity{
         final Boolean[] RequestResponse = {false};
         memberVariables member = new memberVariables();
         member.initDatabase();
-        final localDatabase database = member.getDatabase();
+        //final localDatabase database = member.getDatabase();
+        final localDatabase database = new localDatabase(this);
 
         if(keepLoggedIn != null){
             if (keepLoggedIn == false){
                 prefs.edit().remove("Username").commit();
                 prefs.edit().remove("Token").commit();
             }
-        }
+                }
 
-        // Request a string response from the provided URL.
-        stringRequest = new responseClass(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                // Request a string response from the provided URL.
+                stringRequest = new responseClass(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
                         Log.d("meine antwort", response);
                         Log.d("meine antwort", "HAHAHA DU BIST LUSTIG");
                         Map<String,String> headers = stringRequest.headers;

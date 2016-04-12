@@ -19,6 +19,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "localDB.db";
     public static final String CREATE_GROCERIES_TABLE = "create table groceries"+
             "(id integer primary key autoincrement, " +
+            "backendId integer unique, " +
             "name text, " +
             "entryDate integer, " +
             "expireDate integer, " +
@@ -84,6 +85,12 @@ public class localDatabase extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         long entryDate = System.currentTimeMillis();
         try {
+            values.put("backendId", foodEntry.getString("id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("backendId", "");
+        }
+        try {
             values.put("name", foodEntry.getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -136,7 +143,7 @@ public class localDatabase extends SQLiteOpenHelper{
         while (res.isAfterLast() == false){
             JSONObject foodEntry = new JSONObject();
             try {
-                foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
+                foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
                 foodEntry.put("name",res.getString(res.getColumnIndex("name")));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -164,7 +171,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public boolean deleteFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         try {
-            db.execSQL("delete from groceries where id=" + id);
+            db.execSQL("delete from groceries where backendId=" + id);
         }catch (SQLException e){
             return false;
         }

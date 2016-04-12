@@ -6,11 +6,32 @@ public class memberVariables extends Application{
 
     public static memberVariables sharedInstance = new memberVariables();
 
+
+
+    public String password;
+    public String token;
     public String name;
     public String brand;
     public String size;
     public String username;
     public String household;
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getHousehold() {
         return household;
