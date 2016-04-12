@@ -52,6 +52,7 @@ public class addActivity extends AppCompatActivity {
     Spinner spinner2;
     responseClass stringRequest;
     Activity self = this;
+    memberVariables members = memberVariables.sharedInstance;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -157,6 +158,11 @@ public class addActivity extends AppCompatActivity {
         public void onClick(View view) {
             showPopup();
             addToDatabase();
+            final String user = members.getUsername();
+            //String pass = members.getPassword();
+            final String token = members.getToken();
+            final String Wherevalues = "";
+            backendRequestAdd(user, "", token, Wherevalues);
         }
     };
 
@@ -259,13 +265,16 @@ public class addActivity extends AppCompatActivity {
 
                 params.put("Appxpired-Username", user);
                 if(pass != null) {
-                    params.put("Appxpired-Password", pass);
+                    params.put("Appxpired-Token", token);
+                   // params.put("Appxpired-Password", pass);
                 }
                 else{
                     params.put("Appxpired-Token", token);
                 }
-
-                params.put("Appxpired-Wherevalues", "id,"+Wherevalues);
+                params.put("Appxpired-Table", "groceries");
+                String userid = members.userid;
+                String name = editName.getText().toString();
+                params.put("Appxpired-Setvalues", "name,"+name+";household.id,7;createuser.id,"+userid);
 
                 return params;
             }

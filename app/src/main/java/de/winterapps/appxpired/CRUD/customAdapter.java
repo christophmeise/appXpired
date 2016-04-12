@@ -107,6 +107,7 @@ import de.winterapps.appxpired.menuActivity;
                         try {
                             row = foodList.getJSONObject(i);
                             id = row.getInt("backendId");
+                            Log.d("Id backend: ", id+"");
                             name = row.getString("name");
                             JSONObject food = (JSONObject) list.get(position);
                             String tester = food.get("name").toString();
@@ -162,26 +163,6 @@ import de.winterapps.appxpired.menuActivity;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                  /*      String[] credentials = new String[3];
-                        credentials[0] = headers.get("Success");
-                        credentials[1] = headers.get("Token");
-                        JSONArray jsonResponse = null;
-                        try {
-                            jsonResponse = new JSONArray(response);
-                            credentials[2] = jsonResponse.getJSONObject(0).getString("id");
-                            Log.d("Meine Id",credentials[2]);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
-                       /* if(credentials[0].equals("true")){
-                            RequestResponse[0] = true;
-                            intent = new Intent(loginActivity.this, menuActivity.class);
-                            startActivity(intent);
-                        }else{
-                            RequestResponse[0] = false;
-                            Toast.makeText(loginActivity.this, "Bad credentials!", Toast.LENGTH_SHORT).show();
-                        }*/
                         Log.d("Response from Backend: ", response);
                     }
                 },
@@ -189,7 +170,6 @@ import de.winterapps.appxpired.menuActivity;
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("error: ", error.toString());
-                        //Toast.makeText(context.getClass(), "Server error", Toast.LENGTH_SHORT).show();
                     }
 
                 }) {
@@ -197,19 +177,19 @@ import de.winterapps.appxpired.menuActivity;
             @Override
             public HashMap<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String>  params = new HashMap<String, String>();
-
-               /* prefs = self.getSharedPreferences(
-                        "de.winterapps.appxpired", Context.MODE_PRIVATE);*/
-
                 params.put("Appxpired-Username", user);
                 if(pass != null) {
-                    params.put("Appxpired-Password", pass);
+                    params.put("Appxpired-Token", token);
+                    //params.put("Appxpired-Password", pass);
                 }
                 else{
                     params.put("Appxpired-Token", token);
                 }
-
+                Log.d("Wherevalues", Wherevalues);
+                Log.d("user", user);
+                Log.d("token", token);
                 params.put("Appxpired-Wherevalues", "id,"+Wherevalues);
+                params.put("Appxpired-Table", "groceries");
 
                 return params;
             }

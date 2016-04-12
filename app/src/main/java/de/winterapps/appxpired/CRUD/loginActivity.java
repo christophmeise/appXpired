@@ -46,6 +46,7 @@ public class loginActivity extends Activity{
     Boolean keepLoggedIn;
 
     Intent intent;
+    memberVariables members = memberVariables.sharedInstance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,26 +57,27 @@ public class loginActivity extends Activity{
 
         String prefToken = prefs.getString("Token", "");
         String prefUser = prefs.getString("Username", "");
-        memberVariables members = memberVariables.sharedInstance;
-        members.setUsername(prefUser);
-        members.setToken(prefToken);
-        //send request and check whether token is still usable
+
+        // if remembered set global user and token variable in memberVariables class
+        if(prefUser != null){
+            members.setUsername(prefUser);
+        }
+        if(prefToken != null){
+            members.setToken(prefToken);
+        }
+
+        // send request and check whether token is still usable
         if (prefToken != "" && prefUser != "") {
             Boolean isSuccessful = backendRequest(prefUser, "", true);
             if (isSuccessful){
                 this.setContentView(R.layout.activity_menu);
                 Toast.makeText(loginActivity.this, "Hello "+userInput, Toast.LENGTH_SHORT).show();
-                //get data
-               //backendRequestFetchData(userInput, passInput, false);
             } else{
-                //get data
-                //backendRequestFetchData(userInput, passInput, false);
                 this.setContentView(R.layout.activity_login);
                 Toast.makeText(loginActivity.this, "Welcome back! "+prefUser, Toast.LENGTH_SHORT).show();
                 buttonLogin  = (Button) findViewById(R.id.loginLoginButton);
                 buttonRegister = (Button) findViewById(R.id.loginRegisterButton);
                 checkKeepLog = (CheckBox) findViewById(R.id.loginCheckbox);
-
                 buttonLogin.setOnClickListener(loginHandler);
                 buttonRegister.setOnClickListener(registerHandler);
             }
@@ -102,15 +104,11 @@ public class loginActivity extends Activity{
             keepLoggedIn = checkKeepLog.isChecked();
             final String generatedToken;
 
-            memberVariables members = new memberVariables();
             members.setUsername(userInput);
 
-            // Backend Ajax request
-            //login
+            // Backend request for login
+            // login && fetch data if successful (at end of request!)
             backendRequest(userInput, passInput, false);
-            //get data
-
-
         }
 
     };
@@ -157,7 +155,8 @@ public class loginActivity extends Activity{
                         try {
                             jsonResponse = new JSONArray(response);
                             credentials[2] = jsonResponse.getJSONObject(0).getString("id");
-                            Log.d("Meine Id",credentials[2]);
+                            members.userid = credentials[2];
+                            //Log.d("Meine Id",credentials[2]);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -168,6 +167,8 @@ public class loginActivity extends Activity{
                                     "de.winterapps.appxpired", Context.MODE_PRIVATE);
                             prefs.edit().putString("Token",credentials[1]).apply();
                             prefs.edit().putString("Username",userInput).apply();
+                            // set token as a global variable in memberVariables class
+                            members.setToken(credentials[1]);
                         }
 
                         if(credentials[0].equals("true")){

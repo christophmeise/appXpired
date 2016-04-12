@@ -7,7 +7,7 @@ public class memberVariables extends Application{
     public static memberVariables sharedInstance = new memberVariables();
 
 
-
+    public String userid;
     public String password;
     public String token;
     public String name;
