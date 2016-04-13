@@ -7,6 +7,7 @@
 
 include "databaseConnection.php";
 
+header('Content-Type: application/json');
 $api = new api();
 
 
