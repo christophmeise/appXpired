@@ -222,6 +222,7 @@ class databaseConnection {
             }
         }
         $sql .= ")";
+
         $this->connect();
         if ($this->conn->query($sql) === TRUE) {
             $last_id = $this->conn->insert_id;
@@ -279,13 +280,16 @@ class databaseConnection {
             //echo $sql;
             $this->connect();
             $result = $this->conn->query($sql);
-
+            $rows = [];
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     $this->conn->close();
-
-                    return $row;
+                    //print_r($row);
+                    array_push($rows,$row);
+                    //return $row;
                 }
+                //print_r($rows);
+                return $rows;
             } else {
                 $this->conn->close();
                 return [];
@@ -362,6 +366,7 @@ class databaseConnection {
                     $sql .= " AND ";
                 }
             }
+            //print($sql);
             $this->connect();
             if ($this->conn->query($sql) === TRUE) { //success
                 $this->conn->close();

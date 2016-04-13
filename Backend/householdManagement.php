@@ -8,7 +8,7 @@
 
 /**
  *
- * create a user using the POST Method:
+ * create a household using the POST Method:
  * Appxpired-Username
  * Appxpired-Location
  * Appxpired-Name

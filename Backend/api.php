@@ -93,7 +93,6 @@ class api {
 
     function processHeaders() {
         $this->usedHeaders["Wherevalues"] = explode(";",$this->usedHeaders["Wherevalues"]);
-
         for ($i = 0;$i<count($this->usedHeaders["Wherevalues"]);$i++) {
             $this->usedHeaders["Wherevalues"][$i] = explode(",",$this->usedHeaders["Wherevalues"][$i]);
         }
@@ -185,8 +184,8 @@ class api {
         $values = [];
         $i = 0;
         foreach ($this->usedHeaders["Setvalues"] as $value => $field) {
-            $values[$i] = $value;
-            $fields[$i] = $field;
+            $values[$i] = $field[1];
+            $fields[$i] = $field[0];
             $i = $i+1;
         }
         $auth = false;
@@ -249,8 +248,8 @@ class api {
         $whereValues = [];
         $i = 0;
         foreach ($this->usedHeaders["Wherevalues"] as $value => $field) {
-            $whereValues[$i] = $value;
-            $whereFields[$i] = $field;
+            $whereValues[$i] = $field[1];
+            $whereFields[$i] = $field[0];
             $i = $i+1;
         }
         $auth = false;
@@ -294,7 +293,7 @@ class api {
             }
         }
         if ($auth) {
-            $ret = $this->db->delete($this->usedHeaders["table"],$whereFields,$whereValues);
+            $ret = $this->db->delete($this->usedHeaders["Table"],$whereFields,$whereValues);
             if ($ret[0]) {
                 header("Success: true");
                 header("LastId: " . $ret[1]);
