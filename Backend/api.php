@@ -9,7 +9,7 @@ include "databaseConnection.php";
 
 header('Content-Type: application/json');
 $api = new api();
-
+logThisRequest();
 
 /**
  * Class api
@@ -39,6 +39,21 @@ $api = new api();
  *      the token for user authorization
  *
  */
+
+
+function logThisRequest() {
+    $file = 'log.json';
+    $current = json_decode(file_get_contents($file));
+    $headers = apache_request_headers();
+    $headers["Request-Method"] = $_SERVER['REQUEST_METHOD'];
+    $headers["Date"] = date(DATE_RFC822);
+    array_unshift($current, $headers);
+    //print_r($current);
+    //$end = json_encode($current);
+    file_put_contents($file, json_encode($current));
+}
+
+
 
 class api {
 
@@ -87,7 +102,6 @@ class api {
         $headers = apache_request_headers();
         foreach ($this->headerNames as $headerName) {
             $this->usedHeaders[$headerName] = $headers[$this->headerPrefix . $headerName];
-
         }
         $this->processHeaders();
     }

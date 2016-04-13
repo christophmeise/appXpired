@@ -48,6 +48,8 @@
  */
 
 include "databaseConnection.php";
+header('Content-Type: application/json');
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") { //createUser
     //get a database object (databaseConnection)
@@ -268,3 +270,17 @@ else {
     //TODO failure message!
 
 }
+// to log the request:
+logThisRequest();
+function logThisRequest() {
+    $file = 'userLog.json';
+    $current = json_decode(file_get_contents($file));
+    $headers = apache_request_headers();
+    $headers["Request-Method"] = $_SERVER['REQUEST_METHOD'];
+    $headers["Date"] = date(DATE_RFC822);
+    array_unshift($current, $headers);
+    //print_r($current);
+    //$end = json_encode($current);
+    file_put_contents($file, json_encode($current));
+}
+
