@@ -198,7 +198,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONObject getFood(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from groceries where id=" + id, null);
+        Cursor res =  db.rawQuery("select * from groceries where backendId=" + id, null);
         JSONObject foodEntry = new JSONObject();
         try {
             foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
