@@ -53,6 +53,7 @@ public class addActivity extends AppCompatActivity {
     responseClass stringRequest;
     Activity self = this;
     memberVariables members = memberVariables.sharedInstance;
+    String backendid;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -157,12 +158,13 @@ public class addActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             showPopup();
-            addToDatabase();
+
             final String user = members.getUsername();
             //String pass = members.getPassword();
             final String token = members.getToken();
             final String Wherevalues = "";
             backendRequestAdd(user, "", token, Wherevalues);
+
         }
     };
 
@@ -183,7 +185,7 @@ public class addActivity extends AppCompatActivity {
         dateEdit.setText(sdf.format(myCalendar.getTime()));
     }
 
-    public void addToDatabase(){
+    public void addToDatabase(String backendid){
         String name = editName.getText().toString();
         localDatabase database = new localDatabase(this);
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -198,6 +200,7 @@ public class addActivity extends AppCompatActivity {
         try {
             food.put("name", name);
             food.put("expire_date", expireDateMillis);
+            food.put("backendId", Integer.valueOf(backendid));
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {
@@ -211,7 +214,7 @@ public class addActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
         com.android.volley.RequestQueue queue;
         queue = Volley.newRequestQueue(self);
-        String url ="http://www.appxpired.winterapps.de/api/userManagement.php";
+        String url ="http://www.appxpired.winterapps.de/api/api.php";
         final Boolean[] RequestResponse = {false};
 
         // Request a string response from the provided URL.
@@ -226,11 +229,18 @@ public class addActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                  /*      String[] credentials = new String[3];
-                        credentials[0] = headers.get("Success");
-                        credentials[1] = headers.get("Token");
-                        JSONArray jsonResponse = null;
-                        try {
+
+                        String[] credentials = new String[1];
+                        credentials[0] = headers.get("LastId");
+                        backendid = credentials[0];
+                        addToDatabase(backendid);
+                        Log.d("Hier bekomme ich me", backendid);
+                        double pi = Math.PI;
+                        double x = pi%pi;
+                        Log.d("pi",""+x);
+                        //credentials[1] = headers.get("Token");
+                        //JSONArray jsonResponse = null;
+                        /*try {
                             jsonResponse = new JSONArray(response);
                             credentials[2] = jsonResponse.getJSONObject(0).getString("id");
                             Log.d("Meine Id",credentials[2]);

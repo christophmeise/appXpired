@@ -107,7 +107,7 @@ import de.winterapps.appxpired.menuActivity;
                         try {
                             row = foodList.getJSONObject(i);
                             id = row.getInt("backendId");
-                            Log.d("Id backend: ", id+"");
+                            Log.d("Id backend: ", String.valueOf(id));
                             name = row.getString("name");
                             JSONObject food = (JSONObject) list.get(position);
                             String tester = food.get("name").toString();
