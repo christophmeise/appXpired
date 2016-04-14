@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by D062332 on 16.11.2015.
  */
@@ -106,7 +109,7 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values = cleanseValuesAddFood(foodEntry);
-        if(values.get("name") == "" ){
+        if(values.get("name") == "" || !existsInBackend(foodEntry)){
             return false;
         }
         long e = db.insert("groceries", null, values);
@@ -116,6 +119,35 @@ public class localDatabase extends SQLiteOpenHelper{
         }
         return true;
 
+    }
+
+    public ArrayList<Integer> getBackendIds(){
+        ArrayList<Integer> backendIds = new ArrayList<Integer>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select backendId from groceries", null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            backendIds.add(res.getInt(res.getColumnIndex("backendId")));
+            res.moveToNext();
+        }
+        return backendIds;
+    }
+
+    public boolean existsInBackend(JSONObject foodEntry){
+        int backendId;
+        try {
+            backendId = foodEntry.getInt("backendId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return true;
+        }
+        ArrayList<Integer> backendIds = getBackendIds();
+        for(int id : backendIds){
+            if(backendId == id){
+                return true;
+            }
+        }
+        return false;
     }
 
     public ContentValues cleanseValuesAddFood(JSONObject foodEntry){
