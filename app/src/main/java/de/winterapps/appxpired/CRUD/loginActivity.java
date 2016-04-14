@@ -262,7 +262,7 @@ public class loginActivity extends Activity{
 
                             }
 
-                            Log.d("datenbank eintraege", String.valueOf(database.getFood()));
+                            //Log.d("datenbank eintraege", String.valueOf(database.getFood()));
                           /*  credentials[2] = jsonResponse.getString("name");
                             credentials[2] = jsonResponse.getString("entryDate");
                             credentials[2] = jsonResponse.getString("expireDate");

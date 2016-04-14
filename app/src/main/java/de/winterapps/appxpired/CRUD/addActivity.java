@@ -235,9 +235,6 @@ public class addActivity extends AppCompatActivity {
                         backendid = credentials[0];
                         addToDatabase(backendid);
                         Log.d("Hier bekomme ich me", backendid);
-                        double pi = Math.PI;
-                        double x = pi%pi;
-                        Log.d("pi",""+x);
                         //credentials[1] = headers.get("Token");
                         //JSONArray jsonResponse = null;
                         /*try {
