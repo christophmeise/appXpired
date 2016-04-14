@@ -109,7 +109,7 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values = cleanseValuesAddFood(foodEntry);
-        if(values.get("name") == "" || !existsInBackend(foodEntry)){
+        if(values.get("name") == "" || existsInBackend(foodEntry)){
             return false;
         }
         long e = db.insert("groceries", null, values);
