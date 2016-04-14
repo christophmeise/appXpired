@@ -183,7 +183,7 @@ public class localDatabase extends SQLiteOpenHelper{
                 foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
                 foodEntry.put("name",res.getString(res.getColumnIndex("name")));
                 foodEntry.put("expireDate",res.getString(res.getColumnIndex("expireDate")));
-                foodEntry.put("positionId",res.getString(res.getColumnIndex("positionId")));
+                foodEntry.put("positionId",res.getString(res.getColumnIndex("position_id")));
                 foodEntry.put("amount",res.getString(res.getColumnIndex("amount")));
                 foodEntry.put("categoryId",res.getString(res.getColumnIndex("category_id")));
                 foodEntry.put("householdId",res.getString(res.getColumnIndex("household_id")));
