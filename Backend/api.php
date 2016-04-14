@@ -47,6 +47,12 @@ function logThisRequest() {
     $headers = apache_request_headers();
     $headers["Request-Method"] = $_SERVER['REQUEST_METHOD'];
     $headers["Date"] = date(DATE_RFC822);
+    if ($headers["Appxpired-Password"] != null) {
+        $headers["Appxpired-Password"] = "hidden";
+    }
+    if ($headers["Appxpired-Token"] != null) {
+        $headers["Appxpired-Token"] = "hidden";
+    }
     array_unshift($current, $headers);
     //print_r($current);
     //$end = json_encode($current);
