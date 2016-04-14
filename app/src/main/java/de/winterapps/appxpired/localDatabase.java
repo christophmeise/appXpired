@@ -33,8 +33,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "createUser_id integer)";
 
     public static final String CREATE_TEMPLATE_TABLE = "CREATE TABLE templates"+
-            "("+
-            "id integer primary key AUTOINCREMENT, " +
+            "(id integer primary key AUTOINCREMENT, " +
             "name text, " +
             "amount integer, " +
             "additionalInformation text, " +
@@ -44,9 +43,47 @@ public class localDatabase extends SQLiteOpenHelper{
             "expireDuration` integer, " +
             "category_id integer)";
 
-    public static final String CREATE_POSITION_TABLE = "";
-    public static final String CREATE_CATEGORY_TABLE = "";
-    public static final String CREATE_MEASURING_TABLE = "";
+    public static final String CREATE_POSITION_TABLE = "CREATE TABLE position" +
+            "(id integer primary key AUTOINCREMENT," +
+            "name text)";
+
+    public static final String CREATE_CATEGORY_TABLE = "CREATE TABLE category" +
+            "(id integer primary key AUTOINCREMENT," +
+            "createUser_id integer, " +
+            "name text, " +
+            "measuring_id integer)";
+
+    public static final String CREATE_HOUSEHOLD_TABLE = "CREATE TABLE household" +
+            "(id integer primary key AUTOINCREMENT," +
+            "name text, " +
+            "location text, " +
+            "createUser_id integer, " +
+            "password text)";
+
+    public static final String CREATE_MEASURING_TABLE = "CREATE TABLE measuring" +
+            "(id integer primary key AUTOINCREMENT, " +
+            "name text)";
+
+    public static final String CREATE_USER_TABLE = "CREATE TABLE user" +
+            "(id integer primary key AUTOINCREMENT, " +
+            "firstName text, " +
+            "lastName text, " +
+            "userName text, " +
+            "emailAdress text, " +
+            "password text, " +
+            "lastLogin integer, " +
+            "token text)";
+
+    public static final String CREATE_USERHOUSEHOLD_TABLE = "CREATE TABLE userhousehold" +
+            "(id integer primary key AUTOINCREMENT, " +
+            "user_id integer, " +
+            "household_id integer)";
+
+    public static final String CREATE_USERMODIFYGROCERIES_TABLE = "CREATE TABLE usermodifygroceries" +
+            "(id integer primary key AUTOINCREMENT, " +
+            "user_id integer, " +
+            "groceries_id integer, " +
+            "modifyDate date)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -145,6 +182,11 @@ public class localDatabase extends SQLiteOpenHelper{
             try {
                 foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
                 foodEntry.put("name",res.getString(res.getColumnIndex("name")));
+                foodEntry.put("expireDate",res.getString(res.getColumnIndex("expireDate")));
+                foodEntry.put("positionId",res.getString(res.getColumnIndex("positionId")));
+                foodEntry.put("amount",res.getString(res.getColumnIndex("amount")));
+                foodEntry.put("categoryId",res.getString(res.getColumnIndex("category_id")));
+                foodEntry.put("householdId",res.getString(res.getColumnIndex("household_id")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
