@@ -154,7 +154,7 @@ public class localDatabase extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         long entryDate = System.currentTimeMillis();
         try {
-            values.put("backendId", foodEntry.getString("id"));
+            values.put("backendId", foodEntry.getString("backendId"));
         } catch (JSONException e) {
             e.printStackTrace();
             values.put("backendId", "");

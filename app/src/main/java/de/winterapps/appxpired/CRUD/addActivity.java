@@ -200,7 +200,7 @@ public class addActivity extends AppCompatActivity {
         try {
             food.put("name", name);
             food.put("expire_date", expireDateMillis);
-            food.put("backendId", Integer.valueOf(backendid));
+            food.put("backendId", Integer.parseInt(backendid));
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {
