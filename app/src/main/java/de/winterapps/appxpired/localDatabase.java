@@ -140,7 +140,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public boolean existsInBackend(JSONObject foodEntry){
         int backendId;
         try {
-            backendId = foodEntry.getInt("id");
+            backendId = foodEntry.getInt("backendId");
         } catch (JSONException e) {
             e.printStackTrace();
             return true;
@@ -157,19 +157,20 @@ public class localDatabase extends SQLiteOpenHelper{
     public ContentValues cleanseValuesAddFood(JSONObject foodEntry){
         ContentValues values = new ContentValues();
         long entryDate = System.currentTimeMillis();
-        if(foodEntry.has("backendId")){
+        if(foodEntry.has("backendId") && !foodEntry.isNull("backendId")){
             try {
                 values.put("backendId", foodEntry.getString("backendId"));
             } catch (JSONException e) {
-                e.printStackTrace();
-                values.put("backendId", "");
+                //e.printStackTrace();
+                //values.put("backendId", "");
             }
-        }else {
+        }
+        if(foodEntry.has("id")){
             try {
                 values.put("backendId", foodEntry.getString("id"));
             } catch (JSONException e) {
-                e.printStackTrace();
-                values.put("backendId", "");
+                //e.printStackTrace();
+                //values.put("backendId", "");
             }
         }
         try {
