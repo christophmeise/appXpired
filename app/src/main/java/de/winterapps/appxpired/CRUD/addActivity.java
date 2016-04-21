@@ -58,36 +58,7 @@ public class addActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-           /* View view_instance = (View)findViewById(R.id.addRelativeLayout);
-            View view_instance1 = (View)findViewById(R.id.addButtonBar);
-
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) view_instance.getLayoutParams();
-            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) view_instance1.getLayoutParams();
-
-            params1.setMargins(0,350,0,0);
-            view_instance1.setLayoutParams(params1);
-
-            params.topMargin = 350;
-            params.setMargins(0,350,0,0);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            }
-            params.addRule(RelativeLayout.ALIGN_BASELINE);*/
-            //view_instance.setLayoutParams(params);
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-           /* View view_instance = (View)findViewById(R.id.addButtonBar);
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) view_instance.getLayoutParams();
-            params.topMargin = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            }
-            view_instance.setLayoutParams(params);*/
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-        }
+        // could be added for landscape mode
     }
 
     @Override
@@ -99,9 +70,9 @@ public class addActivity extends AppCompatActivity {
 
         Button addButton = (Button) findViewById(R.id.addAddButton);
         editName = (EditText) findViewById(R.id.editName);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-        Spinner spinner5 = (Spinner) findViewById(R.id.spinner5);
+        Spinner oPositionSpiner = (Spinner) findViewById(R.id.addPositionSpinner);
+        Spinner oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
+        Spinner oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
 
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
 
@@ -111,17 +82,17 @@ public class addActivity extends AppCompatActivity {
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        oPositionSpiner.setAdapter(adapter);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.units, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter2);
+        oUnitsSpinner.setAdapter(adapter2);
 
         ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
                 R.array.categroy_array, android.R.layout.simple_spinner_item);
         adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner5.setAdapter(adapter5);
+        oCategorySpinner.setAdapter(adapter5);
 
         dateEdit = (EditText)findViewById(R.id.addDateEdit);
 
@@ -235,30 +206,12 @@ public class addActivity extends AppCompatActivity {
                         backendid = credentials[0];
                         addToDatabase(backendid);
                         Log.d("Hier bekomme ich me", backendid);
-                        //credentials[1] = headers.get("Token");
-                        //JSONArray jsonResponse = null;
-                        /*try {
-                            jsonResponse = new JSONArray(response);
-                            credentials[2] = jsonResponse.getJSONObject(0).getString("id");
-                            Log.d("Meine Id",credentials[2]);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
-                       /* if(credentials[0].equals("true")){
-                            RequestResponse[0] = true;
-                            intent = new Intent(loginActivity.this, menuActivity.class);
-                            startActivity(intent);
-                        }else{
-                            RequestResponse[0] = false;
-                            Toast.makeText(loginActivity.this, "Bad credentials!", Toast.LENGTH_SHORT).show();
-                        }*/
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(context.getClass(), "Server error", Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
                     }
 
                 }) {
@@ -267,12 +220,10 @@ public class addActivity extends AppCompatActivity {
             public HashMap<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String>  params = new HashMap<String, String>();
 
-               /* prefs = self.getSharedPreferences(
-                        "de.winterapps.appxpired", Context.MODE_PRIVATE);*/
-
                 params.put("Appxpired-Username", user);
                 if(pass != null) {
                     params.put("Appxpired-Token", token);
+                    // TODO
                    // params.put("Appxpired-Password", pass);
                 }
                 else{

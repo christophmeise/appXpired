@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,12 +112,15 @@ public class localDatabase extends SQLiteOpenHelper{
         values = cleanseValuesAddFood(foodEntry);
         if(values.get("name") == "" || existsInBackend(foodEntry)){
             return false;
+        } else{
+            Log.d("IST DOCH REINGEGEANGEN","DU SPASST");
+            long e = db.insert("groceries", null, values);
+            db.close();
+            if(e == -1){
+                return false;
+            }
         }
-        long e = db.insert("groceries", null, values);
-        db.close();
-        if(e == -1){
-            return false;
-        }
+        
         return true;
 
     }
@@ -136,7 +140,7 @@ public class localDatabase extends SQLiteOpenHelper{
     public boolean existsInBackend(JSONObject foodEntry){
         int backendId;
         try {
-            backendId = foodEntry.getInt("backendId");
+            backendId = foodEntry.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
             return true;
@@ -233,7 +237,7 @@ public class localDatabase extends SQLiteOpenHelper{
         Cursor res =  db.rawQuery("select * from groceries where backendId=" + id, null);
         JSONObject foodEntry = new JSONObject();
         try {
-            foodEntry.put("id",res.getInt(res.getColumnIndex("id")));
+            foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
             foodEntry.put("name",res.getString(res.getColumnIndex("name")));
             foodEntry.put("expireDate",res.getInt(res.getColumnIndex("expireDate")));
         } catch (JSONException e) {
@@ -305,7 +309,7 @@ public class localDatabase extends SQLiteOpenHelper{
         Cursor res =  db.rawQuery("select * from templates where id=" + id, null);
         JSONObject templateEntry = new JSONObject();
         try {
-            templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
+            templateEntry.put("backendId", res.getInt(res.getColumnIndex("backendId")));
             templateEntry.put("name", res.getString(res.getColumnIndex("name")));
             templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
             templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));

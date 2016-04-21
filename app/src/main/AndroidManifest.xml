@@ -29,8 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CRUD.registerActivity"></activity>
-        <activity android:name=".CRUD.detailedActivity"></activity>
-        <activity android:name=".CRUD.testActivity"></activity>
+        <activity android:name=".CRUD.detailsActivity"></activity>
     </application>
 
 </manifest>

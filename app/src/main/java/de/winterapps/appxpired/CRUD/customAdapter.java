@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,16 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;
-import de.winterapps.appxpired.menuActivity;
 
 /**
  * Created by D062400 on 30.11.2015.
@@ -97,7 +92,6 @@ import de.winterapps.appxpired.menuActivity;
             deleteBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    //do something
                     localDatabase database = new localDatabase(context);
                     JSONArray foodList = database.getFood();
                     int id;
@@ -133,10 +127,30 @@ import de.winterapps.appxpired.menuActivity;
 
                 @Override
                 public boolean onLongClick(View view) {
-                    Intent intent = new Intent(context, testActivity.class);
-                    intent.putExtra("index", position);
-                    context.startActivity(intent);
-                    return false; //false
+                    localDatabase database = new localDatabase(context);
+                    JSONArray foodList = database.getFood();
+                    int id;
+                    String name;
+                    for (int i = 0; i < foodList.length(); i++) {
+                        JSONObject row = null;
+                        try {
+                            row = foodList.getJSONObject(i);
+                            id = row.getInt("backendId");
+                            name = row.getString("name");
+                            JSONObject food = (JSONObject) list.get(position);
+                            String tester = food.get("name").toString();
+                            if (name.equals(tester)){
+                                i = foodList.length();
+                                // go to the detailled view
+                                Intent intent = new Intent(context, detailsActivity.class);
+                                intent.putExtra("index", id);
+                                context.startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return false;
                 }
             });
 

@@ -12,9 +12,7 @@ import android.widget.Toast;
 
 import de.winterapps.appxpired.BarcodeScanner.scanActivity;
 import de.winterapps.appxpired.CRUD.addActivity;
-import de.winterapps.appxpired.CRUD.detailedActivity;
 import de.winterapps.appxpired.CRUD.showActivity;
-import de.winterapps.appxpired.CRUD.testActivity;
 
 public class menuActivity extends Activity {
 

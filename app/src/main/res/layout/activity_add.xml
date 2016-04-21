@@ -116,7 +116,7 @@
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinner5"
+                        android:id="@+id/addCategorySpinner"
                         android:layout_column="1"
                         android:spinnerMode="dropdown"
                         android:scrollIndicators="end"
@@ -144,7 +144,7 @@
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinner"
+                        android:id="@+id/addPositionSpinner"
                         android:layout_column="1"
                         android:spinnerMode="dropdown"
                         android:scrollIndicators="end"
@@ -180,15 +180,16 @@
                         <EditText
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/editText2"
+                            android:id="@+id/addAmountEdit"
                             android:layout_gravity="left|center_vertical"
                             android:inputType="number"
-                            android:layout_weight="0.6" />
+                            android:layout_weight="0.6"
+                            android:numeric="decimal" />
 
                         <Spinner
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spinner2"
+                            android:id="@+id/addAmountSpinner"
                             android:gravity="right"
                             android:layout_weight="0.4"
                             android:spinnerMode="dropdown"
@@ -217,7 +218,7 @@
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText3"
+                        android:id="@+id/addDescEdit"
                         android:layout_weight="0.75" />
                 </TableRow>
 
