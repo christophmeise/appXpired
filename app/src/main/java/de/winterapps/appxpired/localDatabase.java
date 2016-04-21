@@ -153,11 +153,20 @@ public class localDatabase extends SQLiteOpenHelper{
     public ContentValues cleanseValuesAddFood(JSONObject foodEntry){
         ContentValues values = new ContentValues();
         long entryDate = System.currentTimeMillis();
-        try {
-            values.put("backendId", foodEntry.getString("backendId"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            values.put("backendId", "");
+        if(foodEntry.has("backendId")){
+            try {
+                values.put("backendId", foodEntry.getString("backendId"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                values.put("backendId", "");
+            }
+        }else {
+            try {
+                values.put("backendId", foodEntry.getString("id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                values.put("backendId", "");
+            }
         }
         try {
             values.put("name", foodEntry.getString("name"));
