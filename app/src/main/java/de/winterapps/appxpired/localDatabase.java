@@ -110,7 +110,7 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values = cleanseValuesAddFood(foodEntry);
-        if(values.get("name") == "" || existsInBackend(foodEntry)){
+        if(values.get("name") == "" || existsInBackend(values)){
             return false;
         } else{
             Log.d("IST DOCH REINGEGEANGEN","DU SPASST");
@@ -137,14 +137,9 @@ public class localDatabase extends SQLiteOpenHelper{
         return backendIds;
     }
 
-    public boolean existsInBackend(JSONObject foodEntry){
+    public boolean existsInBackend(ContentValues values){
         int backendId;
-        try {
-            backendId = foodEntry.getInt("backendId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return true;
-        }
+        backendId = values.getAsInteger("backendId");
         ArrayList<Integer> backendIds = getBackendIds();
         for(int id : backendIds){
             if(backendId == id){
@@ -243,9 +238,10 @@ public class localDatabase extends SQLiteOpenHelper{
     }
 
     public JSONObject getFood(int id){
+        JSONObject foodEntry = new JSONObject();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from groceries where backendId=" + id, null);
-        JSONObject foodEntry = new JSONObject();
+        res.moveToFirst();
         try {
             foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
             foodEntry.put("name",res.getString(res.getColumnIndex("name")));
