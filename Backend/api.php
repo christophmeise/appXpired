@@ -9,6 +9,7 @@ include "databaseConnection.php";
 
 header('Content-Type: application/json');
 $api = new api();
+$api->serveRequest();
 logThisRequest();
 
 /**
@@ -80,11 +81,13 @@ class api {
         $this->getHeaders();
         //connect to db;
         $this->db = new databaseConnection();
-        // get the used HTTP Method (CRUD)
+    }
+
+    public function serveRequest() {
         $this->getHTTPMethod();
     }
 
-    function getHTTPMethod() {
+    private function getHTTPMethod() {
         // get the HTTP Method
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":
@@ -104,15 +107,17 @@ class api {
     /**
      * get the custom headers and add them to the $usedHeaders array.
      */
-    function getHeaders() {
-        $headers = apache_request_headers();
-        foreach ($this->headerNames as $headerName) {
-            $this->usedHeaders[$headerName] = $headers[$this->headerPrefix . $headerName];
+    private function getHeaders() {
+        if (apache_request_headers()) {
+            $headers = apache_request_headers();
+            foreach ($this->headerNames as $headerName) {
+                $this->usedHeaders[$headerName] = $headers[$this->headerPrefix . $headerName];
+            }
+            $this->processHeaders();
         }
-        $this->processHeaders();
     }
 
-    function processHeaders() {
+    private function processHeaders() {
         $this->usedHeaders["Wherevalues"] = explode(";",$this->usedHeaders["Wherevalues"]);
         for ($i = 0;$i<count($this->usedHeaders["Wherevalues"]);$i++) {
             $this->usedHeaders["Wherevalues"][$i] = explode(",",$this->usedHeaders["Wherevalues"][$i]);
@@ -139,9 +144,9 @@ class api {
     }
 
     /**
-     * GET Method was called
+     * GET Method was called, this function triggers the processing
      */
-    function get() {
+    private function get() {
         $ret = null;
         $authorized = true;
         if ($this->usedHeaders["Table"] == "household") { //if the household table shall be accessed check if the user is authorized
@@ -200,7 +205,7 @@ class api {
     /**
      * POST Method was called
      */
-    function post() {
+    private function post() {
         $fields = [];
         $values = [];
         $i = 0;
@@ -263,7 +268,7 @@ class api {
     /**
      * DELETE Method was called
      */
-    function delete() {
+    private function delete() {
 
         $whereFields = [];
         $whereValues = [];
@@ -330,7 +335,7 @@ class api {
      * PATCH Method was called
      * update
      */
-    function patch() {
+    private function patch() {
         $fields = [];
         $values = [];
         $i = 0;
@@ -400,7 +405,7 @@ class api {
         }
     }
 
-    function readPost() {
+    private function readPost() {
         // test code
         $whatever['1'] = 'cottton';
         $whatever['2'] ='yoyoyoyo';
@@ -419,7 +424,7 @@ class api {
         echo json_encode($data);
 
     }
-    function makeUpHeadersFromDBReturn($ret) {
+    private function makeUpHeadersFromDBReturn($ret) {
         $z = 0;
         $errors = null;
         for ($i=0;$i < count($ret);$i++) {
