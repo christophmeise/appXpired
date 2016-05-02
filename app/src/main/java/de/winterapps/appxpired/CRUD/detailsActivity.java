@@ -46,8 +46,10 @@ public class detailsActivity extends Activity{
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_add);
         // intent given in customAdapter class
-        Intent intent = getIntent();
-        index = intent.getIntExtra("index",0);
+        index = getIntent().getExtras().getInt("index");
+        Log.d("Mein Index lautet: ", String.valueOf(index));
+        /*Intent intent = getIntent();
+        index = intent.getIntExtra("index",0);*/
 
         attachListeners();
         loadInitial();
