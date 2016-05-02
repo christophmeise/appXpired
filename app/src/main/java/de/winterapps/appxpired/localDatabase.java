@@ -139,7 +139,16 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public boolean existsInBackend(ContentValues values){
         int backendId;
+<<<<<<< HEAD
+        try {
+            backendId = foodEntry.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return true;
+        }
+=======
         backendId = values.getAsInteger("backendId");
+>>>>>>> 04e217d12dc3536174ecf2c3afd240756596e8bf
         ArrayList<Integer> backendIds = getBackendIds();
         for(int id : backendIds){
             if(backendId == id){
@@ -243,7 +252,9 @@ public class localDatabase extends SQLiteOpenHelper{
         Cursor res =  db.rawQuery("select * from groceries where backendId=" + id, null);
         res.moveToFirst();
         try {
-            foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
+            Log.d("Column index_ ", String.valueOf(res.getColumnIndex("backendId")));
+            Log.d("Column index_ ", String.valueOf(res.getInt(1)));
+            foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId"))); // id??? backendid???
             foodEntry.put("name",res.getString(res.getColumnIndex("name")));
             foodEntry.put("expireDate",res.getInt(res.getColumnIndex("expireDate")));
         } catch (JSONException e) {

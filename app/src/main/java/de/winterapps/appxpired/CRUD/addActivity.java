@@ -194,14 +194,14 @@ public class addActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Map<String,String> headers = null;
+
+                        String[] credentials = new String[1];
                         try {
                             Log.d("loginAc", addActivity.this.stringRequest.toString());
                             headers = addActivity.this.stringRequest.headers;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-                        String[] credentials = new String[1];
                         credentials[0] = headers.get("LastId");
                         backendid = credentials[0];
                         addToDatabase(backendid);
