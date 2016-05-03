@@ -8,7 +8,7 @@
  */
 
 
-class errorCodes {
+class ErrorCode {
     function __construct()
     {
 
