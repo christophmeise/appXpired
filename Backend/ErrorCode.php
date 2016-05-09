@@ -14,17 +14,17 @@ class ErrorCode {
 
     }
 
-    const invalidData =  001; //- the entered data is not valid (e.g. emailadress to short)
-    const usernameAlreadyRegistered = 002; // - username already registered
-    const emailadressAlreadyRegistered = 003; //- emailadress already registered
-    const invalidPassword = 004; //- password not valid
-    const mySQLConnectionError = 100; //- mysql connection error
-    const updateValuesIncorrect = 101; //- update values are incorrect
-    const deleteValuesIncorrect = 102;
+    const INVALIDDATA =  001; //- the entered data is not valid (e.g. emailadress to short)
+    const USERNAMEALREADYREGISTERED = 002; // - username already registered
+    const EMAILADRESSALREADYREGISTERED = 003; //- emailadress already registered
+    const INVALIDPASSWORD = 004; //- password not valid
+    const MYSQLCONNECTIONERROR = 100; //- mysql connection error
+    const UPDATEVALUESINCORRECT = 101; //- update values are incorrect
+    const DELETEVALUESINCORRECT = 102;
 
-    const userUnauthorizedForHousehold = 200; //- user is not authorized to access the requested household
+    const USERUNAUTHORIZEDFORHOUSEHOLD = 200; //- user is not authorized to access the requested household
 
-    const unauthorized =  404; //- unauthorized
-    const tokenHasExpired = 403; //- token has expired
+    const UNAUTHORIZED =  404; //- UNAUTHORIZED
+    const TOKENHASEXPIRED = 403; //- token has expired
 
 }
