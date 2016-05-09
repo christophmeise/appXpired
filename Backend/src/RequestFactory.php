@@ -15,6 +15,7 @@ class RequestFactory
 
     /**
      * @param $apache_headers
+     * @param string $source
      * @return Request
      */
     public static function create($apache_headers, $source = "api")
