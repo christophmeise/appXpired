@@ -20,7 +20,7 @@
  *
  * 200 - user is not authorized to access the requested household
  *
- * 404 - unauthorized
+ * 404 - UNAUTHORIZED
  * 403 - token has expired
  *
  */
@@ -107,14 +107,16 @@ class databaseConnection {
     public function checkAuthorizationWithToken($userid,$token) {
 
         $this->connect();
-
-        $sql = "SELECT * FROM user WHERE token = '" . $token . "'"; // check if the token is in the db
+        // check if the token is in the db
+        $sql = "SELECT * FROM user WHERE token = '" . $token . "'";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                if ($row["id"] == $userid ) { //check if the userid is correct
+                //check if the userid is correct
+                if ($row["id"] == $userid ) {
                     $today = date('Y-m-d H:i:s');
-                    if ((strtotime($today)  - strtotime($row['lastLogin'])) >= (-7200)) { // check if last login is max. 2 hours (2*60*60 seconds) ago, so user can login with token
+                    // check if last login is max. 2 hours (2*60*60 seconds) ago, so user can login with token
+                    if ((strtotime($today)  - strtotime($row['lastLogin'])) >= (-7200)) {
                         //update last login time so that user can maintain logged in
                         $this->updateLastLogin($userid);
                         //close the connection
@@ -122,19 +124,20 @@ class databaseConnection {
                         //return true because user is logged in successfully
                         return [true];
                     }
-                    else { // token has expired
-                        return [false, ErrorCode::tokenHasExpired];
+                    else {
+                        // token has expired
+                        return [false, ErrorCode::TOKENHASEXPIRED];
                     }
 
                 }
                 else {
                     $this->conn->close();
-                    return [false, ErrorCode::tokenHasExpired];
+                    return [false, ErrorCode::TOKENHASEXPIRED];
                 }
             }
         } else {
             $this->conn->close();
-            return [false, ErrorCode::unauthorized];
+            return [false, ErrorCode::UNAUTHORIZED];
         }
     }
 
@@ -147,28 +150,31 @@ class databaseConnection {
      */
     public function checkAuthorizationWithPassword($userid,$password) {
         $this->connect();
-        $sql = "SELECT* FROM user WHERE id = " . $userid; //get the correct entry in the user table
+        //get the correct entry in the user table
+        $sql = "SELECT* FROM user WHERE id = " . $userid;
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                if ($row["password"] == crypt($password, $row["password"]) ) { // check if the password is correct
+                // check if the password is correct
+                if ($row["password"] == crypt($password, $row["password"]) ) {
                     //close the connection
                     $this->conn->close();
                     //update last login time so that user can maintain logged in
                     $token = $this->generateToken($userid);
                     $this->updateLastLogin($userid,$token);
                     //return true because user is logged in successfully
-                    return [true,$token]; //return token too
+                    //return token too
+                    return [true,$token];
                 }
                 else {
 
                     $this->conn->close();
-                    return [false, ErrorCode::unauthorized];
+                    return [false, ErrorCode::UNAUTHORIZED];
                 }
             }
         } else {
             $this->conn->close();
-            return [false, ErrorCode::unauthorized];
+            return [false, ErrorCode::UNAUTHORIZED];
         }
     }
 
@@ -286,18 +292,15 @@ class databaseConnection {
                 }
 
             }
-            //echo $sql;
             $this->connect();
             $result = $this->conn->query($sql);
             $rows = [];
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     $this->conn->close();
-                    //print_r($row);
                     array_push($rows,$row);
-                    //return $row;
                 }
-                //print_r($rows);
+
                 return $rows;
             } else {
                 $this->conn->close();
@@ -324,7 +327,7 @@ class databaseConnection {
 
     public function update($table,$setFields,$setValues,$whereFields,$whereValues) {
 
-        if (count($setFields) == count($setValues) and count($whereFields) == count($whereValues) and count($setFields) > 0 and count($whereFields) > 0 and strlen($table) > 1) {
+        if (count($setFields) == count($setValues) && count($whereFields) == count($whereValues) && count($setFields) > 0 && count($whereFields) > 0 && strlen($table) > 1) {
             $sql = "UPDATE " . $table . " SET ";
             for ($i=0;$i<count($setFields);$i++) {
                 $sql .= "`" . $setFields[$i] . "`" . " = '" . $setValues[$i] . "'";
@@ -340,7 +343,7 @@ class databaseConnection {
                 }
             }
             $this->connect();
-            if ($this->conn->query($sql) === TRUE) { //success
+            if ($this->conn->query($sql) === TRUE) {
                 $this->conn->close();
                 return [true];
             }
@@ -350,7 +353,7 @@ class databaseConnection {
             }
         }
         else {
-            return [false,ErrorCode::updateValuesIncorrect];
+            return [false,ErrorCode::UPDATEVALUESINCORRECT];
         }
     }
 
@@ -367,7 +370,7 @@ class databaseConnection {
      */
 
     public function delete ($table,$whereFields,$whereValues) {
-        if (count($whereFields) == count($whereValues) and count($whereFields) > 0 and strlen($table) > 1) {
+        if (count($whereFields) == count($whereValues) && count($whereFields) > 0 && strlen($table) > 1) {
             $sql = "DELETE FROM " . $table . " WHERE ";
             for ($i=0;$i<count($whereFields);$i++) {
                 $sql .= "`" . $whereFields[$i] . "`" . " = '" . $whereValues[$i] . "'";
@@ -375,19 +378,18 @@ class databaseConnection {
                     $sql .= " AND ";
                 }
             }
-            //print($sql);
             $this->connect();
-            if ($this->conn->query($sql) === TRUE) { //success
+            if ($this->conn->query($sql) === TRUE) {
                 $this->conn->close();
                 return [true];
             }
-            else { //failure
+            else {
                 $this->conn->close();
                 return [false, $this->conn->error];
             }
         }
         else {
-            return [false,ErrorCode::deleteValuesIncorrect];
+            return [false,ErrorCode::DELETEVALUESINCORRECT];
         }
 
 
@@ -396,27 +398,29 @@ class databaseConnection {
     /**
      * create a user
      *
-     * @param $user
+     * @param $user User
      * @return array|bool
      */
     public function createUser($user) {
-
-        if (strlen($user->getEmail()) > 4 && strlen($user->getFirstname()) > 1 && strlen($user->getLastname()) > 1 && $this->validatePassword($user->getPassword())[0] && strlen($user->getUsername()) >3) { //check if entered data is valid
+        //check if entered data is valid
+        if (strlen($user->getEmail()) > 4 && strlen($user->getFirstname()) > 1 && strlen($user->getLastname()) > 1 && $this->validatePassword($user->getPassword())[0] && strlen($user->getUsername()) >3) {
             $ret = $this->validateUserData($user->getUsername(),$user->getEmail());
-            if ($ret[0]) { // check if email and username are already in the db
+            // check if email and username are already in the db
+            if ($ret[0]) {
                 // entered data is valid, continue to register user.
-                $password = $this->getHashedPw($password); //get the hasehd pw
+                //get the hasehd pw
+                $password = $this->getHashedPw($user->getPassword());
                 $fields = ["userName","password","emailAdress","firstName","lastName"];
-                $values = [$user->getUsername(),$user->getPassword(),$user->getEmail(),$user->getFirstname(),$user->getLastname()];
-
-                return $this->insert("user",$fields,$values); //insert new user into db
+                $values = [$user->getUsername(),$password,$user->getEmail(),$user->getFirstname(),$user->getLastname()];
+                //insert new user into db
+                return $this->insert("user",$fields,$values);
             }
             else {
                 return $ret;
             }
         }
         else {
-            return [false, ErrorCode::invalidData];
+            return [false, ErrorCode::INVALIDDATA];
         }
 
     }
@@ -496,7 +500,7 @@ class databaseConnection {
             return [true];
         }
         else {
-            return [false, ErrorCode::unauthorized];
+            return [false, ErrorCode::UNAUTHORIZED];
         }
     }
 
@@ -511,15 +515,17 @@ class databaseConnection {
         $this->connect();
         $sql = "SELECT userName,emailAdress FROM user WHERE emailAdress = '" . $emailadress . "'OR userName = '" . $username . "'";
         $result = $this->conn->query($sql);
-        if ($result->num_rows > 0) { // if there are results
+        if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                if ($row['userName'] == $username) { // if the username already exists
+                // if the username already exists
+                if ($row['userName'] == $username) {
                     $this->conn->close();
-                    return [false, ErrorCode::usernameAlreadyRegistered];
+                    return [false, ErrorCode::USERNAMEALREADYREGISTERED];
                 }
-                else { // if the emailadress already exists
+                // if the emailadress already exists
+                else {
                     $this->conn->close();
-                    return [false, ErrorCode::emailadressAlreadyRegistered];
+                    return [false, ErrorCode::EMAILADRESSALREADYREGISTERED];
                 }
             }
         } else {
@@ -540,14 +546,15 @@ class databaseConnection {
         $this->connect();
         $sql = "SELECT id FROM user WHERE emailAdress = '" . $emailadress . "'";
         $result = $this->conn->query($sql);
-        if ($result->num_rows > 0) { // if there are results
+        // if there are results
+        if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 $this->conn->close();
                 return [true];
             }
         } else {
             $this->conn->close();
-            return [false,ErrorCode::emailadressAlreadyRegistered];
+            return [false,ErrorCode::EMAILADRESSALREADYREGISTERED];
         }
 
     }
@@ -574,7 +581,8 @@ class databaseConnection {
      * generates the token for the login
      */
     private function generateToken($userid) {
-        return $this->getHashedPw($userid .  date('Y-m-d H:i:s')); //just use the getHashedPw method with userid and time
+        //just use the getHashedPw method with userid and time
+        return $this->getHashedPw($userid .  date('Y-m-d H:i:s'));
     }
 
     /**
@@ -590,7 +598,7 @@ class databaseConnection {
             return [true];
         }
         else {
-            return [false, ErrorCode::userUnauthorizedForHousehold];
+            return [false, ErrorCode::USERUNAUTHORIZEDFORHOUSEHOLD];
         }
     }
 

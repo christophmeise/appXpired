@@ -47,13 +47,13 @@ abstract class Request {
         $z = 0;
         $errors = null;
         for ($i=0;$i < count($ret);$i++) {
-            if ($i == 0 and $ret[$i] == true) {
+            if ($i == 0 && $ret[$i] === true) {
                 HeaderManager::getInstance()->addHeader(new Header("Success","true"));
             }
-            else if ($i == 0 and $ret[$i] == false) {
+            else if ($i == 0 && $ret[$i] === false) {
                 HeaderManager::getInstance()->addHeader(new Header("Success","false"));
             }
-            else if ($i != 0 and $ret[0] == false){
+            else if ($i != 0 && $ret[0] === false){
                 $errors = strval($ret[$i]) . ";";
                 $z += 1;
             }

@@ -13,7 +13,6 @@ class Get extends Request {
      * @return string
      */
     public function execute() {
-        $ret = null;
         if (!$this->user->authorized()) {
             HeaderManager::getInstance()->addHeader(new Header("Success", "false"));
             return parent::getOutputString();
