@@ -84,16 +84,12 @@ class RequestFactory
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":
                 return new Get($headers,$user);
-                break;
             case "POST":
                 return new Post($headers,$user);
-                break;
             case "DELETE":
                 return new Delete($headers,$user);
-                break;
             case "PATCH":
                 return new Patch($headers,$user);
-                break;
         }
     }
 
@@ -106,10 +102,8 @@ class RequestFactory
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":
                 return new Login($headers,$user);
-                break;
             case "POST":
                 return new UserCreate($headers,$user);
-                break;
         }
     }
 
@@ -122,7 +116,6 @@ class RequestFactory
         switch ($_SERVER['REQUEST_METHOD']) {
             case "POST":
                 return new HouseholdCreate($headers,$user);
-                break;
         }
     }
 }
