@@ -71,17 +71,6 @@ class databaseConnection {
 
     /**
      * @return bool
-     * test connection in constructor
-     */
-    private function testConnection() {
-        $this->connect();
-        $this->conn->close();
-        return $this->connected;
-
-    }
-
-    /**
-     * @return bool
      * connect to mysql database;
      */
 

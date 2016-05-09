@@ -76,8 +76,6 @@ function logThisRequest() {
         $headers["Appxpired-Token"] = "hidden";
     }
     array_unshift($current, $headers);
-    //print_r($current);
-    //$end = json_encode($current);
     file_put_contents($file, json_encode($current));
 }
 
