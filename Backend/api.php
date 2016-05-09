@@ -5,10 +5,20 @@
  * Time: 13:42
  */
 
-include "databaseConnection.php";
+spl_autoload_register(function($className)
+{
+    $namespace = str_replace("\\","/",__NAMESPACE__);
+    $className = str_replace("\\","/",$className);
+    $class = "./".(empty($namespace)?"":$namespace."/")."{$className}.php";
+    include_once($class);
+});
 
-$api = new api();
+HeaderManager::getInstance()->addHeader(new Header("Content-Type","application/json"));
 
+$request = RequestFactory::create(apache_request_headers());
+$printer = new Printer($request);
+$printer->execute();
+logThisRequest();
 
 /**
  * Class api
@@ -24,123 +34,37 @@ $api = new api();
  *      the household password
  * - Table:
  *      the table where you need the get from
- * - Values:
+ * - Wherevalues:
+ *
  *      the "where" values from the table please provide this information in the following format:
  *      "Field1","Value1";"Field2","Value2"
  *      (use "," to separate the inner array and ";" to separate the outer array.
+ * - Setvalues
+ *      the values you want to set, use just as the wherevalues
+ * - Selectvalues:
+ *      the "select" values of the Select statement (Select * from...)
+ *      please provide those values ; seperated.
+ * - Token:
+ *      the token for user authorization
+ *
  */
 
 
-class api {
-
-    private $usedHeaders;
-    private $headerPrefix;
-    private $headerNames;
-
-    private $db;
-    /**
-     * api constructor.
-     */
-    public function __construct() {
-        //setting up variables
-        $this->usedHeaders = [];
-        $this->headerPrefix = "Appxpired-";
-        $this->headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Values"];
-        // get headers
-        $this->getHeaders();
-        //connect to db;
-        $this->db = new databaseConnection();
-        $this->db->connect();
-        // get the used HTTP Method (CRUD)
-        $this->getHTTPMethod();
-        $this->readPost();
+function logThisRequest() {
+    $file = 'log.json';
+    $current = json_decode(file_get_contents($file));
+    $headers = apache_request_headers();
+    $headers["Request-Method"] = $_SERVER['REQUEST_METHOD'];
+    $headers["Date"] = date(DATE_RFC822);
+    if ($headers["Appxpired-Password"] != null) {
+        $headers["Appxpired-Password"] = "hidden";
     }
-
-    function getHTTPMethod() {
-        // get the HTTP Method
-        switch ($_SERVER['REQUEST_METHOD']) {
-            case "GET":
-                $this->get();
-                break;
-            case "POST":
-                $this->post();
-                break;
-            case "DELETE":
-                $this->delete();
-                break;
-            case "PATCH":
-                $this->patch();
-                break;
-        }
+    if ($headers["Appxpired-Token"] != null) {
+        $headers["Appxpired-Token"] = "hidden";
     }
-    /**
-     * get the custom headers and add them to the $usedHeaders array.
-     */
-    function getHeaders() {
-        $headers = apache_request_headers();
-        foreach ($this->headerNames as $headerName) {
-            $this->usedHeaders[$headerName] = $headers[$this->headerPrefix . $headerName];
-        }
-        $this->processHeaders();
-    }
-
-    function processHeaders() {
-        //echo $this->usedHeaders["Values"];
-        $this->usedHeaders["Values"] = explode(";",$this->usedHeaders["Values"]);
-
-        for ($i = 0;$i<count($this->usedHeaders["Values"]);$i++) {
-            $this->usedHeaders["Values"][$i] = explode(",",$this->usedHeaders["Values"][$i]);
-        }
-
-        echo print_r($this->usedHeaders["Values"]);
-    }
-
-    /**
-     * GET Method was called
-     */
-    function get() {
-        // kein body
-
-    }
-
-    /**
-     * POST Method was called
-     */
-    function post() {
-        // body
-
-    }
-    /**
-     * DELETE Method was called
-     */
-    function delete() {
-        // body
-
-    }
-    /**
-     * PATCH Method was called
-     */
-    function patch() {
-        // body
-    }
-    //TODO
-    function readPost() {
-        // test code
-        $whatever['1'] = 'cottton';
-        $whatever['2'] ='yoyoyoyo';
-
-        $whatever = json_encode($whatever);
-        $anything = 'bla';
-        $lolz = 13*13*13;
-
-        // sort data ...
-        $data['whatever'] = $whatever;
-        $data['anything'] = $anything;
-        $data['lolz'] = $lolz;
-
-
-    // json_encode data and 'echo it out'
-        echo json_encode($data);
-
-    }
+    array_unshift($current, $headers);
+    //print_r($current);
+    //$end = json_encode($current);
+    file_put_contents($file, json_encode($current));
 }
+
