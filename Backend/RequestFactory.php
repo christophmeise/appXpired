@@ -10,8 +10,8 @@
 class RequestFactory
 {
 
-    const headerPrefix = "Appxpired-";
-    const headerNames = ["Username", "Password", "Household", "Household-Pw", "Table", "Wherevalues", "Setvalues", "Selectvalues", "Token","Expand"];
+    const HEADERPREFIX = "Appxpired-";
+    const HEADERNAMES = ["Username", "Password", "Household", "Household-Pw", "Table", "Wherevalues", "Setvalues", "Selectvalues", "Token","Expand"];
 
     /**
      * @param $apache_headers
@@ -41,8 +41,8 @@ class RequestFactory
      */
     private static function parseHeaders(Array $apacheRequestHeaders) {
         $headers = $apacheRequestHeaders;
-        foreach (RequestFactory::headerNames as $headerName) {
-            $headers[$headerName] = $headers[RequestFactory::headerPrefix . $headerName];
+        foreach (RequestFactory::HEADERNAMES as $headerName) {
+            $headers[$headerName] = $headers[RequestFactory::HEADERPREFIX . $headerName];
         }
         return RequestFactory::processHeaders($headers);
     }
