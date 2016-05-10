@@ -55,7 +55,7 @@
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editName"
+                        android:id="@+id/templateEditName"
                         android:layout_column="1"
                         android:layout_weight="0.75"
                         android:layout_gravity="left|center_vertical" />
@@ -74,7 +74,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Expire duration"
+                        android:text="Expire duration in days"
                         android:id="@+id/textView2"
                         android:layout_column="0"
                         android:layout_gravity="center_vertical"
@@ -83,12 +83,9 @@
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="date"
                         android:ems="10"
-                        android:id="@+id/addDateEdit"
+                        android:id="@+id/templateExpireDuration"
                         android:layout_weight="0.75"
-                        android:text="22.10.2015"
-                        android:focusable="false"
                         android:layout_gravity="left|center_vertical" />
 
                 </TableRow>
@@ -114,7 +111,7 @@
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/addCategorySpinner"
+                        android:id="@+id/templateCategorySpinner"
                         android:layout_column="1"
                         android:spinnerMode="dropdown"
                         android:scrollIndicators="end"
@@ -142,7 +139,7 @@
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/addPositionSpinner"
+                        android:id="@+id/templatePositionSpinner"
                         android:layout_column="1"
                         android:spinnerMode="dropdown"
                         android:scrollIndicators="end"
@@ -178,7 +175,7 @@
                         <EditText
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/addAmountEdit"
+                            android:id="@+id/templateAmountEdit"
                             android:layout_gravity="left|center_vertical"
                             android:inputType="number"
                             android:layout_weight="0.6"
@@ -187,7 +184,7 @@
                         <Spinner
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/addAmountSpinner"
+                            android:id="@+id/templateAmountSpinner"
                             android:gravity="right"
                             android:layout_weight="0.4"
                             android:spinnerMode="dropdown"
@@ -216,7 +213,7 @@
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/addDescEdit"
+                        android:id="@+id/templateDescEdit"
                         android:layout_weight="0.75" />
                 </TableRow>
 
@@ -239,7 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="110dp"
                     android:text="Add"
-                    android:id="@+id/addAddButton"
+                    android:id="@+id/templateAddButton"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="0dp"
