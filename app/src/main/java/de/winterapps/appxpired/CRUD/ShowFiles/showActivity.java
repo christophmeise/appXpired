@@ -21,6 +21,7 @@ import de.winterapps.appxpired.CRUD.ShowFiles.Positions;
 import de.winterapps.appxpired.CRUD.ShowFiles.customAdapter;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
+import de.winterapps.appxpired.memberVariables;
 
 /**
  * Created by D062400 on 15.10.2015.
@@ -36,8 +37,7 @@ public class showActivity extends Activity {
     String foodCategory = null;
     String foodPosition = null;
     String foodName = null;
-
-    String[] FILTERMODES = {"category", "position", "search"};
+    JSONArray foodEntriesFiltered = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,59 +77,29 @@ public class showActivity extends Activity {
                 R.array.categroy_array_show, android.R.layout.simple_spinner_item);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         oCategorySpinner.setAdapter(categoryAdapter);
-        oCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    JSONArray foodEntriesFiltered = filterEntries(foodEntries, adapterView.getItemAtPosition(i).toString(), FILTERMODES[0].toString());
-                    customAdapter adapter = new customAdapter(foodEntriesFiltered, that);
-                    //handle listview and assign adapter
-                    ListView lView = (ListView)findViewById(R.id.listView);
-                    lView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-
-        });
+        oCategorySpinner.setOnItemSelectedListener(new OnItemSelectedListener(foodEntries, that, 0));
         // Position spinner
         oPositionSpinner = (Spinner)findViewById(R.id.positionSpinner1);
         ArrayAdapter<CharSequence> positionAdapter = ArrayAdapter.createFromResource(this,
                 R.array.planets_array_show, android.R.layout.simple_spinner_item);
         positionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         oPositionSpinner.setAdapter(positionAdapter);
-        oPositionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    JSONArray foodEntriesFiltered = filterEntries(foodEntries, adapterView.getItemAtPosition(i).toString(), FILTERMODES[0].toString());
-                    customAdapter adapter = new customAdapter(foodEntriesFiltered, that);
-                    //handle listview and assign adapter
-                    ListView lView = (ListView)findViewById(R.id.listView);
-                    lView.setAdapter(adapter);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        oPositionSpinner.setOnItemSelectedListener(new OnItemSelectedListener(foodEntries, that, 1));
     }
 
     public void synchronizeItems(String query) {
         localDatabase database = new localDatabase(this);
         foodEntries = database.getFood();
-        JSONArray foodEntriesFiltered = null;
 
         if(query.isEmpty() == true){
                 if (oCategorySpinner == null || (oCategorySpinner != null && oCategorySpinner.getSelectedItem().equals("All"))){
                     //initial load || All selected
                     foodEntriesFiltered = foodEntries;
                 } else{
-                    foodEntriesFiltered = filterEntries(foodEntries, query, (String) FILTERMODES[0]);
+                    foodEntriesFiltered = filterEntries(foodEntries, query, (String) memberVariables.FILTERMODES[0]);
                 }
         } else{
-                foodEntriesFiltered = filterEntries(foodEntries, query, (String) FILTERMODES[2]);
+                foodEntriesFiltered = filterEntries(foodEntries, query, (String) memberVariables.FILTERMODES[2]);
         }
 
         //instantiate custom adapter
@@ -145,15 +115,17 @@ public class showActivity extends Activity {
         lView.setAdapter(adapter);
     }
     // mode -> category / position / search
-    private JSONArray filterEntries(JSONArray foodEntries, String query, String mode) {
+    public JSONArray filterEntries(JSONArray foodEntries, String query, String mode) {
         for (int i = foodEntries.length() - 1; i >= 0; i--){
             // loads JSONObject food, String foodPosition, String foodCategory, String foodName
             // from foodEntries
+
+            //this.foodEntries = foodEntries;
             loadFoodData(i);
             query = query.toLowerCase();
 
             // search
-            if (mode == FILTERMODES[2].toString()) {
+            if (mode == memberVariables.FILTERMODES[2].toString()) {
                 try {
                     String searchSubstring = null;
                     if (foodName.length() >= query.length()) {
@@ -180,16 +152,16 @@ public class showActivity extends Activity {
             }
 
             // category
-            if (mode == FILTERMODES[0].toString()){
-                if (!foodCategory.equalsIgnoreCase(query) && !oCategorySpinner.getSelectedItem().equals("All")){
+            if (mode == memberVariables.FILTERMODES[0].toString()){
+                if (oCategorySpinner != null && (!foodCategory.equalsIgnoreCase(query) && !oCategorySpinner.getSelectedItem().equals("All"))){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         foodEntries.remove(i);
                     }
                 }
             }
             // position
-            if (mode == FILTERMODES[1].toString()){
-                if (!foodCategory.equalsIgnoreCase(query) && !oPositionSpinner.getSelectedItem().equals("All")){
+            if (mode == memberVariables.FILTERMODES[1].toString()){
+                if (oPositionSpinner != null && !foodCategory.equalsIgnoreCase(query) && !oPositionSpinner.getSelectedItem().equals("All")){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         foodEntries.remove(i);
                     }

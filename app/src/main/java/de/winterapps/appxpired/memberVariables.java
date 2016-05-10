@@ -4,6 +4,7 @@ import android.app.Application;
 
 public class memberVariables extends Application{
 
+    public static final String[] FILTERMODES = {"category", "position", "search"};
     public static memberVariables sharedInstance = new memberVariables();
 
 
@@ -15,7 +16,6 @@ public class memberVariables extends Application{
     public String size;
     public String username;
     public String household;
-
 
     public String getToken() {
         return token;
