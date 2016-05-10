@@ -6,6 +6,9 @@
  * Date: 02.05.16
  * Time: 17:18
  */
+
+
+
 class HeaderManager {
 
     /**
@@ -44,9 +47,9 @@ class HeaderManager {
 
     /**
      * Adds the errorCode to the Error Header
-     * @param ErrorCode $errorCode
+     * @param Int $errorCode
      */
-    public function addError(ErrorCode $errorCode) {
+    public function addError($errorCode) {
         $i = 0;
         $added = false;
         while ($i < count($this->headers) && !$added) {
@@ -72,5 +75,9 @@ class HeaderManager {
         foreach ($this->headers as $header) {
             header($header->toHeaderString());
         }
+    }
+
+    public function getHeaders() {
+        return $this->headers;
     }
 }
