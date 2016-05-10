@@ -25,15 +25,11 @@ public class localDatabaseTest {
     }
 
     @Test
-    public void cleanseValuesAddFoodTest(){
+    public void cleanseValuesAddFoodTest() throws JSONException {
 
         localDatabase db = new localDatabase(context);
-        JSONObject foodEntryJSON = new JSONObject();
-        try {
-            foodEntryJSON.put("id",5);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JSONObject foodEntryJSON = new JSONObject("{\"id\":10}");
+        foodEntryJSON.put("id",5);
         Integer id = 5;
         ContentValues foodEntryCV = db.cleanseValuesAddFood(foodEntryJSON);
         Assert.assertEquals(id,foodEntryCV.getAsInteger("backendId"));
