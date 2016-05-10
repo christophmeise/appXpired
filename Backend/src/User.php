@@ -6,6 +6,9 @@
  * Date: 02.05.16
  * Time: 17:52
  */
+
+
+
 class User
 {
     private $id = "-1";
@@ -38,12 +41,6 @@ class User
         $this->email = $email;
         $this->firstname = $firstname;
         $this->lastname = $lastname;
-
-        $this->db = databaseConnection::getInstance();
-        $this->id = $this->db->getUserId($this);
-        if ($this->id == "-1") {
-            // TODO user needs to be created
-        }
     }
 
     /**

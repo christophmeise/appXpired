@@ -6,6 +6,9 @@
  * Date: 02.05.16
  * Time: 23:50
  */
+
+
+
 class Printer
 {
     /**

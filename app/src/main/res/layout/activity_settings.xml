@@ -5,68 +5,79 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:baselineAligned="false"
+        android:longClickable="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false"
+        android:id="@+id/tableLayout2"
+        android:layout_alignParentLeft="false"
+        android:layout_margin="30dp"
+        android:layout_centerInParent="true">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Current household:"
-                android:id="@+id/textView18"
-                android:layout_weight="0.5" />
+                android:text="Templates"
+                android:id="@+id/buttonTemplate"
+                android:background="@drawable/buttonshape"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="household"
-                android:id="@+id/settingsTextViewHousehold"
-                android:layout_weight="0.5" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Logged in as:"
-                android:id="@+id/textView20"
-                android:layout_weight="0.5" />
+                android:text="Categories"
+                android:id="@+id/buttonCategorie"
+                android:background="@drawable/buttonshape"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+        </TableRow>
 
-            <TextView
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="user"
-                android:id="@+id/settingsTextViewUser"
-                android:layout_weight="0.5" />
+                android:text="Positions"
+                android:id="@+id/buttonPosition"
+                android:background="@drawable/buttonshape"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Households"
+                android:id="@+id/buttonHousehold"
+                android:background="@drawable/buttonshape"
+                android:textColor="#ffffff"
+                android:padding="50dp"
+                android:layout_weight="1" />
         </TableRow>
 
     </TableLayout>
-
-    <Button
-        android:layout_width="400px"
-        android:layout_height="150px"
-        android:text="Change household"
-        android:id="@+id/button"
-        android:layout_column="0"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/buttonshape"
-        android:textColor="#ffffff"
-        android:layout_marginBottom="20dp" />
 
 </RelativeLayout>

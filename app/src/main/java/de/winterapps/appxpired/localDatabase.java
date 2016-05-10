@@ -43,8 +43,8 @@ public class localDatabase extends SQLiteOpenHelper{
             "additionalInformation text, " +
             "deleted integer, " +
             "household_id integer, " +
-            "createUser_id` integer, " +
-            "expireDuration` integer, " +
+            "createUser_id integer, " +
+            "expireDuration integer, " +
             "category_id integer)";
 
     public static final String CREATE_POSITION_TABLE = "CREATE TABLE position" +
@@ -280,7 +280,7 @@ public class localDatabase extends SQLiteOpenHelper{
         if(values.get("name") == ""){
             return false;
         }
-        long e = db.insert("template", null, values);
+        long e = db.insert("templates", null, values);
         db.close();
         if (e == -1){
             return false;
@@ -317,7 +317,12 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
             values.put("expireDuration", 0);
         }
-        values.put("category_id", 0);//dummy entry
+        try {
+            values.put("category_id", templateEntry.getString("category_id"));//dummy entry
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("category_id", 0);
+        }
         return values;
     }
 
