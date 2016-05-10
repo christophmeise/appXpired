@@ -18,7 +18,7 @@ package de.winterapps.appxpired.BarcodeScanner;
         import org.json.JSONException;
         import org.json.JSONObject;
 
-        import de.winterapps.appxpired.CRUD.addActivity;
+        import de.winterapps.appxpired.CRUD.AddFiles.addActivity;
         import de.winterapps.appxpired.memberVariables;
 
 public class MessageDialogFragment extends DialogFragment {

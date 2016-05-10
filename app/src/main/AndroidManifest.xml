@@ -14,22 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".menuActivity" ></activity>
-        <activity android:name=".CRUD.addActivity"
+        <activity android:name=".CRUD.AddFiles.addActivity"
             android:configChanges="orientation|screenSize">
         </activity>
-        <activity android:name=".CRUD.showActivity"></activity>
+        <activity android:name=".CRUD.ShowFiles.showActivity"></activity>
         <activity android:name=".BarcodeScanner.scanActivity"></activity>
         <activity android:name=".BarcodeScanner.uploadItem"></activity>
         <activity android:name=".settingsActivity"></activity>
-        <activity android:name=".CRUD.loginActivity">
+        <activity android:name=".CRUD.Login.loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CRUD.registerActivity"></activity>
-        <activity android:name=".CRUD.detailsActivity"></activity>
+        <activity android:name=".CRUD.Login.registerActivity"></activity>
+        <activity android:name=".CRUD.ShowFiles.detailsActivity"></activity>
     </application>
 
 </manifest>

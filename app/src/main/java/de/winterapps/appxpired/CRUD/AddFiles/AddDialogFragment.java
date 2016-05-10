@@ -1,4 +1,4 @@
-package de.winterapps.appxpired.CRUD;
+package de.winterapps.appxpired.CRUD.AddFiles;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,14 +6,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 
-import de.winterapps.appxpired.BarcodeScanner.MessageDialogFragment;
 import de.winterapps.appxpired.BarcodeScanner.scanActivity;
-import de.winterapps.appxpired.BarcodeScanner.uploadItem;
 import de.winterapps.appxpired.R;
 
 /**

@@ -1,16 +1,33 @@
 <resources>
     <string name="app_name">appXpired</string>
-        <string-array name="planets_array">
-            <item>Mercury</item>
-            <item>Venus</item>
-            <item>Earth</item>
-            <item>Mars</item>
-            <item>Jupiter</item>
-            <item>Saturn</item>
-            <item>Uranus</item>
-            <item>Neptune</item>
-        </string-array>
+    <string-array name="planets_array">
+        <item>Kühlschrank</item>
+        <item>Wandschrank</item>
+        <item>Lagerraum</item>
+        <item>Keller</item>
+        <item>Regal</item>
+    </string-array>
+    <string-array name="planets_array_show">
+        <item>All</item>
+        <item>Kühlschrank</item>
+        <item>Wandschrank</item>
+        <item>Lagerraum</item>
+        <item>Keller</item>
+        <item>Regal</item>
+    </string-array>
     <string-array name="categroy_array">
+        <item>Meat</item>
+        <item>Cheese</item>
+        <item>Bread</item>
+        <item>Noodles</item>
+        <item>Dairy Products</item>
+        <item>Vegetables</item>
+        <item>Fruits</item>
+        <item>Sauces</item>
+        <item>Sweets</item>
+    </string-array>
+    <string-array name="categroy_array_show">
+        <item>All</item>
         <item>Meat</item>
         <item>Cheese</item>
         <item>Bread</item>

@@ -1,4 +1,4 @@
-package de.winterapps.appxpired.CRUD;
+package de.winterapps.appxpired.CRUD.AddFiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +34,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;

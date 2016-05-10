@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.winterapps.appxpired.CRUD.AddDialogFragment;
+import de.winterapps.appxpired.CRUD.AddFiles.AddDialogFragment;
 import de.winterapps.appxpired.R;
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;

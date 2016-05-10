@@ -1,4 +1,4 @@
-package de.winterapps.appxpired.CRUD;
+package de.winterapps.appxpired.CRUD.Login;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,11 +20,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;

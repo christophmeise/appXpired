@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by D062400 on 21.10.2015.
  */
 public class responseClass extends StringRequest {
-Map<String,String> headers;
+public Map<String,String> headers;
 
     public responseClass(int method, String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);

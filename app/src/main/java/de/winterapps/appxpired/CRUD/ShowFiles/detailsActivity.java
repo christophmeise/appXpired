@@ -1,7 +1,6 @@
-package de.winterapps.appxpired.CRUD;
+package de.winterapps.appxpired.CRUD.ShowFiles;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;

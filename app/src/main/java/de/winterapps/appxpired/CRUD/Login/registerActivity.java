@@ -1,4 +1,4 @@
-package de.winterapps.appxpired.CRUD;
+package de.winterapps.appxpired.CRUD.Login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 
 /**
