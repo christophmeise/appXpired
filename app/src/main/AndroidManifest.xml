@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".CRUD.registerActivity"></activity>
         <activity android:name=".CRUD.detailsActivity"></activity>
+        <activity android:name=".templateActivity"></activity>
     </application>
 
 </manifest>
