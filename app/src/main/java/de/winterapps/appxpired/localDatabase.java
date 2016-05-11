@@ -93,12 +93,14 @@ public class localDatabase extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_GROCERIES_TABLE);
         db.execSQL(CREATE_TEMPLATE_TABLE);
+        db.execSQL(CREATE_CATEGORY_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS groceries");
         db.execSQL("DROP TABLE IF EXISTS templates");
+        db.execSQL("DROP TABLE IF EXISTS category");
         onCreate(db);
     }
 
@@ -317,12 +319,35 @@ public class localDatabase extends SQLiteOpenHelper{
         return values;
     }
 
+    public JSONArray getTemplates(){
+        JSONArray templateArray = new JSONArray();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from templates", null );
+        res.moveToFirst();
+        while (res.isAfterLast() == false){
+            JSONObject templateEntry = new JSONObject();
+            try {
+                templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
+                templateEntry.put("name", res.getString(res.getColumnIndex("name")));
+                templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
+                templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
+                templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
+                templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            templateArray.put(templateEntry);
+            res.moveToNext();
+        }
+        return templateArray;
+    }
+
     public JSONObject getTemplate(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from templates where id=" + id, null);
         JSONObject templateEntry = new JSONObject();
         try {
-            templateEntry.put("backendId", res.getInt(res.getColumnIndex("backendId")));
+            templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
             templateEntry.put("name", res.getString(res.getColumnIndex("name")));
             templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
             templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
@@ -342,5 +367,65 @@ public class localDatabase extends SQLiteOpenHelper{
             return false;
         }
         return true;
+    }
+
+    public boolean addCategory(JSONObject categoryEntry){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values = cleanseValuesAddCategory(categoryEntry);
+        if(values.get("name") == ""){
+            return false;
+        }
+        long e = db.insert("category", null, values);
+        db.close();
+        if (e == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public ContentValues cleanseValuesAddCategory(JSONObject categoryEntry) {
+        ContentValues values = new ContentValues();
+        try {
+            values.put("name", categoryEntry.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("name", "");
+        }
+        values.put("createUser_id", 0);
+        values.put("measuring_id", 0);
+        return values;
+    }
+
+    public JSONArray getCategories(){
+        JSONArray categoryArray = new JSONArray();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from category", null );
+        res.moveToFirst();
+        while (res.isAfterLast() == false){
+            JSONObject categoryEntry = new JSONObject();
+            try {
+                categoryEntry.put("id",res.getInt(res.getColumnIndex("id")));
+                categoryEntry.put("name",res.getString(res.getColumnIndex("name")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            categoryArray.put(categoryEntry);
+            res.moveToNext();
+        }
+        return categoryArray;
+    }
+
+    public JSONObject getCategory(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from category where id=" + id, null);
+        JSONObject categoryEntry = new JSONObject();
+        try {
+            categoryEntry.put("id",res.getInt(res.getColumnIndex("idd")));
+            categoryEntry.put("name",res.getString(res.getColumnIndex("name")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return categoryEntry;
     }
 }

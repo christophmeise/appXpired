@@ -20,7 +20,9 @@
         <activity android:name=".CRUD.ShowFiles.showActivity"></activity>
         <activity android:name=".BarcodeScanner.scanActivity"></activity>
         <activity android:name=".BarcodeScanner.uploadItem"></activity>
-        <activity android:name=".settingsActivity"></activity>
+        <activity android:name=".Settings.settingsActivity"></activity>
+        <activity android:name=".Settings.templateActivity"></activity>
+        <activity android:name=".Settings.categoryActivity"></activity>
         <activity android:name=".CRUD.Login.loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

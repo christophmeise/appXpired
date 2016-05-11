@@ -1,13 +1,12 @@
-package de.winterapps.appxpired;
+package de.winterapps.appxpired.Settings;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import de.winterapps.appxpired.R;
 
 /**
  * Created by D062400 on 15.10.2015.
@@ -22,10 +21,18 @@ public class settingsActivity extends Activity{
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_settings);
 
-        final Button buttonAdd = (Button) findViewById(R.id.buttonTemplate);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        final Button buttonTemplate = (Button) findViewById(R.id.buttonTemplate);
+        buttonTemplate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(settingsActivity.this, templateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button buttonCategory = (Button) findViewById(R.id.buttonCategorie);
+        buttonCategory.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(settingsActivity.this, categoryActivity.class);
                 startActivity(intent);
             }
         });

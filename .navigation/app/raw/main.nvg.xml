@@ -30,7 +30,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "de.winterapps.appxpired.settingsActivity"/>
+        className = "de.winterapps.appxpired.Settings.settingsActivity"/>
       <point      
         x = "1618"      
         y = "1336"/>

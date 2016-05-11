@@ -1,4 +1,4 @@
-package de.winterapps.appxpired;
+package de.winterapps.appxpired.Settings;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.winterapps.appxpired.R;
+import de.winterapps.appxpired.localDatabase;
 
 /**
  * Created by D062332 on 09.05.2016.
@@ -24,7 +27,7 @@ public class templateActivity extends Activity{
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(addToDatabase()){
-                    Toast.makeText(templateActivity.this,"Template succesfully added to the database", Toast.LENGTH_LONG).show();
+                    Toast.makeText(templateActivity.this,"Template succesfully added to the database", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(templateActivity.this,"Error", Toast.LENGTH_LONG).show();
                 }
