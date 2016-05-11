@@ -138,7 +138,7 @@ public class localDatabase extends SQLiteOpenHelper{
     }
 
     public boolean existsInBackend(ContentValues values){
-        int backendId = 0;
+        int backendId;
         backendId = values.getAsInteger("backendId");
         ArrayList<Integer> backendIds = getBackendIds();
         for(int id : backendIds){
