@@ -16,25 +16,19 @@ import de.winterapps.appxpired.memberVariables;
  */
 public class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
-    JSONArray foodEntries;
     Context that;
-    int mode;
+    String mode;
     Context self;
 
-    public OnItemSelectedListener(JSONArray array, Context context, int i) {
-        foodEntries = array;
+    public OnItemSelectedListener(Context context, String mode) {
         that = context;
-        mode = i;
+        this.mode = mode;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        showActivity show = new showActivity();
-        JSONArray foodEntriesFiltered = ((showActivity) that).filterEntries(foodEntries, adapterView.getItemAtPosition(i).toString(), memberVariables.FILTERMODES[mode].toString());
-        customAdapter adapter = new customAdapter(foodEntriesFiltered, that);
-        //handle listview and assign adapter
-        ListView lView = (ListView)((Activity) that).findViewById(R.id.listView);
-        lView.setAdapter(adapter);
+        ((showActivity) that).filterEntries(showActivity.foodEntries, adapterView.getItemAtPosition(i).toString(), mode);
+        ((showActivity) that).buildList(showActivity.foodEntriesFiltered);
     }
 
     @Override
