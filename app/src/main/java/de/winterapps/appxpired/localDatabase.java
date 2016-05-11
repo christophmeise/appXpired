@@ -138,8 +138,17 @@ public class localDatabase extends SQLiteOpenHelper{
     }
 
     public boolean existsInBackend(ContentValues values){
-        int backendId = 0;
+        int backendId;
+<<<<<<< HEAD
+        try {
+            backendId = foodEntry.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return true;
+        }
+=======
         backendId = values.getAsInteger("backendId");
+>>>>>>> 04e217d12dc3536174ecf2c3afd240756596e8bf
         ArrayList<Integer> backendIds = getBackendIds();
         for(int id : backendIds){
             if(backendId == id){
