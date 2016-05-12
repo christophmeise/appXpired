@@ -94,6 +94,7 @@ public class localDatabase extends SQLiteOpenHelper{
         db.execSQL(CREATE_GROCERIES_TABLE);
         db.execSQL(CREATE_TEMPLATE_TABLE);
         db.execSQL(CREATE_CATEGORY_TABLE);
+        db.execSQL(CREATE_POSITION_TABLE);
     }
 
     @Override
@@ -101,6 +102,7 @@ public class localDatabase extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS groceries");
         db.execSQL("DROP TABLE IF EXISTS templates");
         db.execSQL("DROP TABLE IF EXISTS category");
+        db.execSQL("DROP TABLE IF EXISTS position");
         onCreate(db);
     }
 
@@ -437,7 +439,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONObject getCategory(String name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from category where name=" + name, null);
+        Cursor res =  db.rawQuery("select * from category where name=\"" + name + "\"", null);
         JSONObject categoryEntry = new JSONObject();
         res.moveToFirst();
         try {
@@ -447,5 +449,72 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return categoryEntry;
+    }
+
+    public boolean addPosition(JSONObject positionEntry){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        try {
+            values.put("name", positionEntry.getString("name"));
+        } catch (JSONException e) {
+            values.put("name", "");
+            e.printStackTrace();
+        }
+        if(values.get("name") == ""){
+            return false;
+        }
+        long e = db.insert("position", null, values);
+        db.close();
+        if (e == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public JSONArray getPositions(){
+        JSONArray positionArray = new JSONArray();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from position", null );
+        res.moveToFirst();
+        while (res.isAfterLast() == false){
+            JSONObject positionEntry = new JSONObject();
+            try {
+                positionEntry.put("id",res.getInt(res.getColumnIndex("id")));
+                positionEntry.put("name",res.getString(res.getColumnIndex("name")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            positionArray.put(positionEntry);
+            res.moveToNext();
+        }
+        return positionArray;
+    }
+
+    public JSONObject getPosition(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from position where id=" + id, null);
+        JSONObject positionEntry = new JSONObject();
+        res.moveToFirst();
+        try {
+            positionEntry.put("id",res.getInt(res.getColumnIndex("id")));
+            positionEntry.put("name",res.getString(res.getColumnIndex("name")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return positionEntry;
+    }
+
+    public JSONObject getPosition(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from position where name=" + name, null);
+        JSONObject positionEntry = new JSONObject();
+        res.moveToFirst();
+        try {
+            positionEntry.put("id",res.getInt(res.getColumnIndex("id")));
+            positionEntry.put("name",res.getString(res.getColumnIndex("name")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return positionEntry;
     }
 }
