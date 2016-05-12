@@ -36,6 +36,15 @@ public class settingsActivity extends Activity{
                 startActivity(intent);
             }
         });
+
+        final Button buttonPosition = (Button) findViewById(R.id.buttonPosition);
+        buttonPosition.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(settingsActivity.this, positionActivity.class);
+                startActivity(intent);
+            }
+        });
+
         /*memberVariables members = memberVariables.sharedInstance;
         currentHousehold = members.getHousehold();
         currentUsername = members.getUsername();
