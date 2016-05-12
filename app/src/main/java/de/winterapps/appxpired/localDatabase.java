@@ -207,7 +207,12 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
             values.put("template_id", 0);
         }
-        values.put("category_id", 0);//dummy entry
+        try {
+            values.put("category_id", foodEntry.getString("category_id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("category_id", 0);
+        }
         values.put("deleted", 0);
         values.put("household_id", 0);//dummy entry
         values.put("createUser_id", 0);//dummy entry
@@ -419,6 +424,20 @@ public class localDatabase extends SQLiteOpenHelper{
     public JSONObject getCategory(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from category where id=" + id, null);
+        JSONObject categoryEntry = new JSONObject();
+        res.moveToFirst();
+        try {
+            categoryEntry.put("id",res.getInt(res.getColumnIndex("id")));
+            categoryEntry.put("name",res.getString(res.getColumnIndex("name")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return categoryEntry;
+    }
+
+    public JSONObject getCategory(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from category where name=" + name, null);
         JSONObject categoryEntry = new JSONObject();
         res.moveToFirst();
         try {
