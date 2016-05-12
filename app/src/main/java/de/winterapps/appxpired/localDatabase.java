@@ -425,6 +425,7 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from category where id=" + id, null);
         JSONObject categoryEntry = new JSONObject();
+        res.moveToFirst();
         try {
             categoryEntry.put("id",res.getInt(res.getColumnIndex("id")));
             categoryEntry.put("name",res.getString(res.getColumnIndex("name")));
@@ -438,6 +439,7 @@ public class localDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from category where name=" + name, null);
         JSONObject categoryEntry = new JSONObject();
+        res.moveToFirst();
         try {
             categoryEntry.put("id",res.getInt(res.getColumnIndex("id")));
             categoryEntry.put("name",res.getString(res.getColumnIndex("name")));

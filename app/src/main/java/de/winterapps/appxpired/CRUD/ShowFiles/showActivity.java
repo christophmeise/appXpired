@@ -27,6 +27,7 @@ public class showActivity extends Activity {
     static Spinner oPositionSpinner;
     static JSONArray foodEntries;
     static JSONArray foodEntriesFiltered = null;
+    localDatabase database;
     Context self = this;
     JSONObject food = null;
     String foodCategory = null;
@@ -88,7 +89,7 @@ public class showActivity extends Activity {
     }
 
     private void loadDatabaseEntries() {
-        localDatabase database = new localDatabase(this);
+        database = new localDatabase(this);
         foodEntries = database.getFood();
     }
 
@@ -108,7 +109,7 @@ public class showActivity extends Activity {
             }
 
             if (mode == FilterModes.CATEGORY){
-                if (oCategorySpinner != null && (!foodCategory.equalsIgnoreCase(query) && !oCategorySpinner.getSelectedItem().equals(ALL))){
+                if (oCategorySpinner != null && (!oCategorySpinner.getSelectedItem().equals(ALL)) && compareEntryWithQuery(query) == false){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         foodEntriesFiltered.remove(i);
                     }
@@ -116,13 +117,36 @@ public class showActivity extends Activity {
             }
 
             if (mode == FilterModes.POSITION){
-                if (oPositionSpinner != null && !foodCategory.equalsIgnoreCase(query) && !oPositionSpinner.getSelectedItem().equals(ALL)){
+                if (oPositionSpinner != null && !oPositionSpinner.getSelectedItem().equals(ALL) && compareEntryWithQuery(query) == false){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         foodEntriesFiltered.remove(i);
                     }
                 }
             }
         }
+    }
+
+    private boolean compareEntryWithQuery(String query) {
+        if (parseEntry().equals(query)){
+            return true;
+        }
+        return false;
+    }
+
+    private String parseEntry() {
+        JSONObject categoryObject = queryDatabaseGetCategoryFor(foodCategory);
+
+        try {
+            return (String) categoryObject.get("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private JSONObject queryDatabaseGetCategoryFor(String foodCategory) {
+        JSONArray x = database.getCategories();
+        return database.getCategory(Integer.valueOf(foodCategory));
     }
 
     private JSONArray copy (JSONArray original){
