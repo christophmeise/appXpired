@@ -2,6 +2,7 @@ package de.winterapps.appxpired.CRUD.AddFiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -22,12 +23,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,8 +47,8 @@ import de.winterapps.appxpired.memberVariables;
  */
 public class addActivity extends AppCompatActivity {
 
-    final Calendar myCalendar = Calendar.getInstance();
-    EditText dateEdit;
+    final static Calendar myCalendar = Calendar.getInstance();
+    static EditText dateEdit;
     Button addButton;
     EditText editName;
     responseClass stringRequest;
@@ -62,46 +65,19 @@ public class addActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         this.findViewById(R.id.avloadingIndicatorView).setVisibility(View.GONE); //turn off loading indicator
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        initializeLayout();
+    }
 
-        Button addButton = (Button) findViewById(R.id.addAddButton);
-        editName = (EditText) findViewById(R.id.editName);
-        oPositionSpinner = (Spinner) findViewById(R.id.addPositionSpinner);
-        oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
-        oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
+    private void initializeLayout() {
+        loadLayoutElements();
+        populateSpinners();
+        addListeners();
 
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
+    }
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oPositionSpinner.setAdapter(adapter);
-
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.units, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oUnitsSpinner.setAdapter(adapter2);
-
-        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
-                R.array.categroy_array, android.R.layout.simple_spinner_item);
-        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oCategorySpinner.setAdapter(adapter5);
-
-        dateEdit = (EditText)findViewById(R.id.addDateEdit);
-
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
-
+    private void addListeners() {
+        final DatePickerDialog.OnDateSetListener date = new OnDateSetListener(self);
 
         dateEdit.setOnClickListener(new View.OnClickListener() {
 
@@ -113,23 +89,56 @@ public class addActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        View.OnClickListener addListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup();
+
+                final String user = members.getUsername();
+                //String pass = members.getPassword();
+                final String token = members.getToken();
+                final String Wherevalues = "";
+                backendRequestAdd(user, "", token, Wherevalues);
+            }
+        };
 
         addButton.setOnClickListener(addListener);
     }
 
-    View.OnClickListener addListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            showPopup();
-
-            final String user = members.getUsername();
-            //String pass = members.getPassword();
-            final String token = members.getToken();
-            final String Wherevalues = "";
-            backendRequestAdd(user, "", token, Wherevalues);
-
+    private void populateSpinners() {
+        localDatabase database = new localDatabase(this);
+        JSONArray categories = database.getCategories();
+        ArrayList categoriesSpinnerFormat = new ArrayList();
+        JSONObject categoryElement;
+        for (int i = 0; i < categories.length(); i++){
+            try {
+                categoryElement = (JSONObject) categories.get(i);
+                categoriesSpinnerFormat.add(categoryElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-    };
+        oCategorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.units, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oUnitsSpinner.setAdapter(adapter2);
+
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oPositionSpinner.setAdapter(adapter5);
+    }
+
+    private void loadLayoutElements() {
+        addButton = (Button) findViewById(R.id.addAddButton);
+        editName = (EditText) findViewById(R.id.editName);
+        oPositionSpinner = (Spinner) findViewById(R.id.addPositionSpinner);
+        oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
+        oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
+        dateEdit = (EditText)findViewById(R.id.addDateEdit);
+    }
 
     private void showPopup(){
         AddDialogFragment popup = new AddDialogFragment();
@@ -138,9 +147,8 @@ public class addActivity extends AppCompatActivity {
         newFragment.show(ft, "dialog");
     }
 
-    private void updateLabel() {
-
-        dateEdit = (EditText)findViewById(R.id.addDateEdit);
+    public static void updateLabel(Context context) {
+        dateEdit = (EditText)((Activity) context).findViewById(R.id.addDateEdit);
 
         String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMAN);
@@ -164,7 +172,7 @@ public class addActivity extends AppCompatActivity {
             food.put("name", name);
             food.put("expire_date", expireDateMillis);
             food.put("backendId", Integer.parseInt(backendid));
-            food.put("category", oCategorySpinner.getSelectedItem().toString());
+            food.put("category", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {
