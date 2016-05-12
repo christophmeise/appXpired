@@ -48,18 +48,13 @@ public class addActivity extends AppCompatActivity {
     EditText dateEdit;
     Button addButton;
     EditText editName;
-    Spinner spinner;
-    Spinner spinner2;
     responseClass stringRequest;
     Activity self = this;
     memberVariables members = memberVariables.sharedInstance;
     String backendid;
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // could be added for landscape mode
-    }
+    Spinner oPositionSpinner;
+    Spinner oUnitsSpinner;
+    Spinner oCategorySpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,19 +65,16 @@ public class addActivity extends AppCompatActivity {
 
         Button addButton = (Button) findViewById(R.id.addAddButton);
         editName = (EditText) findViewById(R.id.editName);
-        Spinner oPositionSpiner = (Spinner) findViewById(R.id.addPositionSpinner);
-        Spinner oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
-        Spinner oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
+        oPositionSpinner = (Spinner) findViewById(R.id.addPositionSpinner);
+        oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
+        oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
 
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
 
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        oPositionSpiner.setAdapter(adapter);
+        oPositionSpinner.setAdapter(adapter);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.units, android.R.layout.simple_spinner_item);
@@ -172,6 +164,7 @@ public class addActivity extends AppCompatActivity {
             food.put("name", name);
             food.put("expire_date", expireDateMillis);
             food.put("backendId", Integer.parseInt(backendid));
+            food.put("category", oCategorySpinner.getSelectedItem().toString());
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {

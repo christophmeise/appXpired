@@ -35,12 +35,14 @@ import de.winterapps.appxpired.menuActivity;
  */
 public class loginActivity extends Activity{
 
+    SharedPreferences prefs;
+    String prefToken;
+    String prefUser;
     Button buttonLogin;
     Button buttonRegister;
     final Activity self = this;
     responseClass stringRequest;
     CheckBox checkKeepLog;
-    SharedPreferences prefs;
     String userInput;
     String passInput;
     Boolean keepLoggedIn;
@@ -51,12 +53,7 @@ public class loginActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // check if token is saved in sharedpreferences
-        prefs = self.getSharedPreferences(
-                "de.winterapps.appxpired", Context.MODE_PRIVATE);
-
-        String prefToken = prefs.getString("Token", "");
-        String prefUser = prefs.getString("Username", "");
+        getTokenAndUserFromSharedPreferences();
 
         // if remembered set global user and token variable in memberVariables class
         if(prefUser != null){
@@ -91,6 +88,14 @@ public class loginActivity extends Activity{
             buttonRegister.setOnClickListener(registerHandler);
         }
 
+    }
+
+    private void getTokenAndUserFromSharedPreferences() {
+        prefs = self.getSharedPreferences(
+                "de.winterapps.appxpired", Context.MODE_PRIVATE);
+
+        prefToken = prefs.getString("Token", "");
+        prefUser = prefs.getString("Username", "");
     }
 
 

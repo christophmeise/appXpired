@@ -21,42 +21,23 @@ public class menuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        initializeLayout();
+    }
 
-///////////////Initialize all buttons in menu
+    private void initializeLayout() {
         final Button buttonAdd = (Button) findViewById(R.id.menuAddButton);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, addActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonAdd.setOnClickListener(new ButtonOnClickListener(menuActivity.this, addActivity.class));
 
         final Button buttonShow = (Button) findViewById(R.id.menuShowButton);
-        buttonShow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, showActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonShow.setOnClickListener(new ButtonOnClickListener(menuActivity.this, showActivity.class));
 
         final Button buttonScan = (Button) findViewById(R.id.menuScanButton);
-        buttonScan.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, scanActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonScan.setOnClickListener(new ButtonOnClickListener(menuActivity.this, scanActivity.class));
 
         final Button buttonSettings = (Button) findViewById(R.id.menuSettingsButton);
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(menuActivity.this, settingsActivity.class);
-                startActivity(intent);
-            }
-        });
-///////////////
-
+        buttonSettings.setOnClickListener(new ButtonOnClickListener(menuActivity.this, settingsActivity.class));
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
