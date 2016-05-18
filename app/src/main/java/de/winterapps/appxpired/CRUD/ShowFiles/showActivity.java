@@ -212,7 +212,9 @@ public class showActivity extends Activity {
             e.printStackTrace();
         }
         try {
-            foodPosition = food.get("positionId").toString();
+            Object positionObj = food.get("positionId");
+            JSONObject position = new JSONObject((String) positionObj);
+            foodCategory = (String) position.get("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }

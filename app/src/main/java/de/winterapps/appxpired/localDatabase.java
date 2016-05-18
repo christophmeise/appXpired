@@ -506,7 +506,7 @@ public class localDatabase extends SQLiteOpenHelper{
 
     public JSONObject getPosition(String name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from position where name=" + name, null);
+        Cursor res =  db.rawQuery("select * from position where name=\"" + name + "\"", null);
         JSONObject positionEntry = new JSONObject();
         res.moveToFirst();
         try {
