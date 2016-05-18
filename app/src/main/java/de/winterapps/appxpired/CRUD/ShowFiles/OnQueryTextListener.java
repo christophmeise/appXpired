@@ -21,7 +21,9 @@ public class OnQueryTextListener implements SearchView.OnQueryTextListener {
 
     @Override
     public boolean onQueryTextChange(String query) {
-        ((showActivity) that).synchronizeItems(query);
+       // ((showActivity) that).synchronizeItems(query);
+        ((showActivity) that).filterEntries(showActivity.foodEntries, query, (String) FilterModes.SEARCH);
+        ((showActivity) that).buildList(showActivity.foodEntriesFiltered);
         return false;
     }
 }
