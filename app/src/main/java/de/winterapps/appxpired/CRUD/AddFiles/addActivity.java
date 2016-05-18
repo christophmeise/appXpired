@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import de.winterapps.appxpired.CRUD.ShowFiles.showActivity;
 import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
@@ -125,10 +126,18 @@ public class addActivity extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         oUnitsSpinner.setAdapter(adapter2);
 
-        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oPositionSpinner.setAdapter(adapter5);
+        JSONArray positions = database.getPositions();
+        ArrayList positionsSpinnerFormat = new ArrayList();
+        JSONObject positionElement;
+        for (int i = 0; i < positions.length(); i++){
+            try {
+                positionElement = (JSONObject) positions.get(i);
+                positionsSpinnerFormat.add(positionElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        oPositionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
     }
 
     private void loadLayoutElements() {
@@ -172,7 +181,8 @@ public class addActivity extends AppCompatActivity {
             food.put("name", name);
             food.put("expire_date", expireDateMillis);
             food.put("backendId", Integer.parseInt(backendid));
-            food.put("category", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
+            food.put("category_id", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
+            food.put("position_id", database.getPosition(oPositionSpinner.getSelectedItem().toString()));
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {

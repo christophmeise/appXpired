@@ -5,7 +5,14 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import de.winterapps.appxpired.R;
+import de.winterapps.appxpired.localDatabase;
 
 /**
  * Created by Shark919 on 11.05.2016.
@@ -13,10 +20,19 @@ import de.winterapps.appxpired.R;
 public class PositionSpinner extends LayoutObject {
 
     public static void buildLayout(Context that) {
-        showActivity.oPositionSpinner = (Spinner)((Activity) that).findViewById(R.id.positionSpinner1);
-        ArrayAdapter<CharSequence> positionAdapter = ArrayAdapter.createFromResource(that,
-                R.array.planets_array_show, android.R.layout.simple_spinner_item);
-        positionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        showActivity.oPositionSpinner.setAdapter(positionAdapter);
+        showActivity.oPositionSpinner = (Spinner) ((showActivity) that).findViewById(R.id.positionSpinner1);
+        localDatabase database = new localDatabase(that);
+        JSONArray positions = database.getPositions();
+        ArrayList positionsSpinnerFormat = new ArrayList();
+        JSONObject positionElement;
+        for (int i = 0; i < positions.length(); i++){
+            try {
+                positionElement = (JSONObject) positions.get(i);
+                positionsSpinnerFormat.add(positionElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        showActivity.oPositionSpinner.setAdapter(new ArrayAdapter<String>(that, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
     }
 }

@@ -127,7 +127,7 @@ public class showActivity extends Activity {
     }
 
     private boolean compareEntryWithQuery(String query, String mode) {
-        if (parseEntry(mode).equals(query)){
+        if (parseEntry(mode).equalsIgnoreCase(query)){
             return true;
         }
         return false;
@@ -139,20 +139,24 @@ public class showActivity extends Activity {
             databaseResultObject = queryDatabaseGetCategoryFor(foodCategory);
         }
         if (mode == FilterModes.POSITION){
-            databaseResultObject = queryDatabaseGetCategoryFor(foodCategory);
+            databaseResultObject = queryDatabaseGetPositionFor(foodPosition);
         }
-
+        String result = "";
         try {
-            return (String) databaseResultObject.get("name");
+            result = (String) databaseResultObject.get("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return "";
+        return result;
+    }
+
+    private JSONObject queryDatabaseGetPositionFor(String foodPosition) {
+        return database.getPosition(foodPosition);
     }
 
     private JSONObject queryDatabaseGetCategoryFor(String foodCategory) {
         // JSONArray x = database.getCategories();
-        return database.getCategory(Integer.valueOf(foodCategory));
+        return database.getCategory(foodCategory);
     }
 
     private JSONArray copy (JSONArray original){
@@ -185,13 +189,13 @@ public class showActivity extends Activity {
             Log.e("String parse error: ", e.getLocalizedMessage());
         }
 
-        Positions pos = new Positions();
+       /* Positions pos = new Positions();
         foodPosition = pos.parseValue(Integer.parseInt(foodPosition.toString()));
         if (!foodPosition.equalsIgnoreCase(query) && !oPositionSpinner.getSelectedItem().equals(ALL)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 foodEntriesFiltered.remove(i);
             }
-        }
+        }*/
     }
 
     private void getFoodObjectsFromArray(int i) {
@@ -201,7 +205,9 @@ public class showActivity extends Activity {
             e.printStackTrace();
         }
         try {
-            foodCategory = food.get("categoryId").toString();
+            Object categoryObj = food.get("categoryId");
+            JSONObject category = new JSONObject((String) categoryObj);
+            foodCategory = (String) category.get("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }

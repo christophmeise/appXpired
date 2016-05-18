@@ -182,7 +182,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/addAmountEdit"
                             android:layout_gravity="left|center_vertical"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:layout_weight="0.6"
                             android:numeric="decimal" />
 
