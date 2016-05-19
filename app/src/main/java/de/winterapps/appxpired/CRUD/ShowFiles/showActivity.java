@@ -2,6 +2,7 @@ package de.winterapps.appxpired.CRUD.ShowFiles;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
+import de.winterapps.appxpired.menuActivity;
 
 /**
  * Created by D062400 on 15.10.2015.
@@ -43,6 +45,13 @@ public class showActivity extends Activity {
         synchronizeItems("");
         // build Layout, set Listeners
         initializeLayout();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(showActivity.this, menuActivity.class);
+        startActivity(intent);
     }
 
     private void initializeLayout() {
