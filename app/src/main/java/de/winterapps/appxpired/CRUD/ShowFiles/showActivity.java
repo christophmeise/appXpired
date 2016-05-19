@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -45,13 +46,6 @@ public class showActivity extends Activity {
         synchronizeItems("");
         // build Layout, set Listeners
         initializeLayout();
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        Intent intent = new Intent(showActivity.this, menuActivity.class);
-        startActivity(intent);
     }
 
     private void initializeLayout() {

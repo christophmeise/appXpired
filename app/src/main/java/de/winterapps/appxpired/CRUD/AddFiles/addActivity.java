@@ -2,13 +2,17 @@ package de.winterapps.appxpired.CRUD.AddFiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -42,6 +46,7 @@ import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;
+import de.winterapps.appxpired.menuActivity;
 
 /**
  * Created by Christoph on 12.10.2015.
@@ -68,6 +73,26 @@ public class addActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         initializeLayout();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(addActivity.this, menuActivity.class);
+        startActivity(intent);
+    }
+
 
     private void initializeLayout() {
         loadLayoutElements();
@@ -189,6 +214,23 @@ public class addActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         database.addFood(food);
+
+        showNotification();
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.notification_newthicker)
+                        .setContentTitle("Added item to database")
+                        .setContentText("+10 points");
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+// Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     private boolean backendRequestAdd(final String user, final String pass, final String token, final String Wherevalues){

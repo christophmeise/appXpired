@@ -63,7 +63,7 @@ public class MessageDialogFragment extends DialogFragment {
     }
 
     public void startIntent(){
-        Intent intent = new Intent(getActivity(), addActivity.class);
+        Intent intent = new Intent(self.getActivity(), addActivity.class);
         startActivity(intent);
     }
 
