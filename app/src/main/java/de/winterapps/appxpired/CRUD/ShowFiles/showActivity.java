@@ -223,7 +223,7 @@ public class showActivity extends Activity {
         try {
             Object positionObj = food.get("positionId");
             JSONObject position = new JSONObject((String) positionObj);
-            foodCategory = (String) position.get("name");
+            foodPosition = (String) position.get("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
