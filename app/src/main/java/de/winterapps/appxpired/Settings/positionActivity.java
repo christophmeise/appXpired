@@ -21,14 +21,17 @@ import de.winterapps.appxpired.localDatabase;
  */
 public class positionActivity extends Activity{
     localDatabase database = new localDatabase(this);
+    Activity that = this;
+    String [] positionArray;
+    ArrayAdapter<String> positionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_position);
 
-        String [] positionArray = getPositionArray();
-        ArrayAdapter<String> positionAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, positionArray);
+        positionArray = getPositionArray();
+        positionAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, positionArray);
 
         final ListView positionList = (ListView) findViewById(R.id.positionList);
         positionList.setAdapter(positionAdapter);
@@ -36,6 +39,9 @@ public class positionActivity extends Activity{
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(addToDatabase()){
+                    positionArray = getPositionArray();
+                    positionAdapter = new ArrayAdapter<String>(that,android.R.layout.simple_list_item_1, positionArray);
+                    positionList.setAdapter(positionAdapter);
                     Toast.makeText(positionActivity.this,"Position succesfully added to the database", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(positionActivity.this,"Error", Toast.LENGTH_LONG).show();

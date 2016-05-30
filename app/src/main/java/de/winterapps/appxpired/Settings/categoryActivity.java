@@ -25,14 +25,17 @@ import de.winterapps.appxpired.localDatabase;
 public class categoryActivity extends Activity{
 
     localDatabase database = new localDatabase(this);
+    ArrayAdapter<String> categoryAdapter;
+    String[] categoryArray;
+    Activity that = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_category);
 
-        String [] categoryArray = getCategoryArray();
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, categoryArray);
+        categoryArray = getCategoryArray();
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categoryArray);
 
         final ListView categoryList = (ListView) findViewById(R.id.categoryList);
         //customAdapter categoryAdapter = new customAdapter(categories,this);
@@ -41,6 +44,9 @@ public class categoryActivity extends Activity{
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(addToDatabase()){
+                    categoryArray = getCategoryArray();
+                    categoryAdapter =  new ArrayAdapter<String>(that,android.R.layout.simple_list_item_1, categoryArray);
+                    categoryList.setAdapter(categoryAdapter);
                     Toast.makeText(categoryActivity.this,"Category succesfully added to the database", Toast.LENGTH_SHORT).show();
                     //categoryAdapter.notifyDataSetChanged();
                 }else{

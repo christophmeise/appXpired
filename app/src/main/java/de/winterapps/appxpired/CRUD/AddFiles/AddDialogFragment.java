@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 
 import de.winterapps.appxpired.BarcodeScanner.scanActivity;
+import de.winterapps.appxpired.CRUD.ShowFiles.showActivity;
 import de.winterapps.appxpired.R;
 
 /**
@@ -61,7 +62,14 @@ public class AddDialogFragment extends DialogFragment {
                         };
                             thread.start();
                     }
-                });
+                })
+                .setNeutralButton("Show Items", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent showIntent = new Intent(self.getActivity(), showActivity.class);
+                startActivity(showIntent);
+            }
+        });
         // Create the AlertDialog Object and return it
         return Builder . create ();
     }

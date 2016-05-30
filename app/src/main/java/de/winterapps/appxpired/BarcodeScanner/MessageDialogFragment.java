@@ -7,7 +7,10 @@ package de.winterapps.appxpired.BarcodeScanner;
         import android.content.Intent;
         import android.os.Bundle;
         import android.support.v4.app.DialogFragment;
+        import android.support.v4.app.FragmentActivity;
+        import android.support.v4.app.FragmentManager;
         import android.support.v4.app.FragmentTransaction;
+        import android.util.Log;
 
         import com.android.volley.Request;
         import com.android.volley.Response;
@@ -54,7 +57,8 @@ public class MessageDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int id) {
                 if (mListener != null) {
                     mListener.onDialogPositiveClick(MessageDialogFragment.this);
-                    requestAPI(mMessage.substring(11, 24));
+                    startIntent();
+                   // requestAPI(mMessage.substring(11, 24));
                 }
             }
         });
@@ -64,6 +68,9 @@ public class MessageDialogFragment extends DialogFragment {
 
     public void startIntent(){
         Intent intent = new Intent(getActivity(), addActivity.class);
+        ((memberVariables) ((Activity) mListener).getApplication()).setName("Natürliches Mineralwasser");
+        ((memberVariables) ((Activity) mListener).getApplication()).setBrand("Nassauer Land");
+        ((memberVariables) ((Activity) mListener).getApplication()).setSize("1");
         startActivity(intent);
     }
 
@@ -120,7 +127,10 @@ public class MessageDialogFragment extends DialogFragment {
             @Override
 
             public void onErrorResponse(VolleyError error) {
-                showPopup();  // confirmation to add food to (api-)database
+
+                startIntent();
+               // showPopup();  // confirmation to add food to (api-)database
+
             }
         });
 
@@ -130,7 +140,11 @@ public class MessageDialogFragment extends DialogFragment {
 
     public void showPopup() {
         BarAddDialogFragment popup = new BarAddDialogFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentManager fragmentTransaction = self.getFragmentManager();
+        FragmentTransaction ft = null;
+        if (fragmentTransaction != null){
+            ft = fragmentTransaction.beginTransaction();
+        }
         DialogFragment newFragment = BarAddDialogFragment.newInstance(1);
         newFragment.show(ft, "dialog");
     }

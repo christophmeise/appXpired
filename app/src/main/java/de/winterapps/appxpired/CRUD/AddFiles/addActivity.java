@@ -2,13 +2,17 @@ package de.winterapps.appxpired.CRUD.AddFiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -37,11 +41,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import de.winterapps.appxpired.ButtonOnClickListener;
 import de.winterapps.appxpired.CRUD.ShowFiles.showActivity;
 import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 import de.winterapps.appxpired.memberVariables;
+import de.winterapps.appxpired.menuActivity;
 
 /**
  * Created by Christoph on 12.10.2015.
@@ -51,6 +57,7 @@ public class addActivity extends AppCompatActivity {
     final static Calendar myCalendar = Calendar.getInstance();
     static EditText dateEdit;
     Button addButton;
+    Button templateButton;
     EditText editName;
     responseClass stringRequest;
     Activity self = this;
@@ -67,6 +74,25 @@ public class addActivity extends AppCompatActivity {
         this.findViewById(R.id.avloadingIndicatorView).setVisibility(View.GONE); //turn off loading indicator
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         initializeLayout();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(addActivity.this, menuActivity.class);
+        startActivity(intent);
     }
 
     private void initializeLayout() {
@@ -104,6 +130,7 @@ public class addActivity extends AppCompatActivity {
         };
 
         addButton.setOnClickListener(addListener);
+        templateButton.setOnClickListener(new ButtonOnClickListener(addActivity.this, useTemplateActivity.class));
     }
 
     private void populateSpinners() {
@@ -142,6 +169,7 @@ public class addActivity extends AppCompatActivity {
 
     private void loadLayoutElements() {
         addButton = (Button) findViewById(R.id.addAddButton);
+        templateButton = (Button) findViewById(R.id.addTemplateButton);
         editName = (EditText) findViewById(R.id.editName);
         oPositionSpinner = (Spinner) findViewById(R.id.addPositionSpinner);
         oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
@@ -189,6 +217,34 @@ public class addActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         database.addFood(food);
+        showNotification("Added "+name+" to database", "");
+        String dateString = dateEdit.getText().toString();
+        dateString = dateString.replaceAll("/",".");
+        Date dt = null;
+        try {
+            dt = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, Locale.GERMANY).parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long insertedTimeInMillis = dt.getTime();
+        if (insertedTimeInMillis < new Date().getTime()){
+            showNotification("Expired!", name+" is expired on "+dt.toString());
+        }
+    }
+
+    private void showNotification(String title, String text) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.notification_newthicker)
+                        .setContentTitle(title)
+                        .setContentText(text);
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+// Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     private boolean backendRequestAdd(final String user, final String pass, final String token, final String Wherevalues){

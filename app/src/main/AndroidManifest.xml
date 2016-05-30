@@ -22,6 +22,7 @@
         <activity android:name=".BarcodeScanner.uploadItem"></activity>
         <activity android:name=".Settings.settingsActivity"></activity>
         <activity android:name=".Settings.templateActivity"></activity>
+        <activity android:name=".CRUD.AddFiles.useTemplateActivity"></activity>
         <activity android:name=".Settings.categoryActivity"></activity>
         <activity android:name=".Settings.positionActivity"></activity>
         <activity android:name=".CRUD.Login.loginActivity">
