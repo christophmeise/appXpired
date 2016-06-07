@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.winterapps.appxpired.CRUD.ShowFiles.CategorySpinner;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
 
@@ -24,6 +23,7 @@ import de.winterapps.appxpired.localDatabase;
  */
 public class templateActivity extends Activity{
 
+<<<<<<< HEAD
     EditText name = (EditText) findViewById(R.id.templateEditName);
     EditText amount  = (EditText) findViewById(R.id.templateAmountEdit);
     EditText addInf = (EditText) findViewById(R.id.templateDescEdit);
@@ -36,6 +36,11 @@ public class templateActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_template);
+
+        oCategorySpinner = (Spinner) findViewById(R.id.templateCategorySpinner);
+        oPositionSpinner = (Spinner) findViewById(R.id.templatePositionSpinner);
+
+        populateSpinners();
 
         final Button buttonAdd = (Button) findViewById(R.id.templateAddButton);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -101,5 +106,39 @@ public class templateActivity extends Activity{
             return false;
         }
         return database.addTemplate(template);
+    }
+
+    private void populateSpinners() {
+        localDatabase database = new localDatabase(this);
+        JSONArray categories = database.getCategories();
+        ArrayList categoriesSpinnerFormat = new ArrayList();
+        JSONObject categoryElement;
+        for (int i = 0; i < categories.length(); i++){
+            try {
+                categoryElement = (JSONObject) categories.get(i);
+                categoriesSpinnerFormat.add(categoryElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        oCategorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.units, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oUnitSpinner.setAdapter(adapter2);
+
+        JSONArray positions = database.getPositions();
+        ArrayList positionsSpinnerFormat = new ArrayList();
+        JSONObject positionElement;
+        for (int i = 0; i < positions.length(); i++){
+            try {
+                positionElement = (JSONObject) positions.get(i);
+                positionsSpinnerFormat.add(positionElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        oPositionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
     }
 }
