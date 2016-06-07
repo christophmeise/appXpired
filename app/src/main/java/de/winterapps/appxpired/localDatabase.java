@@ -29,6 +29,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "expireDate integer, " +
             "position_id integer, " +
             "amount integer, "+
+            "unit text"+
             "additionalInformation text, " +
             "template_id integer, " +
             "category_id integer, " +
@@ -40,6 +41,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "(id integer primary key AUTOINCREMENT, " +
             "name text, " +
             "amount integer, " +
+            "unit text"+
             "additionalInformation text, " +
             "deleted integer, " +
             "household_id integer, " +
@@ -198,6 +200,12 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("amount", 0);
         }
         try {
+            values.put("unit", foodEntry.getString("unit"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("unit", "");
+        }
+        try {
             values.put("additionalInformation", foodEntry.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -235,6 +243,7 @@ public class localDatabase extends SQLiteOpenHelper{
                 foodEntry.put("expireDate",res.getString(res.getColumnIndex("expireDate")));
                 foodEntry.put("positionId",res.getString(res.getColumnIndex("position_id")));
                 foodEntry.put("amount",res.getString(res.getColumnIndex("amount")));
+                foodEntry.put("unit",res.getString(res.getColumnIndex("unit")));
                 foodEntry.put("categoryId",res.getString(res.getColumnIndex("category_id")));
                 foodEntry.put("householdId",res.getString(res.getColumnIndex("household_id")));
             } catch (JSONException e) {
@@ -254,9 +263,14 @@ public class localDatabase extends SQLiteOpenHelper{
         try {
             Log.d("Column index_ ", String.valueOf(res.getColumnIndex("backendId")));
             Log.d("Column index_ ", String.valueOf(res.getInt(1)));
-            foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId"))); // id??? backendid???
+            foodEntry.put("backendId",res.getInt(res.getColumnIndex("backendId")));
             foodEntry.put("name",res.getString(res.getColumnIndex("name")));
-            foodEntry.put("expireDate",res.getInt(res.getColumnIndex("expireDate")));
+            foodEntry.put("expireDate",res.getString(res.getColumnIndex("expireDate")));
+            foodEntry.put("positionId",res.getString(res.getColumnIndex("position_id")));
+            foodEntry.put("amount",res.getString(res.getColumnIndex("amount")));
+            foodEntry.put("unit",res.getString(res.getColumnIndex("unit")));
+            foodEntry.put("categoryId",res.getString(res.getColumnIndex("category_id")));
+            foodEntry.put("householdId",res.getString(res.getColumnIndex("household_id")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -303,6 +317,12 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("amount", 0);
         }
         try {
+            values.put("unit", templateEntry.getString("unit"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("unit", "");
+        }
+        try {
             values.put("additionalInformation", templateEntry.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -318,7 +338,7 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("expireDuration", 0);
         }
         try {
-            values.put("category_id", templateEntry.getString("category_id"));//dummy entry
+            values.put("category_id", templateEntry.getString("category_id"));
         } catch (JSONException e) {
             e.printStackTrace();
             values.put("category_id", 0);
@@ -337,6 +357,7 @@ public class localDatabase extends SQLiteOpenHelper{
                 templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
                 templateEntry.put("name", res.getString(res.getColumnIndex("name")));
                 templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
+                templateEntry.put("unit", res.getInt(res.getColumnIndex("unit")));
                 templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
                 templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
                 templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));
@@ -357,6 +378,7 @@ public class localDatabase extends SQLiteOpenHelper{
             templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
             templateEntry.put("name", res.getString(res.getColumnIndex("name")));
             templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
+            templateEntry.put("unit", res.getInt(res.getColumnIndex("unit")));
             templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
             templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
             templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));

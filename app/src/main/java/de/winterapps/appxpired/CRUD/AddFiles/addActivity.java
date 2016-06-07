@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -42,7 +40,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import de.winterapps.appxpired.ButtonOnClickListener;
-import de.winterapps.appxpired.CRUD.ShowFiles.showActivity;
 import de.winterapps.appxpired.CRUD.responseClass;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
@@ -59,6 +56,7 @@ public class addActivity extends AppCompatActivity {
     Button addButton;
     Button templateButton;
     EditText editName;
+    EditText editAmount;
     responseClass stringRequest;
     Activity self = this;
     memberVariables members = memberVariables.sharedInstance;
@@ -171,6 +169,7 @@ public class addActivity extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.addAddButton);
         templateButton = (Button) findViewById(R.id.addTemplateButton);
         editName = (EditText) findViewById(R.id.editName);
+        editAmount = (EditText) findViewById(R.id.addAmountEdit);
         oPositionSpinner = (Spinner) findViewById(R.id.addPositionSpinner);
         oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
         oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
@@ -195,6 +194,7 @@ public class addActivity extends AppCompatActivity {
 
     public void addToDatabase(String backendid){
         String name = editName.getText().toString();
+        String amount = editAmount.getText().toString();
         localDatabase database = new localDatabase(this);
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         long expireDateMillis = 0;
@@ -211,6 +211,8 @@ public class addActivity extends AppCompatActivity {
             food.put("backendId", Integer.parseInt(backendid));
             food.put("category_id", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
             food.put("position_id", database.getPosition(oPositionSpinner.getSelectedItem().toString()));
+            food.put("amount", amount);
+            food.put("unit", oUnitsSpinner.getSelectedItem().toString());
             //food.put("entry_date", )
             // add more values
         } catch (JSONException e) {

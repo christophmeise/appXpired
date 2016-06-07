@@ -184,7 +184,7 @@
                         <Spinner
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/templateAmountSpinner"
+                            android:id="@+id/templateUnitSpinner"
                             android:gravity="right"
                             android:layout_weight="0.4"
                             android:spinnerMode="dropdown"
