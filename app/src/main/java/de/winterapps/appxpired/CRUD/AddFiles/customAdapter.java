@@ -85,12 +85,25 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
         useButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                try {
-                    ((memberVariables) ((Activity) context).getApplication()).setName(list.getString(position));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                localDatabase database = new localDatabase(context);
+                JSONArray templates = database.getTemplates();
+                JSONObject food = null;
+                String name;
+                for (int i=0;i<templates.length();i++) {
+                    try {
+                        JSONObject template = (JSONObject) templates.get(i);
+                        name = template.getString("name");
+                        food = (JSONObject) list.get(position);
+                        String tester = food.get("name").toString();
+                        if (name.equals(tester)) {
+                            //TODO: dann alles ausfüllen
+                        }
+                        ((memberVariables) ((Activity) context).getApplication()).setName(template.getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-               /* ((memberVariables) ((Activity) that).getApplication()).setBrand(Brand);
+                /* ((memberVariables) ((Activity) that).getApplication()).setBrand(Brand);
                 ((memberVariables) ((Activity) that).getApplication()).setSize(Amount);*/
                 Intent intent = new Intent(context, addActivity.class);
                 context.startActivity(intent);

@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:text="Recipe"
                         android:id="@+id/menuRecipeButton"
-                        android:background="@drawable/buttonshape"
+                        android:background="@drawable/buttonshapegrey"
                         android:textColor="#ffffff"
                         android:padding="50dp"
                         android:layout_weight="1"

@@ -3,12 +3,17 @@ package de.winterapps.appxpired.Settings;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
@@ -18,10 +23,19 @@ import de.winterapps.appxpired.localDatabase;
  */
 public class templateActivity extends Activity{
 
+    Spinner oCategorySpinner;
+    Spinner oPositionSpinner;
+    Spinner oUnitSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_template);
+
+        oCategorySpinner = (Spinner) findViewById(R.id.templateCategorySpinner);
+        oPositionSpinner = (Spinner) findViewById(R.id.templatePositionSpinner);
+
+        populateSpinners();
 
         final Button buttonAdd = (Button) findViewById(R.id.templateAddButton);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +56,7 @@ public class templateActivity extends Activity{
         EditText amount  = (EditText) findViewById(R.id.templateAmountEdit);
         EditText addInf = (EditText) findViewById(R.id.templateDescEdit);
         EditText expDur = (EditText) findViewById(R.id.templateExpireDuration);
+
         try {
             template.put("name", name.getText().toString());
             template.put("amount", amount.getText().toString());
@@ -52,5 +67,39 @@ public class templateActivity extends Activity{
             return false;
         }
         return database.addTemplate(template);
+    }
+
+    private void populateSpinners() {
+        localDatabase database = new localDatabase(this);
+        JSONArray categories = database.getCategories();
+        ArrayList categoriesSpinnerFormat = new ArrayList();
+        JSONObject categoryElement;
+        for (int i = 0; i < categories.length(); i++){
+            try {
+                categoryElement = (JSONObject) categories.get(i);
+                categoriesSpinnerFormat.add(categoryElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        oCategorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.units, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oUnitSpinner.setAdapter(adapter2);
+
+        JSONArray positions = database.getPositions();
+        ArrayList positionsSpinnerFormat = new ArrayList();
+        JSONObject positionElement;
+        for (int i = 0; i < positions.length(); i++){
+            try {
+                positionElement = (JSONObject) positions.get(i);
+                positionsSpinnerFormat.add(positionElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        oPositionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
     }
 }
