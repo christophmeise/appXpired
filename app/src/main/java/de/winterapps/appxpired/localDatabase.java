@@ -29,7 +29,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "expireDate integer, " +
             "position_id integer, " +
             "amount integer, "+
-            "unit text"+
+            "unit text, "+
             "additionalInformation text, " +
             "template_id integer, " +
             "category_id integer, " +
@@ -41,7 +41,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "(id integer primary key AUTOINCREMENT, " +
             "name text, " +
             "amount integer, " +
-            "unit text"+
+            "unit text, "+
             "additionalInformation text, " +
             "deleted integer, " +
             "household_id integer, " +
@@ -209,7 +209,7 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("additionalInformation", foodEntry.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();
-            values.put("additionalInformation", 0);
+            values.put("additionalInformation", "");
         }
         try {
             values.put("template_id", foodEntry.getString("template_id"));
@@ -326,7 +326,7 @@ public class localDatabase extends SQLiteOpenHelper{
             values.put("additionalInformation", templateEntry.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();
-            values.put("additionalInformation", 0);
+            values.put("additionalInformation", "");
         }
         values.put("deleted", 0);
         values.put("household_id", 0);//dummy entry

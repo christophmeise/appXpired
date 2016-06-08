@@ -22,7 +22,7 @@ public class AddDialogFragment extends DialogFragment {
     ProgressDialog progress = null;
 
 
-    static AddDialogFragment newInstance(int num) {
+    public static AddDialogFragment newInstance(int num) {
         AddDialogFragment f = new AddDialogFragment();
 
         // Supply num input as an argument.

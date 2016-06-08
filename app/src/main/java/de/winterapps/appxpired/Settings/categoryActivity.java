@@ -1,7 +1,11 @@
 package de.winterapps.appxpired.Settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.winterapps.appxpired.CRUD.AddFiles.AddDialogFragment;
 import de.winterapps.appxpired.CRUD.ShowFiles.customAdapter;
 import de.winterapps.appxpired.R;
 import de.winterapps.appxpired.localDatabase;
@@ -22,31 +27,30 @@ import de.winterapps.appxpired.localDatabase;
 /**
  * Created by D062332 on 11.05.2016.
  */
-public class categoryActivity extends Activity{
+public class categoryActivity extends FragmentActivity{
 
     localDatabase database = new localDatabase(this);
     ArrayAdapter<String> categoryAdapter;
     String[] categoryArray;
     Activity that = this;
+    static ListView categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_category);
 
-        categoryArray = getCategoryArray();
+        categoryArray = getCategoryArray(database);
         categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categoryArray);
 
-        final ListView categoryList = (ListView) findViewById(R.id.categoryList);
+        categoryList = (ListView) findViewById(R.id.categoryList);
         //customAdapter categoryAdapter = new customAdapter(categories,this);
         categoryList.setAdapter(categoryAdapter);
         final Button buttonAdd = (Button) findViewById(R.id.categoryAddButton);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(addToDatabase()){
-                    categoryArray = getCategoryArray();
-                    categoryAdapter =  new ArrayAdapter<String>(that,android.R.layout.simple_list_item_1, categoryArray);
-                    categoryList.setAdapter(categoryAdapter);
+                    updateScreen(database, that);
                     Toast.makeText(categoryActivity.this,"Category succesfully added to the database", Toast.LENGTH_SHORT).show();
                     //categoryAdapter.notifyDataSetChanged();
                 }else{
@@ -54,7 +58,22 @@ public class categoryActivity extends Activity{
                 }
             }
         });
+        if (categoryArray.length == 0){
+            showPopupInsertDummyData();
+        }
+    }
 
+    public static void updateScreen(localDatabase database, Context that) {
+        String[] categoryArray = getCategoryArray(database);
+        ArrayAdapter categoryAdapter =  new ArrayAdapter<String>(that,android.R.layout.simple_list_item_1, categoryArray);
+        categoryList.setAdapter(categoryAdapter);
+    }
+
+    private void showPopupInsertDummyData() {
+        DummyDataDialogFragment popup = new DummyDataDialogFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        DialogFragment newFragment = DummyDataDialogFragment.newInstance(1);
+        newFragment.show(ft, "dialog");
     }
 
     public boolean addToDatabase(){
@@ -69,7 +88,7 @@ public class categoryActivity extends Activity{
         return database.addCategory(category);
     }
 
-    public String [] getCategoryArray(){
+    public static String [] getCategoryArray(localDatabase database){
         JSONArray categories = database.getCategories();
         String [] categoriesArray = new String[categories.length()];
         if (categories != null) {

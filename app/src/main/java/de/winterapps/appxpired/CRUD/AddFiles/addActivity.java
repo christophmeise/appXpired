@@ -108,21 +108,20 @@ public class addActivity extends AppCompatActivity {
     private void loadFromMembers() {
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
         editAmount.setText(((memberVariables) ((Activity) this).getApplication()).getSize());
-        editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
         oCategorySpinner.setSelection(categorySpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getCategory()));
         //oPositionSpinner.setSelection(positionSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getPosition()));
         //TODO: alex in backend einfügen
         oUnitsSpinner.setSelection(unitSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getUnit()));
-        additionalInformation.setText(((memberVariables) ((Activity) this).getApplication()).getAdditional());
+        //additionalInformation.setText(((memberVariables) ((Activity) this).getApplication()).getAdditional());
         int duration;
         if (((memberVariables) ((Activity) this).getApplication()).getDuration() != null) {
             duration = Integer.parseInt(((memberVariables) ((Activity) this).getApplication()).getDuration());
             duration = Integer.parseInt(((memberVariables) ((Activity) this).getApplication()).getDuration());
-            long millis = System.currentTimeMillis() % 1000;
+            long millis = System.currentTimeMillis();
             long durationInMillis = duration * 24 * 60 * 60 * 1000;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date expireDate = new Date();
-            expireDate.setTime(durationInMillis);
+            expireDate.setTime(durationInMillis+millis);
             String expireDateFormatted = sdf.format(expireDate);
             dateEdit.setText(expireDateFormatted);
         }

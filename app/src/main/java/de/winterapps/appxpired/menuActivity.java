@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import de.winterapps.appxpired.BarcodeScanner.scanActivity;
+import de.winterapps.appxpired.CRUD.AddFiles.AddDialogFragment;
 import de.winterapps.appxpired.CRUD.AddFiles.addActivity;
 import de.winterapps.appxpired.CRUD.ShowFiles.showActivity;
 import de.winterapps.appxpired.Settings.settingsActivity;
 
-public class menuActivity extends Activity {
+public class menuActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -70,4 +70,7 @@
     <string name="add_dialog_message">Successfully added to database! Select how you want to continue.</string>
     <string name="add_dialog_adding">Add manually</string>
     <string name="add_dialog_scanning">Scan Barcode</string>
+    <string name="dummy_dialog_message">You have no entries, yet! Do you want add some dummy data?</string>
+    <string name="dummy_dialog_yes">Of course!</string>
+    <string name="dummy_dialog_no">I will do it manually.</string>
 </resources>

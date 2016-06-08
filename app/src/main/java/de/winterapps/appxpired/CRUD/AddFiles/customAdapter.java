@@ -30,6 +30,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
     private JSONArray list;
     public ListAdapter that = this;
     JSONArray templates;
+    localDatabase database;
 
     public customAdapter(String[] list, Context context) {
         this.list = new JSONArray();
@@ -93,8 +94,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
                     try {
                         JSONObject oTemplate = (JSONObject) templates.get(i);
                         templateFoodName = oTemplate.getString("name");
-                        food = (JSONObject) list.get(position);
-                        String foodNameInList = food.get("name").toString();
+                        String foodNameInList = (String) list.get(position);
                         if (templateFoodName.equals(foodNameInList)) {
                             fillMemberVariables(oTemplate);
                         }
@@ -122,7 +122,9 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
            // ((memberVariables) ((Activity) context).getApplication()).setPosition(oTemplate.getString("position_id"));
             //TODO: alex position id im backend adden
             ((memberVariables) ((Activity) context).getApplication()).setDuration(oTemplate.getString("expireDuration"));
-            ((memberVariables) ((Activity) context).getApplication()).setCategory(oTemplate.getString("category_id"));
+            int categoryId = Integer.parseInt(oTemplate.getString("category_id"));
+            //int positionId = Integer.parseInt(oTemplate.getString("positionId"));
+            ((memberVariables) ((Activity) context).getApplication()).setCategory((database.getCategory(categoryId)).get("name").toString());
             ((memberVariables) ((Activity) context).getApplication()).setAdditional(oTemplate.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -130,7 +132,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
     }
 
     private void getTemplatesFromDatabase() {
-        localDatabase database = new localDatabase(context);
+        database = new localDatabase(context);
         templates = database.getTemplates();
     }
 }

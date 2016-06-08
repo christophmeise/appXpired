@@ -109,8 +109,8 @@ public class templateActivity extends Activity{
             template.put("amount", amount.getText().toString());
             //template.put("additionalInformation", addInf.getText().toString());
             template.put("expireDuration", expDur.getText().toString());
-            template.put("category_id", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
-            template.put("position_id", database.getPosition(oPositionSpinner.getSelectedItem().toString()));
+            template.put("category_id", (database.getCategory(oCategorySpinner.getSelectedItem().toString())).get("id"));
+            template.put("position_id", (database.getPosition(oPositionSpinner.getSelectedItem().toString()).get("id")));
             template.put("unit", oUnitSpinner.getSelectedItem().toString());
         } catch (JSONException e) {
             e.printStackTrace();
