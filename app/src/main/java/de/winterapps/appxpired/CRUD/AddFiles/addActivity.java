@@ -57,6 +57,7 @@ public class addActivity extends AppCompatActivity {
     Button templateButton;
     EditText editName;
     EditText editAmount;
+    EditText additionalInformation;
     responseClass stringRequest;
     Activity self = this;
     memberVariables members = memberVariables.sharedInstance;
@@ -64,6 +65,10 @@ public class addActivity extends AppCompatActivity {
     Spinner oPositionSpinner;
     Spinner oUnitsSpinner;
     Spinner oCategorySpinner;
+    ArrayAdapter<CharSequence> unitSpinnerAdapter;
+    ArrayAdapter<String> categorySpinnerAdapter;
+    ArrayAdapter<String> positionSpinnerAdapter;
+    localDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,8 +102,30 @@ public class addActivity extends AppCompatActivity {
         loadLayoutElements();
         populateSpinners();
         addListeners();
+        loadFromMembers();
+    }
 
+    private void loadFromMembers() {
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
+        editAmount.setText(((memberVariables) ((Activity) this).getApplication()).getSize());
+        editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
+        oCategorySpinner.setSelection(categorySpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getCategory()));
+        //oPositionSpinner.setSelection(positionSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getPosition()));
+        //TODO: alex in backend einfügen
+        oUnitsSpinner.setSelection(unitSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getUnit()));
+        additionalInformation.setText(((memberVariables) ((Activity) this).getApplication()).getAdditional());
+        int duration;
+        if (((memberVariables) ((Activity) this).getApplication()).getDuration() != null) {
+            duration = Integer.parseInt(((memberVariables) ((Activity) this).getApplication()).getDuration());
+            duration = Integer.parseInt(((memberVariables) ((Activity) this).getApplication()).getDuration());
+            long millis = System.currentTimeMillis() % 1000;
+            long durationInMillis = duration * 24 * 60 * 60 * 1000;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date expireDate = new Date();
+            expireDate.setTime(durationInMillis);
+            String expireDateFormatted = sdf.format(expireDate);
+            dateEdit.setText(expireDateFormatted);
+        }
     }
 
     private void addListeners() {
@@ -132,25 +159,13 @@ public class addActivity extends AppCompatActivity {
     }
 
     private void populateSpinners() {
-        localDatabase database = new localDatabase(this);
-        JSONArray categories = database.getCategories();
-        ArrayList categoriesSpinnerFormat = new ArrayList();
-        JSONObject categoryElement;
-        for (int i = 0; i < categories.length(); i++){
-            try {
-                categoryElement = (JSONObject) categories.get(i);
-                categoriesSpinnerFormat.add(categoryElement.get("name"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        oCategorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
+        database = new localDatabase(this);
+        populateCategorySpinner();
+        populateUnitsSpinner();
+        populatePositionsSpinner();
+    }
 
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.units, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oUnitsSpinner.setAdapter(adapter2);
-
+    private void populatePositionsSpinner() {
         JSONArray positions = database.getPositions();
         ArrayList positionsSpinnerFormat = new ArrayList();
         JSONObject positionElement;
@@ -162,7 +177,31 @@ public class addActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        oPositionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
+        positionSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat);
+        oPositionSpinner.setAdapter(positionSpinnerAdapter);
+    }
+
+    private void populateUnitsSpinner() {
+        unitSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.units, android.R.layout.simple_spinner_item);
+        unitSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oUnitsSpinner.setAdapter(unitSpinnerAdapter);
+    }
+
+    private void populateCategorySpinner() {
+        JSONArray categories = database.getCategories();
+        ArrayList categoriesSpinnerFormat = new ArrayList();
+        JSONObject categoryElement;
+        for (int i = 0; i < categories.length(); i++){
+            try {
+                categoryElement = (JSONObject) categories.get(i);
+                categoriesSpinnerFormat.add(categoryElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        categorySpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat);
+        oCategorySpinner.setAdapter(categorySpinnerAdapter);
+
     }
 
     private void loadLayoutElements() {
@@ -174,6 +213,7 @@ public class addActivity extends AppCompatActivity {
         oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
         oCategorySpinner = (Spinner) findViewById(R.id.addCategorySpinner);
         dateEdit = (EditText)findViewById(R.id.addDateEdit);
+        additionalInformation = (EditText) findViewById(R.id.addDescEdit);
     }
 
     private void showPopup(){

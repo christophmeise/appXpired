@@ -23,19 +23,20 @@ import de.winterapps.appxpired.localDatabase;
  */
 public class templateActivity extends Activity{
 
-<<<<<<< HEAD
-    EditText name = (EditText) findViewById(R.id.templateEditName);
-    EditText amount  = (EditText) findViewById(R.id.templateAmountEdit);
-    EditText addInf = (EditText) findViewById(R.id.templateDescEdit);
-    EditText expDur = (EditText) findViewById(R.id.templateExpireDuration);
-    Spinner categorySpinner = (Spinner) findViewById(R.id.templateCategorySpinner);
-    Spinner positionSpinner = (Spinner) findViewById(R.id.templatePositionSpinner);
-    Spinner unitSpinner = (Spinner) findViewById(R.id.templateUnitSpinner);
+
+    EditText name;
+    EditText amount;
+    EditText addInf;
+    EditText expDur;
+    Spinner oCategorySpinner;
+    Spinner oPositionSpinner;
+    Spinner oUnitSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_template);
+        initializeViewElements();
 
         oCategorySpinner = (Spinner) findViewById(R.id.templateCategorySpinner);
         oPositionSpinner = (Spinner) findViewById(R.id.templatePositionSpinner);
@@ -56,6 +57,16 @@ public class templateActivity extends Activity{
         setSpinnerAdapters();
     }
 
+    private void initializeViewElements() {
+        name = (EditText) findViewById(R.id.templateEditName);
+        amount  = (EditText) findViewById(R.id.templateAmountEdit);
+        addInf = (EditText) findViewById(R.id.templateDescEdit);
+        expDur = (EditText) findViewById(R.id.templateExpireDuration);
+        oCategorySpinner = (Spinner) findViewById(R.id.templateCategorySpinner);
+        oPositionSpinner = (Spinner) findViewById(R.id.templatePositionSpinner);
+        oUnitSpinner = (Spinner) findViewById(R.id.templateUnitSpinner);
+    }
+
     private void setSpinnerAdapters(){
         localDatabase database = new localDatabase(this);
         JSONArray categories = database.getCategories();
@@ -69,12 +80,12 @@ public class templateActivity extends Activity{
                 e.printStackTrace();
             }
         }
-        categorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
+        oCategorySpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat));
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.units, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        unitSpinner.setAdapter(adapter2);
+        oUnitSpinner.setAdapter(adapter2);
 
         JSONArray positions = database.getPositions();
         ArrayList positionsSpinnerFormat = new ArrayList();
@@ -87,7 +98,7 @@ public class templateActivity extends Activity{
                 e.printStackTrace();
             }
         }
-        positionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
+        oPositionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat));
     }
 
     public boolean addToDatabase(){
@@ -96,11 +107,11 @@ public class templateActivity extends Activity{
         try {
             template.put("name", name.getText().toString());
             template.put("amount", amount.getText().toString());
-            template.put("additionalInformation", addInf.getText().toString());
+            //template.put("additionalInformation", addInf.getText().toString());
             template.put("expireDuration", expDur.getText().toString());
-            template.put("category_id", database.getCategory(categorySpinner.getSelectedItem().toString()));
-            template.put("position_id", database.getPosition(positionSpinner.getSelectedItem().toString()));
-            template.put("unit", unitSpinner.getSelectedItem().toString());
+            template.put("category_id", database.getCategory(oCategorySpinner.getSelectedItem().toString()));
+            template.put("position_id", database.getPosition(oPositionSpinner.getSelectedItem().toString()));
+            template.put("unit", oUnitSpinner.getSelectedItem().toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return false;

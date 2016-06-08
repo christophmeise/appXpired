@@ -10,11 +10,58 @@ public class memberVariables extends Application{
     public String userid;
     public String password;
     public String token;
+    public String username;
+
     public String name;
     public String brand;
     public String size;
-    public String username;
     public String household;
+    public String unit;
+    public String duration;
+    public String category;
+    public String position;
+    public String additional;
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getAdditional() {
+        return additional;
+    }
+
+    public void setAdditional(String additional) {
+        this.additional = additional;
+    }
+
 
     public String getToken() {
         return token;

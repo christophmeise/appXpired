@@ -29,6 +29,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
     private Context context;
     private JSONArray list;
     public ListAdapter that = this;
+    JSONArray templates;
 
     public customAdapter(String[] list, Context context) {
         this.list = new JSONArray();
@@ -85,30 +86,51 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
         useButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                localDatabase database = new localDatabase(context);
-                JSONArray templates = database.getTemplates();
+                getTemplatesFromDatabase();
                 JSONObject food = null;
-                String name;
-                for (int i=0;i<templates.length();i++) {
+                String templateFoodName;
+                for (int i=0; i<templates.length(); i++) {
                     try {
-                        JSONObject template = (JSONObject) templates.get(i);
-                        name = template.getString("name");
+                        JSONObject oTemplate = (JSONObject) templates.get(i);
+                        templateFoodName = oTemplate.getString("name");
                         food = (JSONObject) list.get(position);
-                        String tester = food.get("name").toString();
-                        if (name.equals(tester)) {
-                            //TODO: dann alles ausfüllen
+                        String foodNameInList = food.get("name").toString();
+                        if (templateFoodName.equals(foodNameInList)) {
+                            fillMemberVariables(oTemplate);
                         }
-                        ((memberVariables) ((Activity) context).getApplication()).setName(template.getString("name"));
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                /* ((memberVariables) ((Activity) that).getApplication()).setBrand(Brand);
-                ((memberVariables) ((Activity) that).getApplication()).setSize(Amount);*/
-                Intent intent = new Intent(context, addActivity.class);
-                context.startActivity(intent);
+                moveBackToAddActivity();
             }
         });
         return view;
+    }
+
+    private void moveBackToAddActivity() {
+        Intent intent = new Intent(context, addActivity.class);
+        context.startActivity(intent);
+    }
+
+    private void fillMemberVariables(JSONObject oTemplate) {
+        try {
+            ((memberVariables) ((Activity) context).getApplication()).setName(oTemplate.getString("name"));
+            ((memberVariables) ((Activity) context).getApplication()).setSize(oTemplate.getString("amount"));
+            ((memberVariables) ((Activity) context).getApplication()).setUnit(oTemplate.getString("unit"));
+           // ((memberVariables) ((Activity) context).getApplication()).setPosition(oTemplate.getString("position_id"));
+            //TODO: alex position id im backend adden
+            ((memberVariables) ((Activity) context).getApplication()).setDuration(oTemplate.getString("expireDuration"));
+            ((memberVariables) ((Activity) context).getApplication()).setCategory(oTemplate.getString("category_id"));
+            ((memberVariables) ((Activity) context).getApplication()).setAdditional(oTemplate.getString("additionalInformation"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getTemplatesFromDatabase() {
+        localDatabase database = new localDatabase(context);
+        templates = database.getTemplates();
     }
 }
