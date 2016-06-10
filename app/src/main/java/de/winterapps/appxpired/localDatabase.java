@@ -47,6 +47,7 @@ public class localDatabase extends SQLiteOpenHelper{
             "household_id integer, " +
             "createUser_id integer, " +
             "expireDuration integer, " +
+            "position_id integer, " +
             "category_id integer)";
 
     public static final String CREATE_POSITION_TABLE = "CREATE TABLE position" +
@@ -343,6 +344,12 @@ public class localDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
             values.put("category_id", 0);
         }
+        try {
+            values.put("position_id", templateEntry.getString("position_id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            values.put("position_id", 0);
+        }
         return values;
     }
 
@@ -357,10 +364,11 @@ public class localDatabase extends SQLiteOpenHelper{
                 templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
                 templateEntry.put("name", res.getString(res.getColumnIndex("name")));
                 templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
-                templateEntry.put("unit", res.getInt(res.getColumnIndex("unit")));
+                templateEntry.put("unit", res.getString(res.getColumnIndex("unit")));
                 templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
                 templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
                 templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));
+                templateEntry.put("position_id", res.getInt(res.getColumnIndex("position_id")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -378,10 +386,11 @@ public class localDatabase extends SQLiteOpenHelper{
             templateEntry.put("id", res.getInt(res.getColumnIndex("id")));
             templateEntry.put("name", res.getString(res.getColumnIndex("name")));
             templateEntry.put("amount", res.getInt(res.getColumnIndex("amount")));
-            templateEntry.put("unit", res.getInt(res.getColumnIndex("unit")));
+            templateEntry.put("unit", res.getString(res.getColumnIndex("unit")));
             templateEntry.put("additionalInformation", res.getInt(res.getColumnIndex("additionalInformation")));
             templateEntry.put("expireDuration", res.getInt(res.getColumnIndex("expireDuration")));//im backend berechnen oder frontend?
             templateEntry.put("category_id", res.getInt(res.getColumnIndex("category_id")));
+            templateEntry.put("position_id", res.getInt(res.getColumnIndex("position_id")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
