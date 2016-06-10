@@ -57,8 +57,8 @@ public class MessageDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int id) {
                 if (mListener != null) {
                     mListener.onDialogPositiveClick(MessageDialogFragment.this);
-                    startIntent();
-                   // requestAPI(mMessage.substring(11, 24));
+                    //startIntent();
+                    requestAPI(mMessage.substring(11, 24));
                 }
             }
         });
@@ -68,9 +68,9 @@ public class MessageDialogFragment extends DialogFragment {
 
     public void startIntent(){
         Intent intent = new Intent(getActivity(), addActivity.class);
-        ((memberVariables) ((Activity) mListener).getApplication()).setName("Natürliches Mineralwasser");
-        ((memberVariables) ((Activity) mListener).getApplication()).setBrand("Nassauer Land");
-        ((memberVariables) ((Activity) mListener).getApplication()).setSize("1");
+        //((memberVariables) ((Activity) mListener).getApplication()).setName("Natürliches Mineralwasser");
+        //((memberVariables) ((Activity) mListener).getApplication()).setBrand("Nassauer Land");
+        //((memberVariables) ((Activity) mListener).getApplication()).setSize("1");
         startActivity(intent);
     }
 
@@ -112,6 +112,7 @@ public class MessageDialogFragment extends DialogFragment {
                                         }
                                         if (jsonObj.has("size")){
                                             size = jsonObj.getString("size");
+                                            size = size.substring(0,1);
                                             ((memberVariables) ((Activity) mListener).getApplication()).setSize(size);
                                         }
                                     } catch(JSONException e){
@@ -128,8 +129,8 @@ public class MessageDialogFragment extends DialogFragment {
 
             public void onErrorResponse(VolleyError error) {
 
-                startIntent();
-               // showPopup();  // confirmation to add food to (api-)database
+               // startIntent();
+                showPopup();  // confirmation to add food to (api-)database
 
             }
         });

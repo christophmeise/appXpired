@@ -77,7 +77,6 @@ public class uploadItem extends Activity {
         queue = Volley.newRequestQueue(self);
         String url ="https://www.datakick.org/api/items/"+EAN+"?brand_name="+Brand+"&name="+Name+"&size="+Amount+Unit; //4008458803774?brand_name=OberSelters&name=Nassauer Land Medium&size=1l
         //boolean hasResponse = false;
-        System.out.println("lol");
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>() {
