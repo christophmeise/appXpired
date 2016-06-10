@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="Households"
                 android:id="@+id/buttonHousehold"
-                android:background="@drawable/buttonshape"
+                android:background="@drawable/buttonshapegrey"
                 android:textColor="#ffffff"
                 android:padding="50dp"
                 android:layout_weight="1" />

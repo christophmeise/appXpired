@@ -119,12 +119,12 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
             ((memberVariables) ((Activity) context).getApplication()).setName(oTemplate.getString("name"));
             ((memberVariables) ((Activity) context).getApplication()).setSize(oTemplate.getString("amount"));
             ((memberVariables) ((Activity) context).getApplication()).setUnit(oTemplate.getString("unit"));
-           // ((memberVariables) ((Activity) context).getApplication()).setPosition(oTemplate.getString("position_id"));
-            //TODO: alex position id im backend adden
+            //((memberVariables) ((Activity) context).getApplication()).setPosition(oTemplate.getString("position_id"));
             ((memberVariables) ((Activity) context).getApplication()).setDuration(oTemplate.getString("expireDuration"));
             int categoryId = Integer.parseInt(oTemplate.getString("category_id"));
-            //int positionId = Integer.parseInt(oTemplate.getString("positionId"));
+            int positionId = Integer.parseInt(oTemplate.getString("position_id"));
             ((memberVariables) ((Activity) context).getApplication()).setCategory((database.getCategory(categoryId)).get("name").toString());
+            ((memberVariables) ((Activity) context).getApplication()).setPosition((database.getPosition(positionId)).get("name").toString());
             ((memberVariables) ((Activity) context).getApplication()).setAdditional(oTemplate.getString("additionalInformation"));
         } catch (JSONException e) {
             e.printStackTrace();

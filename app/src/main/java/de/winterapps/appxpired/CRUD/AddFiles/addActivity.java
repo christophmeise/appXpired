@@ -109,8 +109,7 @@ public class addActivity extends AppCompatActivity {
         editName.setText(((memberVariables) ((Activity) this).getApplication()).getName());
         editAmount.setText(((memberVariables) ((Activity) this).getApplication()).getSize());
         oCategorySpinner.setSelection(categorySpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getCategory()));
-        //oPositionSpinner.setSelection(positionSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getPosition()));
-        //TODO: alex in backend einfügen
+        oPositionSpinner.setSelection(positionSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getPosition()));
         oUnitsSpinner.setSelection(unitSpinnerAdapter.getPosition(((memberVariables) ((Activity) this).getApplication()).getUnit()));
         //additionalInformation.setText(((memberVariables) ((Activity) this).getApplication()).getAdditional());
         int duration;
