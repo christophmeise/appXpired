@@ -26,7 +26,7 @@ public class menuActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         initializeLayout();
-        /*tt*/
+        /*ttt*/
     }
 
     private void initializeLayout() {
