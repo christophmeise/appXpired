@@ -12,8 +12,8 @@ android:
     # The SDK version used to compile your project
     - android-23
 	
-	before_install:
-	- chmod +x gradlew
+before_install:
+- chmod +x gradlew
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
