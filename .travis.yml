@@ -8,3 +8,10 @@ before_script:
 
 script:
  - phpunit Backend/test/UserTest.php
+ - phpunit Backend/test/databaseConnectionTest.php
+ - phpunit Backend/test/DeleteTest.php
+ - phpunit Backend/test/HeaderManagerTest.php
+ - phpunit Backend/test/HeaderTest.php
+ - phpunit Backend/test/LoginTest.php
+ - phpunit Backend/test/PatchTest.php
+ - phpunit Backend/test/PostTest.php
