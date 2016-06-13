@@ -1,19 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: yannickwinter
- * Date: 20.10.15
- * Time: 19:05
- */
-
-/**
- *
- * create a household using the POST Method:
- * Appxpired-Username
- * Appxpired-Location
- * Appxpired-Name
- * Appxpired-Token
- * Appxpired-Password
+ * Date: 03.05.16
+ * Time: 16:51
  */
 
 require_once __DIR__ . '/User.php';
@@ -34,9 +25,12 @@ require_once __DIR__ . '/RequestFactory.php';
 require_once __DIR__ . '/UserCreate.php';
 require_once __DIR__ . '/userManagement.php';
 
-HeaderManager::getInstance()->addHeader(new Header("Content-Type","application/json"));
-
-/*$request = RequestFactory::create(apache_request_headers(),"household");
-$printer = new Printer($request);
-$printer->execute();
-*/
+class Login extends Request
+{
+    public function execute() {
+        if ($this->user->authorized()) {
+            HeaderManager::getInstance()->addHeader(new Header("Success", "true"));
+        }
+        $this->outputString = "";
+    }
+}

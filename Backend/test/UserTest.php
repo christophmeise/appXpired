@@ -7,9 +7,9 @@
  * Time: 11:27
  */
 
-require_once __DIR__ . '/User.php';
-require_once __DIR__ . '/databaseConnection.php';
-require_once __DIR__ . '/ErrorCode.php';
+require_once __DIR__ . '/../src/User.php';
+require_once __DIR__ . '/../src/databaseConnection.php';
+require_once __DIR__ . '/../src/ErrorCode.php';
 
 class UserTest extends PHPUnit_Framework_TestCase
 {

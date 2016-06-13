@@ -7,4 +7,4 @@ before_script:
  - composer update
 
 script:
- - phpunit Backend/src/UserTest.php
+ - phpunit Backend/test/UserTest.php
