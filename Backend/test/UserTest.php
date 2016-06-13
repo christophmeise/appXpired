@@ -7,6 +7,12 @@
  * Time: 11:27
  */
 
+if (!@include __DIR__ . '/../vendor/autoload.php') {
+    die('You must set up the project dependencies, run the following commands:
+        wget http://getcomposer.org/composer.phar
+        php composer.phar install');
+}
+
 class UserTest extends PHPUnit_Framework_TestCase
 {
     /**
