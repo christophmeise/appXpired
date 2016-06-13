@@ -1,5 +1,5 @@
 projectKey=appXpiredBackend
 serverUrl=http://sonarqube.it.dh-karlsruhe.de
 dashboardUrl=http://sonarqube.it.dh-karlsruhe.de/dashboard/index/appXpiredBackend
-ceTaskId=AVSVCxNSByBA63aaFuVy
-ceTaskUrl=http://sonarqube.it.dh-karlsruhe.de/api/ce/task?id=AVSVCxNSByBA63aaFuVy
+ceTaskId=AVTc-HBr4cMWs-4js6a4
+ceTaskUrl=http://sonarqube.it.dh-karlsruhe.de/api/ce/task?id=AVTc-HBr4cMWs-4js6a4

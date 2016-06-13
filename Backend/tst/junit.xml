@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/" tests="42" assertions="48" failures="0" errors="0" time="0.270561">
+    <testsuite name="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" tests="5" assertions="6" failures="0" errors="0" time="0.025716">
+      <testcase name="testExecute" class="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" line="32" assertions="1" time="0.007161"/>
+      <testcase name="testGetOutputString" class="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" line="38" assertions="1" time="0.005393"/>
+      <testcase name="testWhereValues" class="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" line="43" assertions="1" time="0.003792"/>
+      <testcase name="testSetValues" class="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" line="49" assertions="1" time="0.004436"/>
+      <testcase name="testDBRet" class="DeleteTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/DeleteTest.php" line="54" assertions="2" time="0.004934"/>
+    </testsuite>
+    <testsuite name="HeaderManagerTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderManagerTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.017677">
+      <testcase name="testGetInstance" class="HeaderManagerTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderManagerTest.php" line="28" assertions="1" time="0.004546"/>
+      <testcase name="testAddHeader" class="HeaderManagerTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderManagerTest.php" line="33" assertions="1" time="0.004349"/>
+      <testcase name="testAddError" class="HeaderManagerTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderManagerTest.php" line="41" assertions="1" time="0.004745"/>
+      <testcase name="testGetHeaders" class="HeaderManagerTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderManagerTest.php" line="49" assertions="1" time="0.004037"/>
+    </testsuite>
+    <testsuite name="HeaderTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderTest.php" tests="3" assertions="3" failures="0" errors="0" time="0.012488">
+      <testcase name="testKey" class="HeaderTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderTest.php" line="24" assertions="1" time="0.004356"/>
+      <testcase name="testValue" class="HeaderTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderTest.php" line="29" assertions="1" time="0.004175"/>
+      <testcase name="testHeaderString" class="HeaderTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/HeaderTest.php" line="34" assertions="1" time="0.003957"/>
+    </testsuite>
+    <testsuite name="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" tests="5" assertions="6" failures="0" errors="0" time="0.021616">
+      <testcase name="testExecute" class="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" line="31" assertions="1" time="0.004447"/>
+      <testcase name="testGetOutputString" class="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" line="37" assertions="1" time="0.004163"/>
+      <testcase name="testWhereValues" class="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" line="42" assertions="1" time="0.004090"/>
+      <testcase name="testSetValues" class="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" line="48" assertions="1" time="0.004156"/>
+      <testcase name="testDBRet" class="LoginTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/LoginTest.php" line="53" assertions="2" time="0.004760"/>
+    </testsuite>
+    <testsuite name="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" tests="5" assertions="6" failures="0" errors="0" time="0.021592">
+      <testcase name="testExecute" class="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" line="32" assertions="1" time="0.004334"/>
+      <testcase name="testGetOutputString" class="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" line="38" assertions="1" time="0.003964"/>
+      <testcase name="testWhereValues" class="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" line="43" assertions="1" time="0.003914"/>
+      <testcase name="testSetValues" class="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" line="49" assertions="1" time="0.004255"/>
+      <testcase name="testDBRet" class="PatchTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PatchTest.php" line="54" assertions="2" time="0.005125"/>
+    </testsuite>
+    <testsuite name="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" tests="5" assertions="6" failures="0" errors="0" time="0.021685">
+      <testcase name="testExecute" class="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" line="33" assertions="1" time="0.004380"/>
+      <testcase name="testGetOutputString" class="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" line="39" assertions="1" time="0.003924"/>
+      <testcase name="testWhereValues" class="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" line="44" assertions="1" time="0.004206"/>
+      <testcase name="testSetValues" class="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" line="50" assertions="1" time="0.004455"/>
+      <testcase name="testDBRet" class="PostTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/PostTest.php" line="55" assertions="2" time="0.004720"/>
+    </testsuite>
+    <testsuite name="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" tests="7" assertions="7" failures="0" errors="0" time="0.028605">
+      <testcase name="testUsername" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="24" assertions="1" time="0.004152"/>
+      <testcase name="testFirstName" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="29" assertions="1" time="0.004209"/>
+      <testcase name="testPassword" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="34" assertions="1" time="0.004044"/>
+      <testcase name="testLastName" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="39" assertions="1" time="0.003928"/>
+      <testcase name="testEmail" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="44" assertions="1" time="0.004028"/>
+      <testcase name="testToken" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="49" assertions="1" time="0.003864"/>
+      <testcase name="testAuthorized" class="UserTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/UserTest.php" line="54" assertions="1" time="0.004380"/>
+    </testsuite>
+    <testsuite name="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" tests="8" assertions="10" failures="0" errors="0" time="0.121183">
+      <testcase name="testGetInstance" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="28" assertions="1" time="0.004284"/>
+      <testcase name="testPasswordValid" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="33" assertions="3" time="0.004807"/>
+      <testcase name="testGetHash" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="41" assertions="1" time="0.092457"/>
+      <testcase name="testGetConnected" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="46" assertions="1" time="0.003733"/>
+      <testcase name="testGetServerName" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="51" assertions="1" time="0.003832"/>
+      <testcase name="testGetUserName" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="56" assertions="1" time="0.004052"/>
+      <testcase name="testGetPassword" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="61" assertions="1" time="0.003875"/>
+      <testcase name="testGetDbName" class="databaseConnectionTest" file="/Users/yannickwinter/Documents/Studium/appXpired/git/appXpired/Backend/test/databaseConnectionTest.php" line="66" assertions="1" time="0.004143"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

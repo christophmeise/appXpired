@@ -21,7 +21,10 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->test = new User("kyc3","YannickWinter123456","token","test@test.de","Yannick","Winter");
     }
 
-
+    function testUsername() {
+        $username = $this->test->getUsername();
+        $this->assertTrue($username === "kyc3");
+    }
 
     function testFirstName() {
         $firstName = $this->test->getFirstname();
@@ -46,5 +49,9 @@ class UserTest extends PHPUnit_Framework_TestCase
     function testToken() {
         $token = $this->test->getToken();
         $this->assertTrue($token === "token");
+    }
+
+    function testAuthorized() {
+        $this->assertTrue($this->test->authorized() == false);
     }
 }
