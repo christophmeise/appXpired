@@ -17,6 +17,7 @@ if [ ${#filesChanged[@]} -eq 0 ]; then
     echo "No files to update"
 else
     for f in $filesChanged
+	echo $f
 	do
 		#do not upload these files that aren't necessary to the site
 		if [ "$f" == *'.php'* ] && [ "$f" != *'Test.'* ]
