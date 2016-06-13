@@ -5,5 +5,5 @@ before_script:
  - composer update
 
 script:
- - phpunit ./Backend/test/UserTest.php
- - phpunit ./Backend/test/PostTest.php
+ - phpunit Backend/test/UserTest.php
+ - phpunit Backend/test/PostTest.php
