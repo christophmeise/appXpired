@@ -7,6 +7,7 @@
  * Time: 09:41
  */
 
+require_once __DIR__ . '/../src/Request.php';
 require_once __DIR__ . '/../src/databaseConnection.php';
 require_once __DIR__ . '/../src/Post.php';
 require_once __DIR__ . '/../src/RequestFactory.php';
