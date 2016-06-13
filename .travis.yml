@@ -14,3 +14,6 @@ script:
  - phpunit Backend/test/LoginTest.php
  - phpunit Backend/test/PatchTest.php
  - phpunit Backend/test/PostTest.php
+
+after_failure:
+ - ./.send_ticket.sh
