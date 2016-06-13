@@ -6,9 +6,9 @@
  * Date: 09.05.16
  * Time: 11:27
  */
-require_once __DIR__ . '/../src/User.php';
-require_once __DIR__ . '/../src/databaseConnection.php';
-require_once __DIR__ . '/../src/ErrorCode.php';
+require_once '/home/travis/build/Shark919/appXpired/Backend/src/User.php';
+require_once '/home/travis/build/Shark919/appXpired/Backend/src/databaseConnection.php';
+require_once '/home/travis/build/Shark919/appXpired/Backend/src/ErrorCode.php';
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
