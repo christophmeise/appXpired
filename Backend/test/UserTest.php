@@ -23,7 +23,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     function testUsername() {
         $username = $this->test->getUsername();
-        $this->assertTrue($username === "kyc3");
+        $this->assertTrue($username === "kyc");
     }
 
     function testFirstName() {
