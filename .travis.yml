@@ -2,3 +2,4 @@ language: php
 php:
   - '5.6'
 script: phpunit ./Backend/test/UserTest.php
+script: phpunit ./Backend/test/PostTest.php

@@ -8,12 +8,11 @@
  */
 
 
-require_once __DIR__ . '/../src/Request.php';
-require_once __DIR__ . '/../src/Post.php';
-require_once __DIR__ . '/../src/RequestFactory.php';
-require_once __DIR__ . '/../src/HeaderManager.php';
-require_once __DIR__ . '/../src/Header.php';
-
+if (!@include __DIR__ . '/../vendor/autoload.php') {
+    die('You must set up the project dependencies, run the following commands:
+        wget http://getcomposer.org/composer.phar
+        php composer.phar install');
+}
 class PostTest extends PHPUnit_Framework_TestCase
 {
 
