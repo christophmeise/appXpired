@@ -17,11 +17,12 @@ if [ ${#filesChanged[@]} -eq 0 ]; then
     echo "No files to update"
 else
     for f in $filesChanged
-	echo $f
+	echo "$f"
 	do
 		#do not upload these files that aren't necessary to the site
 		if [ "$f" == *'.php'* ] && [ "$f" != *'Test.'* ]
 		then
+			echo "$f"
 	 		echo "Uploading $f"
 	 		curl --ftp-create-dirs -T $f -u $FTP_USER:$FTP_PASS ftp://appxpired.winterapps.de/api2/$f
 		fi
