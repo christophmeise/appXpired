@@ -7,9 +7,9 @@
  * Time: 18:40
  */
 
-if (!@include __DIR__ . '/../vendor/autoload.php') {
-    die('Build Passed');
-}
+require_once __DIR__ . '/../src/Header.php';
+require_once __DIR__ . '/../src/HeaderManager.php';
+//require_once __DIR__ . '/../src/ErrorCode.php';
 
 class HeaderManagerTest extends PHPUnit_Framework_TestCase
 {

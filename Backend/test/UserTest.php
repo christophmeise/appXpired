@@ -6,7 +6,6 @@
  * Date: 09.05.16
  * Time: 11:27
  */
-
 require_once __DIR__ . '/../src/User.php';
 require_once __DIR__ . '/../src/databaseConnection.php';
 require_once __DIR__ . '/../src/ErrorCode.php';

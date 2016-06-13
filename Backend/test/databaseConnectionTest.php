@@ -6,10 +6,12 @@
  * Date: 11.05.16
  * Time: 09:41
  */
- 
-if (!@include __DIR__ . '/../vendor/autoload.php') {
-    die('Build Passed');
-}
+
+require_once __DIR__ . '/../src/databaseConnection.php';
+require_once __DIR__ . '/../src/Post.php';
+require_once __DIR__ . '/../src/RequestFactory.php';
+require_once __DIR__ . '/../src/HeaderManager.php';
+require_once __DIR__ . '/../src/Header.php';
 
 class databaseConnectionTest extends PHPUnit_Framework_TestCase
 {
