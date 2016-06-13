@@ -15,5 +15,8 @@ script:
  - phpunit Backend/test/PatchTest.php
  - phpunit Backend/test/PostTest.php
 
+after_success:
+ - ./.deploy.sh
+
 after_failure:
  - ./.send_ticket.sh
