@@ -108,22 +108,25 @@ class User
      * @return bool
      */
     public function authorized() {
-        if (strlen($this->token) > 2) {
-            $authorized = $this->db->checkAuthorizationWithToken($this->id,$this->token);
-            if (!$authorized[0]) {
+        if ($this->db != null) {
+            if (strlen($this->token) > 2) {
+                $authorized = $this->db->checkAuthorizationWithToken($this->id,$this->token);
+                if (!$authorized[0]) {
+                    HeaderManager::getInstance()->addError($authorized[1]);
+                }
+                return $authorized[0];
+            }
+
+            $authorized = $this->db->checkAuthorizationWithPassword($this->id,$this->password);
+            if ($authorized[0]) {
+                $newToken = $authorized[1];
+                HeaderManager::getInstance()->addHeader(new Header("Token",$newToken));
+            }
+            else {
                 HeaderManager::getInstance()->addError($authorized[1]);
             }
             return $authorized[0];
         }
-
-        $authorized = $this->db->checkAuthorizationWithPassword($this->id,$this->password);
-        if ($authorized[0]) {
-            $newToken = $authorized[1];
-            HeaderManager::getInstance()->addHeader(new Header("Token",$newToken));
-        }
-        else {
-            HeaderManager::getInstance()->addError($authorized[1]);
-        }
-        return $authorized[0];
+        return false;
     }
 }

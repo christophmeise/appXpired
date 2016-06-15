@@ -27,7 +27,7 @@ abstract class Request {
     /**
      * @var string
      */
-    protected $outputString;
+    protected $outputString = "";
 
     /**
      * Request constructor.
@@ -38,7 +38,7 @@ abstract class Request {
     {
         $this->headers = $headers;
         $this->user = $user;
-        $this->db = databaseConnection::getInstance();
+        //$this->db = databaseConnection::getInstance();
     }
 
 
@@ -46,7 +46,7 @@ abstract class Request {
         return $this->outputString;
     }
 
-    protected function makeUpHeadersFromDBReturn($ret) {
+    public function makeUpHeadersFromDBReturn($ret) {
         $z = 0;
         $errors = null;
         for ($i=0;$i < count($ret);$i++) {
@@ -73,7 +73,7 @@ abstract class Request {
     /**
      * @return array
      */
-    protected function getWhereFieldsAndValues() {
+    public function getWhereFieldsAndValues() {
         $fields = null;
         $values = null;
 
@@ -87,7 +87,7 @@ abstract class Request {
     /**
      * @return array
      */
-    protected function getSetFieldsAndValues() {
+    public function getSetFieldsAndValues() {
         $i = 0;
         $values = [];
         $fields = [];

@@ -9,7 +9,7 @@
 
 require_once __DIR__ . '/../src/Header.php';
 require_once __DIR__ . '/../src/HeaderManager.php';
-//require_once __DIR__ . '/../src/ErrorCode.php';
+require_once __DIR__ . '/../src/ErrorCode.php';
 
 class HeaderManagerTest extends PHPUnit_Framework_TestCase
 {

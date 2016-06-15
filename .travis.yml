@@ -1,19 +1,22 @@
-language: android
-before_install:
-- chmod +x gradlew
-android:
-  components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
+language: php
+php:
+  - '5.6'
+install: php vendor/autoload.php
 
-    # The BuildTools version used by your project
-    - build-tools-19.1.0
+before_script:
+ - composer update
 
-    # The SDK version used to compile your project
-    - android-23
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    #- sys-img-armeabi-v7a-android-19
-    #- sys-img-x86-android-17
+script:
+ - phpunit Backend/test/UserTest.php
+ - phpunit Backend/test/DeleteTest.php
+ - phpunit Backend/test/HeaderManagerTest.php
+ - phpunit Backend/test/HeaderTest.php
+ - phpunit Backend/test/LoginTest.php
+ - phpunit Backend/test/PatchTest.php
+ - phpunit Backend/test/PostTest.php
+
+after_success:
+ - ./.deploy.sh
+
+after_failure:
+ - ./.send_ticket.sh

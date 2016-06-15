@@ -29,70 +29,16 @@ include('ErrorCode.php');
 
 class databaseConnection {
 
-    private $serverName;
-    private $userName;
-    private $password;
-    private $dbname;
-    private $conn;
 
-    private $connected;
+    protected $conn;
 
-    private static $instance = null;
-
-
-    /**
-     * @return databaseConnection
-     */
-    public static function getInstance() {
-        if (databaseConnection::$instance == null) {
-            databaseConnection::$instance = new databaseConnection();
-            return databaseConnection::getInstance();
-        }
-        return databaseConnection::$instance;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConnected()
-    {
-        return $this->connected;
-    }
     /**
      * databaseConnection constructor.
      */
-    private function __construct() {
-        $this->serverName = "db596387337.db.1and1.com";
-        $this->userName = "dbo596387337";
-        $this->password = "aMy-SeM2";
-        $this->dbname = "db596387337";
-        $this->connected = false;
+    protected function __construct() {
+        $this->conn = dbConnection::getInstance();
     }
 
-    /**
-     * @return bool
-     * connect to mysql database;
-     */
-
-    private function connect() {
-            // Create connection
-            $this->conn = null;
-            $this->conn = new mysqli($this->serverName, $this->userName, $this->password, $this->dbname);
-
-            // Check connection
-            if ($this->conn->connect_error) {
-                echo "100;"; //TODO
-                $this->connected = false;
-            }
-
-        return $this->connected;
-    }
-
-    /**
-     * @param $userid
-     * @param $token
-     * @return array [bool, ErrorCode]
-     */
     public function checkAuthorizationWithToken($userid,$token) {
 
         $this->connect();
@@ -176,7 +122,7 @@ class databaseConnection {
      *
      *
      */
-    private function updateLastLogin($userid,$token = null) {
+    protected function updateLastLogin($userid,$token = null) {
         if ($token == null) {
             $sql  = "UPDATE user SET lastLogin = '" .  date('Y-m-d H:i:s') . "' WHERE id = " . $userid;
         }
@@ -247,8 +193,6 @@ class databaseConnection {
      * @param $values
      * @return array
      *
-     * !!important!! DO A SECURITY CHECK BEFORE! !!important!!
-     *
      * This method returns the requested data. Call the method like this:
      *
      * get("myTable",["*"],["id"],["42"]) //case sensitive so name it like the database columns
@@ -260,27 +204,7 @@ class databaseConnection {
     public function get($table, $selectFields, $whereFields, $values) {
 
         if (count($whereFields) == count($values)) {
-            $sql = "SELECT ";
-            if ($selectFields[0] == "*") {
-                $sql .= "*";
-            }
-            else {
-                for ($i=0;$i<count($selectFields);$i++) {
-                    $sql .= "`" . $selectFields[$i] . "`";
-
-                    if ($i != count($selectFields)-1) {
-                        $sql .= ", ";
-                    }
-                }
-            }
-            $sql .= " FROM " . $table ." WHERE ";
-            for ($i=0;$i<count($whereFields);$i++) {
-                $sql .= "`" . $whereFields[$i] . "` = '" . $values[$i] . "'";
-                if ($i != count($whereFields)-1) {
-                    $sql .= " AND ";
-                }
-
-            }
+            $sql = $this->getSQLString($table,$selectFields,$whereFields,$values);
             $this->connect();
             $result = $this->conn->query($sql);
             $rows = [];
@@ -297,6 +221,38 @@ class databaseConnection {
             }
         }
 
+    }
+
+    /**
+     * @param $table
+     * @param $selectFields
+     * @param $whereFields
+     * @param $values
+     * @return string
+     */
+    protected function getSQLString($table,$selectFields,$whereFields,$values) {
+        $sql = "SELECT ";
+        if ($selectFields[0] == "*") {
+            $sql .= "*";
+        }
+        else {
+            for ($i=0;$i<count($selectFields);$i++) {
+                $sql .= "`" . $selectFields[$i] . "`";
+
+                if ($i != count($selectFields)-1) {
+                    $sql .= ", ";
+                }
+            }
+        }
+        $sql .= " FROM " . $table ." WHERE ";
+        for ($i=0;$i<count($whereFields);$i++) {
+            $sql .= "`" . $whereFields[$i] . "` = '" . $values[$i] . "'";
+            if ($i != count($whereFields)-1) {
+                $sql .= " AND ";
+            }
+
+        }
+        return $sql;
     }
 
     /**
@@ -484,7 +440,7 @@ class databaseConnection {
      * validates the new password. A password has to be at least 8 characters long and has to contain at least one capital letter,
      * one lower case and one number.
      */
-    private function validatePassword($password) {
+    public function validatePassword($password) {
         if (strlen($password) >= 8 && preg_match('/[A-Z]+[a-z]+[0-9]+/', $password)) {
             return [true];
         }
@@ -500,7 +456,7 @@ class databaseConnection {
      *
      * checks if the userdata (username and emailadress) are not in the database yet.
      */
-    private function validateUserData($username,$emailadress) {
+    protected function validateUserData($username,$emailadress) {
         $this->connect();
         $sql = "SELECT userName,emailAdress FROM user WHERE emailAdress = '" . $emailadress . "'OR userName = '" . $username . "'";
         $result = $this->conn->query($sql);
@@ -553,7 +509,7 @@ class databaseConnection {
      * @return string
      * generates the Password Hash to a give $pw (string)
      */
-    private function getHashedPw($pw) {
+    public function getHashedPw($pw) {
         $cost = 10;
         // Create a random salt
         $salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
@@ -569,7 +525,7 @@ class databaseConnection {
      *
      * generates the token for the login
      */
-    private function generateToken($userid) {
+    protected function generateToken($userid) {
         //just use the getHashedPw method with userid and time
         return $this->getHashedPw($userid .  date('Y-m-d H:i:s'));
     }
