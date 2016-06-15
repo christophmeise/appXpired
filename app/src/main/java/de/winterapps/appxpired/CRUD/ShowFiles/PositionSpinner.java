@@ -26,7 +26,7 @@ public class PositionSpinner extends LayoutObject {
         ArrayList positionsSpinnerFormat = new ArrayList();
         JSONObject positionElement;
         positionsSpinnerFormat.add("All");
-        for (int i = 1; i < positions.length()+1; i++){
+        for (int i = 0; i < positions.length(); i++){
             try {
                 positionElement = (JSONObject) positions.get(i);
                 positionsSpinnerFormat.add(positionElement.get("name"));

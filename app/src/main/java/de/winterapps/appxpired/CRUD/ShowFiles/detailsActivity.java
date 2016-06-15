@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,9 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +43,13 @@ public class detailsActivity extends Activity{
     Activity self = this;
     responseClass stringRequest;
     memberVariables members = memberVariables.sharedInstance;
+    ArrayAdapter<CharSequence> unitSpinnerAdapter;
+    ArrayAdapter<CharSequence> positionSpinnerAdapter;
+    ArrayAdapter<CharSequence> categorySpinnerAdapter;
+    Spinner oUnitsSpinner;
+    Spinner oCategorySpinner;
+    Spinner oPositionSpinner;
+    localDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,8 @@ public class detailsActivity extends Activity{
         Log.d("Mein Index lautet: ", String.valueOf(index));
         /*Intent intent = getIntent();
         index = intent.getIntExtra("index",0);*/
+
+        oUnitsSpinner = (Spinner) findViewById(R.id.addAmountSpinner);
 
         attachListeners();
         loadInitial();
@@ -67,6 +79,53 @@ public class detailsActivity extends Activity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        populateSpinners();
+    }
+
+    private void populateSpinners() {
+        database = new localDatabase(this);
+        populateCategorySpinner();
+        populateUnitsSpinner();
+        populatePositionsSpinner();
+    }
+
+    private void populatePositionsSpinner() {
+        JSONArray positions = database.getPositions();
+        ArrayList positionsSpinnerFormat = new ArrayList();
+        JSONObject positionElement;
+        for (int i = 0; i < positions.length(); i++){
+            try {
+                positionElement = (JSONObject) positions.get(i);
+                positionsSpinnerFormat.add(positionElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        positionSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, positionsSpinnerFormat);
+        oPositionSpinner.setAdapter(positionSpinnerAdapter);
+    }
+
+    private void populateUnitsSpinner() {
+        unitSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.units, android.R.layout.simple_spinner_item);
+        unitSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oUnitsSpinner.setAdapter(unitSpinnerAdapter);
+    }
+
+    private void populateCategorySpinner() {
+        JSONArray categories = database.getCategories();
+        ArrayList categoriesSpinnerFormat = new ArrayList();
+        JSONObject categoryElement;
+        for (int i = 0; i < categories.length(); i++){
+            try {
+                categoryElement = (JSONObject) categories.get(i);
+                categoriesSpinnerFormat.add(categoryElement.get("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        categorySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoriesSpinnerFormat);
+        oCategorySpinner.setAdapter(categorySpinnerAdapter);
+
     }
 
     // Handler

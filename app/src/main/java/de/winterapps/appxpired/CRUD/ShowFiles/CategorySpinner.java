@@ -26,7 +26,7 @@ public class CategorySpinner extends LayoutObject {
         ArrayList categoriesSpinnerFormat = new ArrayList();
         JSONObject categoryElement;
         categoriesSpinnerFormat.add("All");
-        for (int i = 1; i < categories.length()+1; i++){
+        for (int i = 0; i < categories.length(); i++){
             try {
                 categoryElement = (JSONObject) categories.get(i);
                 categoriesSpinnerFormat.add(categoryElement.get("name"));
